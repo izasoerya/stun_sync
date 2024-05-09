@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stun_sync/components/atom/role_slider.dart';
+import 'package:stun_sync/components/organism/chart_tab_statistic.dart';
 import 'package:stun_sync/components/organism/heading_statistic.dart';
 import 'package:stun_sync/components/organism/height_tab_statistic.dart';
 import 'package:stun_sync/components/organism/recomendation_tab_statistic.dart';
@@ -17,6 +18,7 @@ class StatisticPage extends StatelessWidget {
             Padding(padding: EdgeInsets.only(top: 30)),
             HeadingStatistic(),
             RoleSlider(),
+            ChartTab(),
             HeightTab(),
             RecommendationTab(),
           ],
