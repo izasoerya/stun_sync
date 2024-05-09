@@ -25,6 +25,7 @@ class RecommendationTab extends StatelessWidget {
               LogoContainer(logo: LogoList.food, text: 'Food'),
             ],
           ),
+          Padding(padding: EdgeInsets.only(bottom: 10))
         ],
       ),
     );
