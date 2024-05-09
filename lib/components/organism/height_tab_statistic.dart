@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stun_sync/components/atom/data_container.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
+import 'package:stun_sync/components/atom/value_container.dart';
 
 class HeightTab extends StatelessWidget {
   const HeightTab({super.key});
@@ -20,14 +21,7 @@ class HeightTab extends StatelessWidget {
           Row(
             children: [
               Padding(padding: EdgeInsets.only(left: 10)),
-              Text(
-                '87,3',
-                style: TextStyle(
-                  color: Color.fromRGBO(81, 111, 131, 1),
-                  fontSize: 48,
-                  fontWeight: FontWeight.bold,
-                ),
-              ),
+              ValueContainer(value: '78.3'),
               Padding(padding: EdgeInsets.only(right: 5)),
               Column(
                 children: [
