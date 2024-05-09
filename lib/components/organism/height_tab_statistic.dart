@@ -26,14 +26,6 @@ class HeightTab extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(height: 18),
-                  Text(
-                    'cm',
-                    style: TextStyle(
-                      color: Color.fromRGBO(136, 136, 136, 1),
-                      fontSize: 20,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
                 ],
               ),
             ],
