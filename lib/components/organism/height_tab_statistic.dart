@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:stun_sync/components/atom/data_container.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
+import 'package:stun_sync/components/atom/unit_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
 
 class HeightTab extends StatelessWidget {
@@ -26,6 +27,7 @@ class HeightTab extends StatelessWidget {
               Column(
                 children: [
                   SizedBox(height: 18),
+                  UnitContainer(unit: 'cm'),
                 ],
               ),
             ],
