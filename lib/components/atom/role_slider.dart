@@ -18,14 +18,14 @@ class _RoleSliderState extends State<RoleSlider> {
       width: 300,
       height: 50,
       alignment: Alignment.center,
-      padding: EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.only(bottom: 10),
       child: SegmentedButton<Role>(
-        selectedIcon: Text(''),
+        selectedIcon: const Text(''),
         style: SegmentedButton.styleFrom(
-          backgroundColor: Color.fromRGBO(217, 217, 217, 1),
-          selectedBackgroundColor: Color.fromRGBO(34, 87, 152, 1),
+          backgroundColor: const Color.fromRGBO(217, 217, 217, 1),
+          selectedBackgroundColor: const Color.fromRGBO(34, 87, 152, 1),
           selectedForegroundColor: Colors.white,
-          side: BorderSide(color: Colors.transparent),
+          side: const BorderSide(color: Colors.transparent),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
           ),

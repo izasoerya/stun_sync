@@ -9,8 +9,9 @@ class LogoContainer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
+      padding: const EdgeInsets.only(left: 10, right: 10),
       decoration: BoxDecoration(
-        border: Border.symmetric(
+        border: const Border.symmetric(
           vertical: BorderSide(
             color: Color.fromRGBO(34, 87, 122, 0.2),
             width: 1,

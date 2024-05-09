@@ -13,13 +13,13 @@ class HeightTab extends StatelessWidget {
       child: Column(
         children: [
           Container(
-            padding: EdgeInsets.only(left: 10),
+            padding: const EdgeInsets.only(left: 10),
             alignment: Alignment.topLeft,
-            child: TitleContainer(
+            child: const TitleContainer(
               title: 'Height',
             ),
           ),
-          Row(
+          const Row(
             children: [
               Padding(padding: EdgeInsets.only(left: 10)),
               ValueContainer(value: '78.3'),

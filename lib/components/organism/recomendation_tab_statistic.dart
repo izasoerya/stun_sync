@@ -14,11 +14,11 @@ class RecommendationTab extends StatelessWidget {
         children: [
           Container(
             alignment: Alignment.topLeft,
-            margin: EdgeInsets.only(left: 10),
-            child: TitleContainer(title: 'Recommendation'),
+            margin: const EdgeInsets.only(left: 10),
+            child: const TitleContainer(title: 'Recommendation'),
           ),
-          Padding(padding: EdgeInsets.only(top: 20)),
-          Row(
+          const Padding(padding: EdgeInsets.only(top: 20)),
+          const Row(
             children: [
               LogoContainer(logo: LogoList.exercise, text: 'Exercise'),
               Padding(padding: EdgeInsets.only(right: 30)),
