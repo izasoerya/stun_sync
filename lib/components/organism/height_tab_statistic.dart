@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
+import 'package:stun_sync/components/atom/linear_gauge.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/unit_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
@@ -30,6 +31,9 @@ class HeightTab extends StatelessWidget {
                   UnitContainer(unit: 'cm'),
                 ],
               ),
+              Spacer(),
+              LinearGauge(gauge: 1),
+              Padding(padding: EdgeInsets.only(right: 20)),
             ],
           )
         ],
