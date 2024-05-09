@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stun_sync/components/atom/data_container.dart';
+import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/unit_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
