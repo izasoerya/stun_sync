@@ -14,7 +14,7 @@ class HeadingStatistic extends ConsumerWidget {
         children: [
           Text(
             ref.read(userProfile).name,
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
               color: Color.fromRGBO(34, 87, 152, 1),
@@ -22,7 +22,7 @@ class HeadingStatistic extends ConsumerWidget {
           ),
           Text(
             '${ref.read(userProfile).age.toString()} years old',
-            style: TextStyle(
+            style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
               color: Color.fromRGBO(34, 87, 152, 1),
