@@ -1,9 +1,7 @@
-import 'dart:ffi';
 import 'package:flutter/material.dart';
 import 'package:stun_sync/components/atom/Background_body.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
-import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
 
