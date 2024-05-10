@@ -21,6 +21,9 @@ class StatisticPage extends StatelessWidget {
             ChartTab(),
             HeightTab(),
             RecommendationTab(),
+            SizedBox(
+              height: 20,
+            )
           ],
         ),
       ),
