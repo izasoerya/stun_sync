@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:stun_sync/database/models/logo_list.dart';
+import 'package:stun_sync/models/logo_list.dart';
 
 class LogoContainer extends StatelessWidget {
   const LogoContainer({super.key, required this.text, required this.logo});

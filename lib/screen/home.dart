@@ -1,21 +1,19 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/components/atom/Background_body.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
+import 'package:stun_sync/service/user_profile_data.dart';
 
-String nama = "ihza soerya";
-double height = 165;
-double weight = 50;
-double bmi = 18.4;
-
-class HomePage extends StatelessWidget {
+class HomePage extends ConsumerWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return Container(
+      height: MediaQuery.of(context).size.height,
       color: Color(0xFF22577A),
       child: SingleChildScrollView(
         child: Column(
@@ -36,7 +34,7 @@ class HomePage extends StatelessWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '$nama',
+                              ref.watch(userProfile).name,
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -99,7 +97,10 @@ class HomePage extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.topLeft,
                           child: Column(
-                            children: [ValueContainer(value: "$height")],
+                            children: [
+                              ValueContainer(
+                                  value: '${ref.watch(userProfile).height}')
+                            ],
                           ),
                         ),
                       ],
@@ -116,7 +117,10 @@ class HomePage extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.topLeft,
                           child: Column(
-                            children: [ValueContainer(value: "$weight")],
+                            children: [
+                              ValueContainer(
+                                  value: '${ref.watch(userProfile).weight}')
+                            ],
                           ),
                         ),
                       ],
@@ -133,12 +137,17 @@ class HomePage extends StatelessWidget {
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.topLeft,
                           child: Column(
-                            children: [ValueContainer(value: "$bmi")],
+                            children: [
+                              ValueContainer(
+                                  value:
+                                      '${ref.watch(userProfile).bmi.toStringAsFixed(2)}'),
+                            ],
                           ),
                         ),
                       ],
                     ),
-                  )
+                  ),
+                  Padding(padding: EdgeInsets.only(bottom: 30))
                 ],
               ),
             ),

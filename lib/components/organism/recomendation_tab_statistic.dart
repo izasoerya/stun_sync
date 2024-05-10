@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/logo_container.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
-import 'package:stun_sync/database/models/logo_list.dart';
+import 'package:stun_sync/models/logo_list.dart';
 
 class RecommendationTab extends StatelessWidget {
   const RecommendationTab({super.key});
