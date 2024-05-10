@@ -19,131 +19,133 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       color: Color(0xFF22577A),
-      child: Column(
-        children: [
-          TopOfBar(),
-          Background_body(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                ContentContainer(
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            TopOfBar(),
+            Background_body(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  ContentContainer(
+                      child: Container(
+                    child: Row(
+                      children: [
+                        CircleAvatar(
+                          radius: 30,
+                        ),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              '$nama',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                              ),
+                            ),
+                            Text(
+                              'Age: 30',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                          ],
+                        ),
+                        Spacer(),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.end,
+                          children: [
+                            Text(
+                              '7 days left',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                            Text(
+                              'until next check',
+                              style: TextStyle(
+                                fontSize: 12,
+                                color: Colors.grey,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+                  ContentContainer(
                     child: Container(
-                  child: Row(
-                    children: [
-                      CircleAvatar(
-                        radius: 30,
-                      ),
-                      Column(
+                      width: MediaQuery.of(context).size.width,
+                      child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            '$nama',
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                            ),
+                          TitleContainer(
+                            title: "Recomendation",
                           ),
                           Text(
-                            'Age: 30',
-                            style: TextStyle(
-                              fontSize: 16,
-                            ),
-                          ),
+                              'Ensure they receive a balanced diet rich in protein, calcium, vitamin D, and provide physical stimulation through exercise or activities that stimulate bone and muscle growth.'),
                         ],
                       ),
-                      Spacer(),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.end,
-                        children: [
-                          Text(
-                            '7 days left',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                          ),
-                          Text(
-                            'until next check',
-                            style: TextStyle(
-                              fontSize: 12,
-                              color: Colors.grey,
-                            ),
-                          ),
-                        ],
-                      ),
-                    ],
+                    ),
                   ),
-                )),
-                ContentContainer(
-                  child: Container(
-                    width: MediaQuery.of(context).size.width,
+                  ContentContainer(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TitleContainer(
-                          title: "Recomendation",
+                          title: "Height",
                         ),
-                        Text(
-                            'Ensure they receive a balanced diet rich in protein, calcium, vitamin D, and provide physical stimulation through exercise or activities that stimulate bone and muscle growth.'),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            children: [ValueContainer(value: "$height")],
+                          ),
+                        ),
                       ],
                     ),
                   ),
-                ),
-                ContentContainer(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleContainer(
-                        title: "Height",
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          children: [ValueContainer(value: "$height")],
+                  ContentContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TitleContainer(
+                          title: "Weight",
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                ContentContainer(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleContainer(
-                        title: "Weight",
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          children: [ValueContainer(value: "$weight")],
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            children: [ValueContainer(value: "$weight")],
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                ContentContainer(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      TitleContainer(
-                        title: "BMI",
-                      ),
-                      Container(
-                        width: MediaQuery.of(context).size.width,
-                        alignment: Alignment.topLeft,
-                        child: Column(
-                          children: [ValueContainer(value: "$bmi")],
+                  ContentContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        TitleContainer(
+                          title: "BMI",
                         ),
-                      ),
-                    ],
-                  ),
-                )
-              ],
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          alignment: Alignment.topLeft,
+                          child: Column(
+                            children: [ValueContainer(value: "$bmi")],
+                          ),
+                        ),
+                      ],
+                    ),
+                  )
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
