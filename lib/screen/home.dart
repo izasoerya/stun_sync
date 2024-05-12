@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/components/atom/Background_body.dart';
+import 'package:stun_sync/components/atom/Massagebox.dart';
+import 'package:stun_sync/components/atom/linear_gauge.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
 import 'package:stun_sync/service/user_profile_data.dart';
+import 'package:stun_sync/components/atom/linear_gauge_height.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -98,8 +101,24 @@ class HomePage extends ConsumerWidget {
                           alignment: Alignment.topLeft,
                           child: Column(
                             children: [
-                              ValueContainer(
-                                  value: '${ref.watch(userProfile).height}')
+                              Row(
+                                children: [
+                                  ValueContainer(
+                                      value:
+                                          '${ref.watch(userProfile).height}'),
+                                  Spacer(),
+                                  Column(
+                                    children: [
+                                      MessageBox(
+                                        height: ref.watch(userProfile).height,
+                                      ),
+                                      LinearGaugeHeight(
+                                        height: ref.watch(userProfile).height,
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -118,8 +137,18 @@ class HomePage extends ConsumerWidget {
                           alignment: Alignment.topLeft,
                           child: Column(
                             children: [
-                              ValueContainer(
-                                  value: '${ref.watch(userProfile).weight}')
+                              Row(
+                                children: [
+                                  ValueContainer(
+                                      value:
+                                          '${ref.watch(userProfile).weight}'),
+                                  Spacer(),
+                                  LinearGauge(
+                                    gauge:
+                                        ref.watch(userProfile).weight.toInt(),
+                                  )
+                                ],
+                              ),
                             ],
                           ),
                         ),
@@ -138,9 +167,16 @@ class HomePage extends ConsumerWidget {
                           alignment: Alignment.topLeft,
                           child: Column(
                             children: [
-                              ValueContainer(
-                                  value:
-                                      '${ref.watch(userProfile).bmi.toStringAsFixed(2)}'),
+                              Row(
+                                children: [
+                                  ValueContainer(
+                                      value:
+                                          '${ref.watch(userProfile).bmi.toStringAsFixed(2)}'),
+                                  Spacer(),
+                                  LinearGauge(
+                                      gauge: ref.watch(userProfile).bmi.toInt())
+                                ],
+                              ),
                             ],
                           ),
                         ),
