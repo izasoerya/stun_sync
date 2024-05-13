@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/components/atom/Background_body.dart';
-import 'package:stun_sync/components/atom/Massagebox.dart';
+import 'package:stun_sync/components/atom/Massage_Box_Bmi.dart';
+import 'package:stun_sync/components/atom/Massage_box_Height.dart';
 import 'package:stun_sync/components/atom/linear_gauge.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
@@ -109,7 +110,7 @@ class HomePage extends ConsumerWidget {
                                   Spacer(),
                                   Column(
                                     children: [
-                                      MessageBox(
+                                      MessageBoxHeight(
                                         height: ref.watch(userProfile).height,
                                       ),
                                       LinearGaugeHeight(
@@ -143,9 +144,14 @@ class HomePage extends ConsumerWidget {
                                       value:
                                           '${ref.watch(userProfile).weight}'),
                                   Spacer(),
-                                  LinearGauge(
-                                    gauge:
-                                        ref.watch(userProfile).weight.toInt(),
+                                  Column(
+                                    children: [
+                                      MessageBoxHeight(
+                                        height: ref.watch(userProfile).weight,
+                                      ),
+                                      LinearGaugeHeight(
+                                          height: ref.watch(userProfile).weight)
+                                    ],
                                   )
                                 ],
                               ),
@@ -173,8 +179,14 @@ class HomePage extends ConsumerWidget {
                                       value:
                                           '${ref.watch(userProfile).bmi.toStringAsFixed(2)}'),
                                   Spacer(),
-                                  LinearGauge(
-                                      gauge: ref.watch(userProfile).bmi.toInt())
+                                  Column(
+                                    children: [
+                                      MessageBoxBmi(
+                                          height: ref.watch(userProfile).bmi),
+                                      LinearGaugeHeight(
+                                          height: ref.watch(userProfile).bmi),
+                                    ],
+                                  )
                                 ],
                               ),
                             ],

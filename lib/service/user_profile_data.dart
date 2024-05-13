@@ -12,7 +12,7 @@ class UserProfileData extends StateNotifier<UserProfile> {
 final userProfile = StateNotifierProvider<UserProfileData, UserProfile>(
     (ref) => UserProfileData(const UserProfile(
           name: 'Ihza Soerya',
-          height: 120,
-          weight: 100,
+          height: 180,
+          weight: 80,
           age: 30,
         )));

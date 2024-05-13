@@ -48,9 +48,9 @@ class PointerPainter extends CustomPainter {
     final paint = Paint()..color = Color.fromRGBO(34, 87, 122, 1);
 
     final path = Path()
-      ..moveTo(size.width / 2, 0)
-      ..lineTo(size.width / 2 - 5, 5)
-      ..lineTo(size.width / 2 + 5, 5)
+      ..moveTo(size.width / 2, 5)
+      ..lineTo(size.width / 2 - 5, 0)
+      ..lineTo(size.width / 2 + 5, 0)
       ..close();
 
     canvas.drawPath(path, paint);
