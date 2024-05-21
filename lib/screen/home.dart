@@ -1,15 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stun_sync/service/user_profile_data.dart';
 import 'package:stun_sync/components/atom/Background_body.dart';
-import 'package:stun_sync/components/atom/Massage_Box_Bmi.dart';
-import 'package:stun_sync/components/atom/Massage_box_Height.dart';
-import 'package:stun_sync/components/atom/linear_gauge.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
-import 'package:stun_sync/service/user_profile_data.dart';
-import 'package:stun_sync/components/atom/linear_gauge_height.dart';
 
 class HomePage extends ConsumerWidget {
   const HomePage({super.key});
@@ -18,20 +14,22 @@ class HomePage extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      color: Color(0xFF22577A),
+      color: const Color(0xFF22577A),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            TopOfBar(),
+            Padding(padding: EdgeInsets.only(top: 15)),
+            const TopOfBar(),
             Background_body(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                  Padding(padding: EdgeInsets.only(top: 10)),
                   ContentContainer(
                       child: Container(
                     child: Row(
                       children: [
-                        CircleAvatar(
+                        const CircleAvatar(
                           radius: 30,
                         ),
                         Column(
@@ -39,12 +37,12 @@ class HomePage extends ConsumerWidget {
                           children: [
                             Text(
                               ref.watch(userProfile).name,
-                              style: TextStyle(
-                                fontSize: 20,
+                              style: const TextStyle(
+                                fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            Text(
+                            const Text(
                               'Age: 30',
                               style: TextStyle(
                                 fontSize: 16,
@@ -52,8 +50,8 @@ class HomePage extends ConsumerWidget {
                             ),
                           ],
                         ),
-                        Spacer(),
-                        Column(
+                        const Spacer(),
+                        const Column(
                           crossAxisAlignment: CrossAxisAlignment.end,
                           children: [
                             Text(
@@ -78,7 +76,7 @@ class HomePage extends ConsumerWidget {
                   ContentContainer(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
-                      child: Column(
+                      child: const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TitleContainer(
@@ -90,11 +88,12 @@ class HomePage extends ConsumerWidget {
                       ),
                     ),
                   ),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
                   ContentContainer(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TitleContainer(
+                        const TitleContainer(
                           title: "Height",
                         ),
                         Container(
@@ -107,15 +106,15 @@ class HomePage extends ConsumerWidget {
                                   ValueContainer(
                                       value:
                                           '${ref.watch(userProfile).height}'),
-                                  Spacer(),
-                                  Column(
+                                  const Spacer(),
+                                  const Column(
                                     children: [
-                                      MessageBoxHeight(
-                                        height: ref.watch(userProfile).height,
-                                      ),
-                                      LinearGaugeHeight(
-                                        height: ref.watch(userProfile).height,
-                                      )
+                                      // MessageBoxHeight(
+                                      //   height: ref.watch(userProfile).height,
+                                      // ),
+                                      // LinearGaugeHeight(
+                                      //   height: ref.watch(userProfile).height,
+                                      // )
                                     ],
                                   )
                                 ],
@@ -126,11 +125,12 @@ class HomePage extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
                   ContentContainer(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TitleContainer(
+                        const TitleContainer(
                           title: "Weight",
                         ),
                         Container(
@@ -143,14 +143,15 @@ class HomePage extends ConsumerWidget {
                                   ValueContainer(
                                       value:
                                           '${ref.watch(userProfile).weight}'),
-                                  Spacer(),
-                                  Column(
+                                  const Spacer(),
+                                  const Column(
                                     children: [
-                                      MessageBoxHeight(
-                                        height: ref.watch(userProfile).weight,
-                                      ),
-                                      LinearGaugeHeight(
-                                          height: ref.watch(userProfile).weight)
+                                      // MessageBoxHeight(
+                                      //   height: ref.watch(userProfile).weight,
+                                      // ),
+                                      // LinearGaugeHeight(
+                                      //     height:
+                                      //         ref.watch(userProfile).weight),
                                     ],
                                   )
                                 ],
@@ -161,11 +162,12 @@ class HomePage extends ConsumerWidget {
                       ],
                     ),
                   ),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
                   ContentContainer(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        TitleContainer(
+                        const TitleContainer(
                           title: "BMI",
                         ),
                         Container(
@@ -178,13 +180,13 @@ class HomePage extends ConsumerWidget {
                                   ValueContainer(
                                       value:
                                           '${ref.watch(userProfile).bmi.toStringAsFixed(2)}'),
-                                  Spacer(),
-                                  Column(
+                                  const Spacer(),
+                                  const Column(
                                     children: [
-                                      MessageBoxBmi(
-                                          height: ref.watch(userProfile).bmi),
-                                      LinearGaugeHeight(
-                                          height: ref.watch(userProfile).bmi),
+                                      // MessageBoxBmi(
+                                      //     height: ref.watch(userProfile).bmi),
+                                      // LinearGaugeHeight(
+                                      //     height: ref.watch(userProfile).bmi),
                                     ],
                                   )
                                 ],
@@ -195,7 +197,9 @@ class HomePage extends ConsumerWidget {
                       ],
                     ),
                   ),
-                  Padding(padding: EdgeInsets.only(bottom: 30))
+                  Padding(
+                      padding: EdgeInsets.only(
+                          bottom: MediaQuery.of(context).size.height * 0.1)),
                 ],
               ),
             ),
