@@ -13,13 +13,13 @@ class TextFieldDesign extends StatelessWidget {
       height: 50,
       decoration: BoxDecoration(
         color: Colors.white, // Set the background color to white
-        borderRadius: BorderRadius.circular(10), // Set the border radius
+        borderRadius: BorderRadius.circular(15), // Set the border radius
       ),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(
           border: OutlineInputBorder(
-            borderRadius: BorderRadius.circular(10), // Set the border radius
+            borderRadius: BorderRadius.circular(15), // Set the border radius
           ),
           hintText: label,
           fillColor: Colors.white,
