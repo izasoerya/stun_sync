@@ -3,6 +3,7 @@ import 'package:sqflite/sqflite.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:stun_sync/components/atom/button_auth.dart';
+import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/models/page_index.dart';
 import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/router/page_router.dart';
@@ -43,21 +44,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Text(
-            'Welcome to Stun Sync',
-            style: TextStyle(
-              fontFamily: 'Poppins',
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
-          const Text('Please login to continue',
-              style: TextStyle(
-                fontFamily: 'Poppins',
-                color: Color.fromRGBO(205, 205, 205, 1),
-                fontSize: 16,
-              )),
+          const TitleContainer(
+              title: 'Selamat Datang', fontSize: 24, color: Colors.white),
+          const TitleContainer(
+              title: 'Masuk untuk melanjutkan',
+              fontSize: 12,
+              color: Color.fromRGBO(205, 205, 205, 1)),
           const Padding(padding: EdgeInsets.only(top: 15)),
           const RoleSlider(),
           const Padding(padding: EdgeInsets.only(top: 15)),
@@ -68,7 +60,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Didnt have an account? ',
+              const Text('Tidak memiliki akun? ',
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     color: Colors.white,
@@ -79,7 +71,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   pageIndex = PageIndex.registerPage;
                   PageRouter.router.go('/register');
                 },
-                child: const Text('Register here',
+                child: const Text('Daftar disini',
                     style: TextStyle(
                       fontFamily: 'Poppins',
                       color: Color.fromRGBO(128, 237, 153, 1),
@@ -89,49 +81,46 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             ],
           ),
           const Padding(padding: EdgeInsets.only(top: 30)),
-          SizedBox(
-            width: 100,
-            child: ButtonAuth(
-                onPressed: () async {
-                  isLoggedIn = true;
-                  Database db = await widget.sqLiteDB.openDB();
-                  widget.sqLiteDB.showAllUsers(db);
+          ButtonAuth(
+              onPressed: () async {
+                isLoggedIn = true;
+                Database db = await widget.sqLiteDB.openDB();
+                widget.sqLiteDB.showAllUsers(db);
 
-                  final isUserExist = await widget.sqLiteDB.searchUser(
-                      db, usernameController.text, passwordController.text);
-                  if (isUserExist) {
-                    final user = UserProfile(
-                      name: usernameController.text,
-                      password: passwordController.text,
-                      height: 190,
-                      weight: 85,
-                      age: 35,
-                      lingkarKepala: 10,
-                      lingkarDada: 20,
-                      admin: false,
-                    );
-                    ref.read(userProfile.notifier).setUser(user);
-                    pageIndex = PageIndex.appPage;
-                    PageRouter.router.go('/');
-                  } else {
-                    final snackBar = SnackBar(
-                      elevation: 0,
-                      behavior: SnackBarBehavior.floating,
-                      backgroundColor: Colors.transparent,
-                      content: AwesomeSnackbarContent(
-                        title: 'Login Gagal',
-                        message: 'Preiksa kembali username dan password anda.',
-                        contentType: ContentType.failure,
-                      ),
-                    );
+                final isUserExist = await widget.sqLiteDB.searchUser(
+                    db, usernameController.text, passwordController.text);
+                if (isUserExist) {
+                  final user = UserProfile(
+                    name: usernameController.text,
+                    password: passwordController.text,
+                    height: 190,
+                    weight: 85,
+                    age: 35,
+                    lingkarKepala: 10,
+                    lingkarDada: 20,
+                    admin: false,
+                  );
+                  ref.read(userProfile.notifier).setUser(user);
+                  pageIndex = PageIndex.appPage;
+                  PageRouter.router.go('/');
+                } else {
+                  final snackBar = SnackBar(
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    content: AwesomeSnackbarContent(
+                      title: 'Login Gagal',
+                      message: 'Preiksa kembali username dan password anda.',
+                      contentType: ContentType.failure,
+                    ),
+                  );
 
-                    ScaffoldMessenger.of(context)
-                      ..hideCurrentSnackBar()
-                      ..showSnackBar(snackBar);
-                  }
-                },
-                label: 'Login'),
-          ),
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar);
+                }
+              },
+              label: 'Masuk'),
           const Padding(padding: EdgeInsets.only(top: 10)),
         ],
       ),
