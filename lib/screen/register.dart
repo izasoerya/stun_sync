@@ -1,14 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:stun_sync/router/page_router.dart';
+import 'package:stun_sync/utils/page_index_controller.dart';
+import 'package:stun_sync/service/database_controller.dart';
+import 'package:stun_sync/models/page_index.dart';
+import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/components/atom/button_auth.dart';
 import 'package:stun_sync/components/atom/role_slider.dart';
 import 'package:stun_sync/components/atom/text_field_design.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
-import 'package:stun_sync/models/page_index.dart';
-import 'package:stun_sync/models/user_profile.dart';
-import 'package:stun_sync/router/page_router.dart';
-import 'package:stun_sync/service/database_controller.dart';
-import 'package:stun_sync/utils/page_index_controller.dart';
 
 class RegisterPage extends StatelessWidget {
   const RegisterPage({super.key});
@@ -33,10 +33,15 @@ class RegisterPage extends StatelessWidget {
             fontSize: 24,
             color: Colors.white,
           ),
-          RoleSlider(),
+          const Padding(padding: EdgeInsets.only(top: 15)),
+          const RoleSlider(),
+          const Padding(padding: EdgeInsets.only(top: 25)),
           TextFieldDesign(label: 'Username', controller: usernameController),
+          const Padding(padding: EdgeInsets.only(top: 10)),
           TextFieldDesign(label: 'Password', controller: passwordController),
+          const Padding(padding: EdgeInsets.only(top: 10)),
           TextFieldDesign(label: 'Age', controller: ageController),
+          const Padding(padding: EdgeInsets.only(top: 30)),
           ButtonAuth(
               onPressed: () async {
                 pageIndex = PageIndex.loginPage;
@@ -55,6 +60,18 @@ class RegisterPage extends StatelessWidget {
                 PageRouter.router.go('/login');
               },
               label: 'Sign Up'),
+          const Padding(padding: EdgeInsets.only(top: 15)),
+          GestureDetector(
+            onTap: () {
+              pageIndex = PageIndex.loginPage;
+              PageRouter.router.go('/login');
+            },
+            child: const TitleContainer(
+                title: 'Sudah memiliki Akun?',
+                fontWeight: FontWeight.normal,
+                fontSize: 16,
+                color: Colors.white),
+          ),
         ],
       ),
     );
