@@ -37,14 +37,14 @@ class HomePage extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              ref.watch(userProfile).name,
+                              '${ref.watch(userProfile).name}',
                               style: const TextStyle(
                                 fontSize: 10,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
-                            const Text(
-                              'Age: 30',
+                            Text(
+                              '${ref.watch(userProfile).age.toString()} years old',
                               style: TextStyle(
                                 fontSize: 16,
                               ),
