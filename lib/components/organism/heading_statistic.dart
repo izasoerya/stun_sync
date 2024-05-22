@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stun_sync/service/user_profile_data.dart';
+import 'package:stun_sync/service/user_profile_controller.dart';
 
 class HeadingStatistic extends ConsumerWidget {
   const HeadingStatistic({super.key});

@@ -31,6 +31,8 @@ class SQLiteDB {
           height INTEGER,
           weight INTEGER,
           age INTEGER,
+          lingkar_kepala INTEGER,
+          lingkar_dada INTEGER,
           admin TEXT
         )
       ''');
@@ -63,6 +65,8 @@ class SQLiteDB {
       'height': user.height,
       'weight': user.weight,
       'age': user.age,
+      'lingkar_kepala': user.lingkarKepala,
+      'lingkar_dada': user.lingkarDada,
       'admin': user.admin.toString(),
     });
   }
@@ -97,5 +101,10 @@ class SQLiteDB {
 
   Future<void> closeDB(Database db) async {
     await db.close();
+  }
+
+  Future<void> deleteDB() async {
+    String path = await getPathDB();
+    await deleteDatabase(path);
   }
 }

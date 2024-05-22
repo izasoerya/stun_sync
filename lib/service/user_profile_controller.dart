@@ -16,5 +16,7 @@ final userProfile = StateNotifierProvider<UserProfileData, UserProfile>(
           height: 180,
           weight: 80,
           age: 30,
+          lingkarKepala: 10,
+          lingkarDada: 20,
           admin: false,
         )));

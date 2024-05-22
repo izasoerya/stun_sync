@@ -3,18 +3,21 @@ import 'package:go_router/go_router.dart';
 import 'package:stun_sync/components/template/main_layout.dart';
 import 'package:stun_sync/screen/home.dart';
 import 'package:stun_sync/screen/login.dart';
+import 'package:stun_sync/screen/register.dart';
 import 'package:stun_sync/screen/statistic.dart';
 
 class PageRouter {
   static final router = GoRouter(
-    redirect: (BuildContext context, GoRouterState state) {
-      if (isLoggedIn) {
-        return null;
-      } else {
-        return '/login';
-      }
-    },
+    initialLocation: '/login',
     routes: <RouteBase>[
+      GoRoute(
+        path: '/login',
+        builder: (context, state) => const Scaffold(body: LoginPage()),
+      ),
+      GoRoute(
+        path: '/register',
+        builder: (context, state) => const Scaffold(body: RegisterPage()),
+      ),
       GoRoute(
         path: '/',
         builder: (context, state) => const MainLayout(child: HomePage()),
@@ -25,17 +28,9 @@ class PageRouter {
                 const MainLayout(child: StatisticPage()),
           ),
           GoRoute(
-            path: 'login',
-            builder: (context, state) => const Scaffold(body: LoginPage()),
-          ),
-          /**
-           * Add more routes here
-           * Example:
-           * GoRoute(
-           *    path: 'profile',
-           *    builder: (context, state) => const MainLayout(child: ProfilePage()),
-           * )
-           */
+              path: 'home',
+              builder: (context, state) => const MainLayout(child: HomePage())),
+          // other routes...
         ],
       ),
     ],

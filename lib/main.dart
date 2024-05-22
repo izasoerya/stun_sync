@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:stun_sync/router/page_router.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stun_sync/router/page_router.dart';
 
 void main() {
   runApp(

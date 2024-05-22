@@ -2,12 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:stun_sync/models/page_index.dart';
 import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/components/atom/role_slider.dart';
 import 'package:stun_sync/components/atom/text_field_design.dart';
-import 'package:stun_sync/service/sqlite_db.dart';
-import 'package:stun_sync/service/user_profile_data.dart';
+import 'package:stun_sync/service/database_controller.dart';
+import 'package:stun_sync/service/user_profile_controller.dart';
+import 'package:stun_sync/utils/page_index_controller.dart';
 
 bool isLoggedIn = false;
 
@@ -62,21 +64,28 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           const Padding(padding: EdgeInsets.only(top: 15)),
           TextFieldDesign(label: 'Password', controller: passwordController),
           const Padding(padding: EdgeInsets.only(top: 10)),
-          const Row(
+          Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Text('Didnt have an account? ',
+              const Text('Didnt have an account? ',
                   style: TextStyle(
                     fontFamily: 'Poppins',
                     color: Colors.white,
                     fontSize: 16,
                   )),
-              Text('Register here',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: Color.fromRGBO(128, 237, 153, 1),
-                    fontSize: 16,
-                  )),
+              GestureDetector(
+                onTap: () {
+                  print('Register');
+                  pageIndex = PageIndex.registerPage;
+                  PageRouter.router.go('/register');
+                },
+                child: const Text('Register here',
+                    style: TextStyle(
+                      fontFamily: 'Poppins',
+                      color: Color.fromRGBO(128, 237, 153, 1),
+                      fontSize: 16,
+                    )),
+              ),
             ],
           ),
           const Padding(padding: EdgeInsets.only(top: 30)),
@@ -87,6 +96,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 isLoggedIn = true;
                 Database db = await widget.sqLiteDB.openDB();
                 widget.sqLiteDB.showAllUsers(db);
+                // widget.sqLiteDB.deleteDB();
+
+                // widget.sqLiteDB.deleteUser(db, id: 1);
                 // widget.sqLiteDB.insertUser(
                 //     db,
                 //     const UserProfile(
@@ -95,6 +107,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 //       height: 190,
                 //       weight: 85,
                 //       age: 35,
+                //       lingkarKepala: 10,
+                //       lingkarDada: 20,
                 //       admin: true,
                 //     ));
                 final isUserExist = await widget.sqLiteDB.searchUser(
@@ -106,9 +120,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     height: 190,
                     weight: 85,
                     age: 35,
+                    lingkarKepala: 10,
+                    lingkarDada: 20,
                     admin: false,
                   );
                   ref.read(userProfile.notifier).setUser(user);
+                  pageIndex = PageIndex.appPage;
                   PageRouter.router.go('/');
                 } else {
                   final snackBar = SnackBar(
@@ -142,7 +159,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               child: const Text('Login'),
             ),
           ),
-          Padding(padding: EdgeInsets.only(top: 10)),
+          const Padding(padding: EdgeInsets.only(top: 10)),
         ],
       ),
     );
