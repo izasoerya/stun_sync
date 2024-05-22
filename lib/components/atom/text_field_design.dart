@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 class TextFieldDesign extends StatelessWidget {
-  const TextFieldDesign({super.key, required this.label});
+  const TextFieldDesign(
+      {super.key, required this.label, required this.controller});
   final String label;
+  final TextEditingController controller;
 
   @override
   Widget build(BuildContext context) {
@@ -14,14 +16,14 @@ class TextFieldDesign extends StatelessWidget {
         borderRadius: BorderRadius.circular(10), // Set the border radius
       ),
       child: TextField(
+        controller: controller,
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10), // Set the border radius
           ),
           hintText: label,
           fillColor: Colors.white,
-          filled:
-              true, // Add this line to fill the TextField with the fillColor
+          filled: true,
         ),
       ),
     );
