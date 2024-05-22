@@ -1,5 +1,6 @@
 class UserProfile {
   final String name;
+  final String password;
   final int age;
   final double height;
   final double weight;
@@ -8,6 +9,7 @@ class UserProfile {
 
   const UserProfile({
     required this.name,
+    required this.password,
     required this.age,
     required this.height,
     required this.weight,
