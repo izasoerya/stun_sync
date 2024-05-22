@@ -3,6 +3,7 @@ class UserProfile {
   final int age;
   final double height;
   final double weight;
+  final bool admin;
   double get bmi => weight / (height * height / 10000);
 
   const UserProfile({
@@ -10,5 +11,6 @@ class UserProfile {
     required this.age,
     required this.height,
     required this.weight,
+    required this.admin,
   });
 }
