@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:stun_sync/components/atom/button_auth.dart';
 import 'package:stun_sync/components/atom/role_slider.dart';
 import 'package:stun_sync/components/atom/text_field_design.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
@@ -18,7 +19,6 @@ class RegisterPage extends StatelessWidget {
     final TextEditingController usernameController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     final TextEditingController ageController = TextEditingController();
-    String role = '';
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -37,37 +37,24 @@ class RegisterPage extends StatelessWidget {
           TextFieldDesign(label: 'Username', controller: usernameController),
           TextFieldDesign(label: 'Password', controller: passwordController),
           TextFieldDesign(label: 'Age', controller: ageController),
-          ElevatedButton(
-            onPressed: () async {
-              pageIndex = PageIndex.loginPage;
-              Database db = await sqLiteDB.openDB();
-              UserProfile userProfile = UserProfile(
-                name: usernameController.text,
-                password: passwordController.text,
-                age: int.parse(ageController.text),
-                height: 0,
-                weight: 0,
-                lingkarKepala: 0,
-                lingkarDada: 0,
-                admin: false,
-              );
-              await sqLiteDB.insertUser(db, userProfile);
-              PageRouter.router.go('/login');
-            },
-            style: ButtonStyle(
-              foregroundColor: MaterialStateProperty.all(
-                  const Color.fromRGBO(34, 87, 122, 1)),
-              backgroundColor: MaterialStateProperty.all(
-                const Color.fromRGBO(128, 237, 153, 1),
-              ),
-              shape: MaterialStateProperty.all(
-                RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-            ),
-            child: const Text('Login'),
-          )
+          ButtonAuth(
+              onPressed: () async {
+                pageIndex = PageIndex.loginPage;
+                Database db = await sqLiteDB.openDB();
+                UserProfile userProfile = UserProfile(
+                  name: usernameController.text,
+                  password: passwordController.text,
+                  age: int.parse(ageController.text),
+                  height: 0,
+                  weight: 0,
+                  lingkarKepala: 0,
+                  lingkarDada: 0,
+                  admin: false,
+                );
+                await sqLiteDB.insertUser(db, userProfile);
+                PageRouter.router.go('/login');
+              },
+              label: 'Sign Up'),
         ],
       ),
     );

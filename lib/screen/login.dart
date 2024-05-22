@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:stun_sync/components/atom/button_auth.dart';
 import 'package:stun_sync/models/page_index.dart';
 import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/router/page_router.dart';
@@ -75,7 +76,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   )),
               GestureDetector(
                 onTap: () {
-                  print('Register');
                   pageIndex = PageIndex.registerPage;
                   PageRouter.router.go('/register');
                 },
@@ -91,73 +91,46 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           const Padding(padding: EdgeInsets.only(top: 30)),
           SizedBox(
             width: 100,
-            child: ElevatedButton(
-              onPressed: () async {
-                isLoggedIn = true;
-                Database db = await widget.sqLiteDB.openDB();
-                widget.sqLiteDB.showAllUsers(db);
-                // widget.sqLiteDB.deleteDB();
+            child: ButtonAuth(
+                onPressed: () async {
+                  isLoggedIn = true;
+                  Database db = await widget.sqLiteDB.openDB();
+                  widget.sqLiteDB.showAllUsers(db);
 
-                // widget.sqLiteDB.deleteUser(db, id: 1);
-                // widget.sqLiteDB.insertUser(
-                //     db,
-                //     const UserProfile(
-                //       name: 'admin',
-                //       password: 'admin',
-                //       height: 190,
-                //       weight: 85,
-                //       age: 35,
-                //       lingkarKepala: 10,
-                //       lingkarDada: 20,
-                //       admin: true,
-                //     ));
-                final isUserExist = await widget.sqLiteDB.searchUser(
-                    db, usernameController.text, passwordController.text);
-                if (isUserExist) {
-                  final user = UserProfile(
-                    name: usernameController.text,
-                    password: passwordController.text,
-                    height: 190,
-                    weight: 85,
-                    age: 35,
-                    lingkarKepala: 10,
-                    lingkarDada: 20,
-                    admin: false,
-                  );
-                  ref.read(userProfile.notifier).setUser(user);
-                  pageIndex = PageIndex.appPage;
-                  PageRouter.router.go('/');
-                } else {
-                  final snackBar = SnackBar(
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Login Gagal',
-                      message: 'Preiksa kembali username dan password anda.',
-                      contentType: ContentType.failure,
-                    ),
-                  );
+                  final isUserExist = await widget.sqLiteDB.searchUser(
+                      db, usernameController.text, passwordController.text);
+                  if (isUserExist) {
+                    final user = UserProfile(
+                      name: usernameController.text,
+                      password: passwordController.text,
+                      height: 190,
+                      weight: 85,
+                      age: 35,
+                      lingkarKepala: 10,
+                      lingkarDada: 20,
+                      admin: false,
+                    );
+                    ref.read(userProfile.notifier).setUser(user);
+                    pageIndex = PageIndex.appPage;
+                    PageRouter.router.go('/');
+                  } else {
+                    final snackBar = SnackBar(
+                      elevation: 0,
+                      behavior: SnackBarBehavior.floating,
+                      backgroundColor: Colors.transparent,
+                      content: AwesomeSnackbarContent(
+                        title: 'Login Gagal',
+                        message: 'Preiksa kembali username dan password anda.',
+                        contentType: ContentType.failure,
+                      ),
+                    );
 
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
-                }
-              },
-              style: ButtonStyle(
-                foregroundColor: MaterialStateProperty.all(
-                    const Color.fromRGBO(34, 87, 122, 1)),
-                backgroundColor: MaterialStateProperty.all(
-                  const Color.fromRGBO(128, 237, 153, 1),
-                ),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              child: const Text('Login'),
-            ),
+                    ScaffoldMessenger.of(context)
+                      ..hideCurrentSnackBar()
+                      ..showSnackBar(snackBar);
+                  }
+                },
+                label: 'Login'),
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
         ],
