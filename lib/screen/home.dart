@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stun_sync/components/atom/unit_container.dart';
 import 'package:stun_sync/service/user_profile_data.dart';
 import 'package:stun_sync/components/atom/Background_body.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
@@ -106,6 +107,13 @@ class HomePage extends ConsumerWidget {
                                   ValueContainer(
                                       value:
                                           '${ref.watch(userProfile).height}'),
+                                  Padding(padding: EdgeInsets.only(right: 5)),
+                                  const Column(
+                                    children: [
+                                      SizedBox(height: 15),
+                                      UnitContainer(unit: 'cm'),
+                                    ],
+                                  ),
                                   const Spacer(),
                                   const Column(
                                     children: [
@@ -143,6 +151,13 @@ class HomePage extends ConsumerWidget {
                                   ValueContainer(
                                       value:
                                           '${ref.watch(userProfile).weight}'),
+                                  Padding(padding: EdgeInsets.only(right: 5)),
+                                  const Column(
+                                    children: [
+                                      SizedBox(height: 15),
+                                      UnitContainer(unit: 'kg'),
+                                    ],
+                                  ),
                                   const Spacer(),
                                   const Column(
                                     children: [
