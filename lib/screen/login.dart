@@ -60,23 +60,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Text('Tidak memiliki akun? ',
-                  style: TextStyle(
-                    fontFamily: 'Poppins',
-                    color: Colors.white,
-                    fontSize: 16,
-                  )),
+              const TitleContainer(
+                  title: 'Tidak memiliki akun? ',
+                  fontWeight: FontWeight.normal,
+                  fontSize: 16,
+                  color: Colors.white),
               GestureDetector(
                 onTap: () {
                   pageIndex = PageIndex.registerPage;
                   PageRouter.router.go('/register');
                 },
-                child: const Text('Daftar disini',
-                    style: TextStyle(
-                      fontFamily: 'Poppins',
-                      color: Color.fromRGBO(128, 237, 153, 1),
-                      fontSize: 16,
-                    )),
+                child: const TitleContainer(
+                    title: 'Daftar disini',
+                    fontWeight: FontWeight.normal,
+                    fontSize: 16,
+                    color: Color.fromRGBO(128, 237, 153, 1)),
               ),
             ],
           ),
