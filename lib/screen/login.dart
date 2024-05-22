@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:stun_sync/router/page_router.dart';
+import 'package:stun_sync/components/atom/role_slider.dart';
 import 'package:stun_sync/components/atom/text_field_design.dart';
 
 bool isLoggedIn = false;
@@ -32,10 +33,13 @@ class LoginPage extends StatelessWidget {
                 color: Color.fromRGBO(205, 205, 205, 1),
                 fontSize: 16,
               )),
-          const Padding(padding: EdgeInsets.only(top: 10)),
+          const Padding(padding: EdgeInsets.only(top: 15)),
+          const RoleSlider(),
+          const Padding(padding: EdgeInsets.only(top: 15)),
           const TextFieldDesign(label: 'Username'),
-          const Padding(padding: EdgeInsets.only(top: 10)),
+          const Padding(padding: EdgeInsets.only(top: 15)),
           const TextFieldDesign(label: 'Password'),
+          const Padding(padding: EdgeInsets.only(top: 10)),
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -53,6 +57,7 @@ class LoginPage extends StatelessWidget {
                   )),
             ],
           ),
+          const Padding(padding: EdgeInsets.only(top: 30)),
           SizedBox(
             width: 100,
             child: ElevatedButton(

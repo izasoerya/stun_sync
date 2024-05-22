@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-enum Role { student, teacher, parent }
+enum Role { parent, puskesmas }
 
 class RoleSlider extends StatefulWidget {
   const RoleSlider({super.key});
@@ -10,21 +10,20 @@ class RoleSlider extends StatefulWidget {
 }
 
 class _RoleSliderState extends State<RoleSlider> {
-  Role selectedRole = Role.student;
+  Role selectedRole = Role.parent;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       width: 300,
-      height: 50,
       alignment: Alignment.center,
       padding: const EdgeInsets.only(bottom: 10),
       child: SegmentedButton<Role>(
         selectedIcon: const Text(''),
         style: SegmentedButton.styleFrom(
           backgroundColor: const Color.fromRGBO(217, 217, 217, 1),
-          selectedBackgroundColor: const Color.fromRGBO(34, 87, 152, 1),
-          selectedForegroundColor: Colors.white,
+          selectedBackgroundColor: const Color.fromRGBO(128, 237, 153, 1),
+          selectedForegroundColor: Color.fromRGBO(34, 87, 122, 1),
           side: const BorderSide(color: Colors.transparent),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
@@ -32,16 +31,12 @@ class _RoleSliderState extends State<RoleSlider> {
         ),
         segments: const <ButtonSegment<Role>>[
           ButtonSegment(
-            value: Role.student,
-            label: Text('Student'),
-          ),
-          ButtonSegment(
-            value: Role.teacher,
-            label: Text('Teacher'),
-          ),
-          ButtonSegment(
             value: Role.parent,
-            label: Text('Parent'),
+            label: Text('Orang Tua'),
+          ),
+          ButtonSegment(
+            value: Role.puskesmas,
+            label: Text('Puskesmas'),
           ),
         ],
         selected: <Role>{selectedRole},
