@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-enum Property { height, weight, bmi }
+import 'package:stun_sync/models/user_profile.dart';
 
 class PropertySlider extends StatefulWidget {
   const PropertySlider({super.key});

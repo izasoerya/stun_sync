@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-enum Role { parent, puskesmas }
+import 'package:stun_sync/models/user_profile.dart';
 
 class RoleSlider extends StatefulWidget {
   const RoleSlider({super.key});

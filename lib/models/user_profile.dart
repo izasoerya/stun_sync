@@ -1,3 +1,7 @@
+enum Role { parent, puskesmas }
+
+enum Property { height, weight, bmi }
+
 class UserProfile {
   final String name;
   final String password;
