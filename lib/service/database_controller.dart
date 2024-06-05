@@ -89,11 +89,12 @@ class SQLiteDB {
     }
   }
 
-  Future<bool> searchUser(Database db, String name, String password) async {
+  Future<bool> searchUserbyUsernamePassword(
+      Database db, String name, String password, bool admin) async {
     final List<Map<String, dynamic>> maps = await db.query(
       'user_profile',
-      where: 'name = ? AND password = ?',
-      whereArgs: [name, password],
+      where: 'name = ? AND password = ? AND admin = ?',
+      whereArgs: [name, password, admin.toString()],
     );
 
     return maps.isNotEmpty;

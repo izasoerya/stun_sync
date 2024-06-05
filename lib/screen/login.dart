@@ -9,6 +9,7 @@ import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/components/atom/role_slider.dart';
 import 'package:stun_sync/components/atom/text_field_design.dart';
+import 'package:stun_sync/service/auth_controller.dart';
 import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 import 'package:stun_sync/utils/page_index_controller.dart';
@@ -18,6 +19,7 @@ bool isLoggedIn = false;
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
   final SQLiteDB sqLiteDB = const SQLiteDB();
+  final AuthAPI authAPI = const AuthAPI();
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -26,6 +28,7 @@ class LoginPage extends ConsumerStatefulWidget {
 class _LoginPageState extends ConsumerState<LoginPage> {
   late final TextEditingController usernameController;
   late final TextEditingController passwordController;
+  Role selectedRole = Role.parent;
 
   @override
   void initState() {
@@ -51,7 +54,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
               fontSize: 12,
               color: Color.fromRGBO(205, 205, 205, 1)),
           const Padding(padding: EdgeInsets.only(top: 15)),
-          const RoleSlider(),
+          RoleSlider(
+            callBackRole: (role) {
+              selectedRole = const AuthAPI().callBackRole(role);
+              return role;
+            },
+          ),
           const Padding(padding: EdgeInsets.only(top: 15)),
           TextFieldDesign(label: 'Username', controller: usernameController),
           const Padding(padding: EdgeInsets.only(top: 15)),
@@ -85,8 +93,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 Database db = await widget.sqLiteDB.openDB();
                 widget.sqLiteDB.showAllUsers(db);
 
-                final isUserExist = await widget.sqLiteDB.searchUser(
-                    db, usernameController.text, passwordController.text);
+                final isUserExist =
+                    await widget.sqLiteDB.searchUserbyUsernamePassword(
+                  db,
+                  usernameController.text,
+                  passwordController.text,
+                  selectedRole == Role.puskesmas ? true : false,
+                );
                 if (isUserExist) {
                   final user = UserProfile(
                     name: usernameController.text,

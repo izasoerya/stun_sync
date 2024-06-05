@@ -19,6 +19,7 @@ class RegisterPage extends StatelessWidget {
     final TextEditingController usernameController = TextEditingController();
     final TextEditingController passwordController = TextEditingController();
     final TextEditingController ageController = TextEditingController();
+    Role selectedRole = Role.parent;
 
     return Container(
       width: MediaQuery.of(context).size.width,
@@ -34,7 +35,12 @@ class RegisterPage extends StatelessWidget {
             color: Colors.white,
           ),
           const Padding(padding: EdgeInsets.only(top: 15)),
-          const RoleSlider(),
+          RoleSlider(
+            callBackRole: (role) {
+              selectedRole = role;
+              return role;
+            },
+          ),
           const Padding(padding: EdgeInsets.only(top: 25)),
           TextFieldDesign(label: 'Username', controller: usernameController),
           const Padding(padding: EdgeInsets.only(top: 10)),
@@ -54,7 +60,7 @@ class RegisterPage extends StatelessWidget {
                   weight: 0,
                   lingkarKepala: 0,
                   lingkarDada: 0,
-                  admin: false,
+                  admin: selectedRole == Role.puskesmas ? true : false,
                 );
                 await sqLiteDB.insertUser(db, userProfile);
                 PageRouter.router.go('/login');

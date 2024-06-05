@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:stun_sync/models/user_profile.dart';
 
 class RoleSlider extends StatefulWidget {
-  const RoleSlider({super.key});
+  const RoleSlider({super.key, required this.callBackRole});
+  final Role Function(Role) callBackRole;
 
   @override
   State<RoleSlider> createState() => _RoleSliderState();
@@ -41,6 +42,7 @@ class _RoleSliderState extends State<RoleSlider> {
         selected: <Role>{selectedRole},
         onSelectionChanged: (Set<Role> newRole) {
           setState(() {
+            widget.callBackRole(newRole.first);
             selectedRole = newRole.first;
           });
         },
