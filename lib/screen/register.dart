@@ -1,3 +1,4 @@
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:stun_sync/router/page_router.dart';
@@ -10,17 +11,31 @@ import 'package:stun_sync/components/atom/role_slider.dart';
 import 'package:stun_sync/components/atom/text_field_design.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
 
-class RegisterPage extends StatelessWidget {
+class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
+
+  @override
+  State<RegisterPage> createState() => _RegisterPageState();
+}
+
+class _RegisterPageState extends State<RegisterPage> {
   final SQLiteDB sqLiteDB = const SQLiteDB();
+  late final TextEditingController usernameController;
+  late final TextEditingController passwordController;
+  late final TextEditingController ageController;
+  late Role selectedRole;
+
+  @override
+  void initState() {
+    super.initState();
+    usernameController = TextEditingController();
+    passwordController = TextEditingController();
+    ageController = TextEditingController();
+    selectedRole = Role.parent;
+  }
 
   @override
   Widget build(BuildContext context) {
-    final TextEditingController usernameController = TextEditingController();
-    final TextEditingController passwordController = TextEditingController();
-    final TextEditingController ageController = TextEditingController();
-    Role selectedRole = Role.parent;
-
     return Container(
       width: MediaQuery.of(context).size.width,
       decoration: const BoxDecoration(
@@ -63,13 +78,25 @@ class RegisterPage extends StatelessWidget {
                   admin: selectedRole == Role.puskesmas ? true : false,
                 );
                 await sqLiteDB.insertUser(db, userProfile);
+                final snackBar = SnackBar(
+                  elevation: 0,
+                  behavior: SnackBarBehavior.floating,
+                  backgroundColor: Colors.transparent,
+                  content: AwesomeSnackbarContent(
+                    title: 'Buat akun berhasil!',
+                    message: 'Login untuk melanjutkan ke aplikasi',
+                    contentType: ContentType.success,
+                  ),
+                );
+                ScaffoldMessenger.of(context)
+                  ..hideCurrentSnackBar()
+                  ..showSnackBar(snackBar);
                 PageRouter.router.go('/login');
               },
               label: 'Sign Up'),
           const Padding(padding: EdgeInsets.only(top: 15)),
           GestureDetector(
             onTap: () {
-              pageIndex = PageIndex.loginPage;
               PageRouter.router.go('/login');
             },
             child: const TitleContainer(
