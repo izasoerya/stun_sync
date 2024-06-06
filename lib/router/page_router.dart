@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stun_sync/components/template/main_layout.dart';
+import 'package:stun_sync/components/template/main_layout_admin.dart';
 import 'package:stun_sync/screen/home.dart';
+import 'package:stun_sync/screen/home_admin.dart';
 import 'package:stun_sync/screen/login.dart';
 import 'package:stun_sync/screen/register.dart';
 import 'package:stun_sync/screen/statistic.dart';
@@ -30,6 +32,24 @@ class PageRouter {
           GoRoute(
               path: 'home',
               builder: (context, state) => const MainLayout(child: HomePage())),
+
+          // other routes...
+        ],
+      ),
+      GoRoute(
+        path: '/homeadmin',
+        builder: (context, state) => const MainLayoutAdmin(child: HomeAdmin()),
+        routes: <RouteBase>[
+          GoRoute(
+            path: 'chat',
+            builder: (context, state) =>
+                const MainLayoutAdmin(child: StatisticPage()),
+          ),
+          GoRoute(
+              path: 'homeadmin',
+              builder: (context, state) =>
+                  const MainLayoutAdmin(child: HomeAdmin())),
+
           // other routes...
         ],
       ),

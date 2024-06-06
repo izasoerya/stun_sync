@@ -106,14 +106,17 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     password: passwordController.text,
                     height: 190,
                     weight: 85,
-                    age: 35,
+                    age: 10,
                     lingkarKepala: 10,
                     lingkarDada: 20,
                     admin: false,
                   );
                   ref.read(userProfile.notifier).setUser(user);
-                  pageIndex = PageIndex.appPage;
-                  PageRouter.router.go('/');
+                  if (selectedRole == Role.puskesmas) {
+                    PageRouter.router.go('/homeadmin');
+                  } else {
+                    PageRouter.router.go('/');
+                  }
                 } else {
                   final snackBar = SnackBar(
                     elevation: 0,

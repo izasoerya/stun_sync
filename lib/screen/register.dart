@@ -23,6 +23,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late final TextEditingController usernameController;
   late final TextEditingController passwordController;
   late final TextEditingController ageController;
+
   late Role selectedRole;
 
   @override
@@ -31,6 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
     usernameController = TextEditingController();
     passwordController = TextEditingController();
     ageController = TextEditingController();
+
     selectedRole = Role.parent;
   }
 

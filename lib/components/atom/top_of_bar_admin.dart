@@ -4,8 +4,8 @@ import 'package:riverpod/riverpod.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 
-class TopOfBar extends ConsumerWidget {
-  const TopOfBar({Key? key});
+class TopOfBarAdmin extends ConsumerWidget {
+  const TopOfBarAdmin({Key? key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -24,7 +24,7 @@ class TopOfBar extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  'Welcome',
+                  'Puskesmas',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,

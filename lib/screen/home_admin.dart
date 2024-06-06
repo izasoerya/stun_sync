@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/components/atom/unit_container.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
@@ -8,14 +9,14 @@ import 'package:stun_sync/components/atom/value_container.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
 
-class HomePage extends ConsumerWidget {
-  const HomePage({super.key});
+class HomeAdmin extends ConsumerWidget {
+  const HomeAdmin({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      color: const Color(0xFF22577A),
+      color: Color.fromARGB(255, 20, 150, 127),
       child: SingleChildScrollView(
         child: Column(
           children: [

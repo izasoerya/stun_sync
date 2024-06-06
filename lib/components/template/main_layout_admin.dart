@@ -7,8 +7,8 @@ import '../../utils/mqtt_pub.dart';
 
 final _selectedIndex = StateProvider<int>((ref) => 0);
 
-class MainLayout extends ConsumerWidget {
-  const MainLayout({super.key, required this.child});
+class MainLayoutAdmin extends ConsumerWidget {
+  const MainLayoutAdmin({super.key, required this.child});
   final Widget child;
 
   @override
@@ -24,21 +24,13 @@ class MainLayout extends ConsumerWidget {
         children: [
           BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Color.fromRGBO(34, 87, 122, 1),
+            backgroundColor: Color.fromARGB(255, 20, 150, 127),
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white,
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
                 label: 'Home',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.table_chart_outlined),
-                label: 'Statistic',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.info_outline),
-                label: 'Information',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.chat_outlined),
@@ -49,7 +41,7 @@ class MainLayout extends ConsumerWidget {
             onTap: (index) {
               ref.read(_selectedIndex.notifier).state = index;
               if (index == 0) {
-                PageRouter.router.go('/');
+                PageRouter.router.go('/homeadmin');
               } else {
                 PageRouter.router.go('/statistic');
               }
