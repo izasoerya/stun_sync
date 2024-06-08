@@ -33,18 +33,19 @@ class HomePage extends ConsumerWidget {
                         const CircleAvatar(
                           radius: 30,
                         ),
+                        SizedBox(width: 20),
                         Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
                               '${ref.watch(userProfile).name}',
                               style: const TextStyle(
-                                fontSize: 10,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              '${ref.watch(userProfile).age.toString()} years old',
+                              '${ref.watch(userProfile).age.toString()} Tahun',
                               style: TextStyle(
                                 fontSize: 16,
                               ),
@@ -95,7 +96,7 @@ class HomePage extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TitleContainer(
-                          title: "Height",
+                          title: "Tinggi Badan",
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
@@ -139,7 +140,7 @@ class HomePage extends ConsumerWidget {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TitleContainer(
-                          title: "Weight",
+                          title: "Berat Badan",
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,

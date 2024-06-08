@@ -50,8 +50,10 @@ class MainLayout extends ConsumerWidget {
               ref.read(_selectedIndex.notifier).state = index;
               if (index == 0) {
                 PageRouter.router.go('/');
-              } else {
+              } else if (index == 1) {
                 PageRouter.router.go('/statistic');
+              } else if (index == 2) {
+                PageRouter.router.go('/information');
               }
             },
           ),

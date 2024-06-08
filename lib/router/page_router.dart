@@ -4,6 +4,7 @@ import 'package:stun_sync/components/template/main_layout.dart';
 import 'package:stun_sync/components/template/main_layout_admin.dart';
 import 'package:stun_sync/screen/home.dart';
 import 'package:stun_sync/screen/home_admin.dart';
+import 'package:stun_sync/screen/information.dart';
 import 'package:stun_sync/screen/login.dart';
 import 'package:stun_sync/screen/register.dart';
 import 'package:stun_sync/screen/statistic.dart';
@@ -29,9 +30,15 @@ class PageRouter {
             builder: (context, state) =>
                 const MainLayout(child: StatisticPage()),
           ),
+
           GoRoute(
               path: 'home',
               builder: (context, state) => const MainLayout(child: HomePage())),
+
+          GoRoute(
+              path: 'information',
+              builder: (context, state) =>
+                  const MainLayout(child: InformationPage())),
 
           // other routes...
         ],
