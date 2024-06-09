@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 
 class EditValue extends ConsumerWidget {
@@ -51,13 +52,27 @@ class EditValue extends ConsumerWidget {
             TextButton(
               onPressed: () async {
                 final double? newHeight = double.tryParse(controller.text);
-                //if (newHeight != null) {
-                Navigator.of(context).pop();
+                if (newHeight != null) {
+                  // Assuming you have access to the user's name (replace 'John Doe' with actual name)
+                  String userName = "${ref.watch(userProfile).name}";
+
+                  // Call the updateUserHeight method to update the user's height
+                  await SQLiteDB().updateUserHeight(
+                      await SQLiteDB().openDB(), userName, newHeight);
+
+                  // Close the current screen after updating the height
+                  Navigator.of(context).pop();
+                } else {
+                  // Handle case where the entered height is not a valid number
+                  // You may want to display an error message or take other action
+                }
               },
-              child: const Text('Save',
-                  style: TextStyle(
-                    color: Color(0xFF22577A),
-                  )),
+              child: const Text(
+                'Save',
+                style: TextStyle(
+                  color: Color(0xFF22577A),
+                ),
+              ),
             ),
           ],
         );

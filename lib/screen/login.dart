@@ -92,6 +92,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 isLoggedIn = true;
                 Database db = await widget.sqLiteDB.openDB();
                 widget.sqLiteDB.showAllUsers(db);
+                DateTime now = DateTime.now();
 
                 final isUserExist =
                     await widget.sqLiteDB.searchUserbyUsernamePassword(
@@ -110,6 +111,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     lingkarKepala: 10,
                     lingkarDada: 20,
                     admin: false,
+                    datetime: now,
                   );
                   ref.read(userProfile.notifier).setUser(user);
                   if (selectedRole == Role.puskesmas) {

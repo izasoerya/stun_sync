@@ -7,6 +7,7 @@ import 'package:stun_sync/screen/home_admin.dart';
 import 'package:stun_sync/screen/information.dart';
 import 'package:stun_sync/screen/login.dart';
 import 'package:stun_sync/screen/register.dart';
+import 'package:stun_sync/screen/settings.dart';
 import 'package:stun_sync/screen/statistic.dart';
 
 class PageRouter {
@@ -44,13 +45,13 @@ class PageRouter {
         ],
       ),
       GoRoute(
-        path: '/homeadmin',
+        path: '/',
         builder: (context, state) => const MainLayoutAdmin(child: HomeAdmin()),
         routes: <RouteBase>[
           GoRoute(
-            path: 'chat',
+            path: 'settings',
             builder: (context, state) =>
-                const MainLayoutAdmin(child: StatisticPage()),
+                const MainLayoutAdmin(child: SettingsPage()),
           ),
           GoRoute(
               path: 'homeadmin',

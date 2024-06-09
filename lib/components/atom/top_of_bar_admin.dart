@@ -19,7 +19,7 @@ class TopOfBarAdmin extends ConsumerWidget {
         children: [
           SizedBox(
             width: MediaQuery.of(context).size.width,
-            height: 75,
+            height: 60,
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -32,7 +32,7 @@ class TopOfBarAdmin extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  'Halo ${ref.read(userProfile).name} ',
+                  '${ref.read(userProfile).name} ',
                   style: TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,

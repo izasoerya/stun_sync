@@ -2,6 +2,9 @@ import 'package:path/path.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/utils/utils.dart';
 import 'package:stun_sync/models/user_profile.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'dart:io';
+import 'package:path_provider/path_provider.dart';
 
 class SQLiteDB {
   const SQLiteDB();
@@ -34,6 +37,7 @@ class SQLiteDB {
           lingkar_kepala INTEGER,
           lingkar_dada INTEGER,
           admin TEXT
+          date_time TEXT
         )
       ''');
     });
@@ -50,12 +54,9 @@ class SQLiteDB {
     });
   }
 
-  Future<void> showAllUsers(Database db) async {
+  Future<List<Map<String, dynamic>>> showAllUsers(Database db) async {
     List<Map<String, dynamic>> users = await db.query('user_profile');
-
-    users.forEach((user) {
-      print(user);
-    });
+    return users;
   }
 
   Future<void> insertUser(Database db, UserProfile user) async {
@@ -68,6 +69,7 @@ class SQLiteDB {
       'lingkar_kepala': user.lingkarKepala,
       'lingkar_dada': user.lingkarDada,
       'admin': user.admin.toString(),
+      'datetime': DateTime.now().toIso8601String(),
     });
   }
 
@@ -107,5 +109,31 @@ class SQLiteDB {
   Future<void> deleteDB() async {
     String path = await getPathDB();
     await deleteDatabase(path);
+  }
+
+  Future<void> updateUserHeight(
+      Database db, String name, double newHeight) async {
+    await db.update(
+      'user_profile',
+      {'height': newHeight},
+      where: 'name = ?',
+      whereArgs: [name],
+    );
+  }
+
+  Future<File> downloadDB() async {
+    try {
+      // Mendapatkan direktori tempat penyimpanan eksternal (misalnya penyimpanan internal perangkat)
+      Directory appDocDir = await getApplicationDocumentsDirectory();
+      String dbFilePath = await getPathDB();
+
+      // Mengkopi file database ke direktori tempat penyimpanan eksternal
+      File sourceFile = File(dbFilePath);
+      File newFile = await sourceFile.copy('${appDocDir.path}/stun_sync.db');
+
+      return newFile;
+    } catch (e) {
+      throw Exception('Error downloading database: $e');
+    }
   }
 }

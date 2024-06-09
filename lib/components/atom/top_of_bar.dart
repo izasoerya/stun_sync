@@ -31,12 +31,16 @@ class TopOfBar extends ConsumerWidget {
                     color: Colors.grey,
                   ),
                 ),
-                Text(
-                  "Halo  ${ref.read(userProfile).name}'s Parents  ",
-                  style: TextStyle(
-                    fontSize: 24,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
+                Flexible(
+                  child: Text(
+                    "Halo  ${ref.read(userProfile).name}'s Parents",
+                    style: TextStyle(
+                      fontSize: 24,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.white,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    softWrap: false,
                   ),
                 ),
               ],

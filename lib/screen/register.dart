@@ -69,6 +69,7 @@ class _RegisterPageState extends State<RegisterPage> {
               onPressed: () async {
                 pageIndex = PageIndex.loginPage;
                 Database db = await sqLiteDB.openDB();
+                DateTime now = DateTime.now();
                 UserProfile userProfile = UserProfile(
                   name: usernameController.text,
                   password: passwordController.text,
@@ -78,6 +79,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   lingkarKepala: 0,
                   lingkarDada: 0,
                   admin: selectedRole == Role.puskesmas ? true : false,
+                  datetime: now,
                 );
                 await sqLiteDB.insertUser(db, userProfile);
                 final snackBar = SnackBar(

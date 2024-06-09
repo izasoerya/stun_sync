@@ -54,25 +54,25 @@ class HomePage extends ConsumerWidget {
                           ],
                         ),
                         const Spacer(),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              '7 days left',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              'until next check',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
+                        // const Column(
+                        //   crossAxisAlignment: CrossAxisAlignment.end,
+                        //   children: [
+                        //     Text(
+                        //       '7 days left',
+                        //       style: TextStyle(
+                        //         fontSize: 12,
+                        //         color: Colors.grey,
+                        //       ),
+                        //     ),
+                        //     Text(
+                        //       'until next check',
+                        //       style: TextStyle(
+                        //         fontSize: 12,
+                        //         color: Colors.grey,
+                        //       ),
+                        //     ),
+                        //   ],
+                        // ),
                       ],
                     ),
                   )),

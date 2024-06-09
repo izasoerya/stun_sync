@@ -1,13 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stun_sync/components/atom/download_user.dart';
+import 'package:stun_sync/components/atom/show_all_users.dart';
+import 'package:stun_sync/components/atom/top_of_bar_admin.dart';
 import 'package:stun_sync/components/atom/unit_container.dart';
+import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 import 'package:stun_sync/components/atom/Background_body.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
+import 'package:stun_sync/components/atom/show_all_users.dart';
 
 class HomeAdmin extends ConsumerWidget {
   const HomeAdmin({super.key});
@@ -16,12 +21,12 @@ class HomeAdmin extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
       height: MediaQuery.of(context).size.height,
-      color: Color.fromARGB(255, 20, 150, 127),
+      color: Color.fromARGB(255, 33, 190, 161),
       child: SingleChildScrollView(
         child: Column(
           children: [
             Padding(padding: EdgeInsets.only(top: 15)),
-            const TopOfBar(),
+            const TopOfBarAdmin(),
             Background_body(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -40,41 +45,25 @@ class HomeAdmin extends ConsumerWidget {
                             Text(
                               '${ref.watch(userProfile).name}',
                               style: const TextStyle(
-                                fontSize: 10,
+                                fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
                               '${ref.watch(userProfile).age.toString()} years old',
                               style: TextStyle(
-                                fontSize: 16,
+                                fontSize: 20,
                               ),
                             ),
                           ],
                         ),
                         const Spacer(),
-                        const Column(
-                          crossAxisAlignment: CrossAxisAlignment.end,
-                          children: [
-                            Text(
-                              '7 days left',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
-                            ),
-                            Text(
-                              'until next check',
-                              style: TextStyle(
-                                fontSize: 12,
-                                color: Colors.grey,
-                              ),
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   )),
+                  // SizedBox(
+                  //   height: 10,
+                  // ),
                   ContentContainer(
                     child: Container(
                       width: MediaQuery.of(context).size.width,
@@ -82,216 +71,21 @@ class HomeAdmin extends ConsumerWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           TitleContainer(
-                            title: "Recomendation",
+                            title: "Peserta",
                           ),
-                          Text(
-                              'Ensure they receive a balanced diet rich in protein, calcium, vitamin D, and provide physical stimulation through exercise or activities that stimulate bone and muscle growth.'),
+                          ShowAllUsers(
+                            database: SQLiteDB(),
+                          ),
+                          Downloaduser(
+                            database: SQLiteDB(),
+                          )
                         ],
                       ),
                     ),
                   ),
-                  const Padding(padding: EdgeInsets.only(top: 10)),
-                  ContentContainer(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TitleContainer(
-                          title: "Height",
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  ValueContainer(
-                                      value:
-                                          '${ref.watch(userProfile).height}'),
-                                  Padding(padding: EdgeInsets.only(right: 5)),
-                                  const Column(
-                                    children: [
-                                      SizedBox(height: 15),
-                                      UnitContainer(unit: 'cm'),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  const Column(
-                                    children: [
-                                      // MessageBoxHeight(
-                                      //   height: ref.watch(userProfile).height,
-                                      // ),
-                                      // LinearGaugeHeight(
-                                      //   height: ref.watch(userProfile).height,
-                                      // )
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Padding(padding: EdgeInsets.only(top: 10)),
-                  ContentContainer(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TitleContainer(
-                          title: "Weight",
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  ValueContainer(
-                                      value:
-                                          '${ref.watch(userProfile).weight}'),
-                                  Padding(padding: EdgeInsets.only(right: 5)),
-                                  const Column(
-                                    children: [
-                                      SizedBox(height: 15),
-                                      UnitContainer(unit: 'kg'),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  const Column(
-                                    children: [
-                                      // MessageBoxHeight(
-                                      //   height: ref.watch(userProfile).weight,
-                                      // ),
-                                      // LinearGaugeHeight(
-                                      //     height:
-                                      //         ref.watch(userProfile).weight),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  const Padding(padding: EdgeInsets.only(top: 10)),
-                  ContentContainer(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TitleContainer(
-                          title: "BMI",
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  ValueContainer(
-                                      value:
-                                          '${ref.watch(userProfile).bmi.toStringAsFixed(2)}'),
-                                  const Spacer(),
-                                  const Column()
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ContentContainer(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TitleContainer(
-                          title: "Lingkar Dada",
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  ValueContainer(
-                                      value:
-                                          '${ref.watch(userProfile).lingkarDada}'),
-                                  Padding(padding: EdgeInsets.only(right: 5)),
-                                  const Column(
-                                    children: [
-                                      SizedBox(height: 15),
-                                      UnitContainer(unit: 'cm'),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  const Column(
-                                    children: [
-                                      // MessageBoxHeight(
-                                      //   height: ref.watch(userProfile).weight,
-                                      // ),
-                                      // LinearGaugeHeight(
-                                      //     height:
-                                      //         ref.watch(userProfile).weight),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ContentContainer(
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const TitleContainer(
-                          title: "lingkar kepala",
-                        ),
-                        Container(
-                          width: MediaQuery.of(context).size.width,
-                          alignment: Alignment.topLeft,
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  ValueContainer(
-                                      value:
-                                          '${ref.watch(userProfile).lingkarKepala}'),
-                                  Padding(padding: EdgeInsets.only(right: 5)),
-                                  const Column(
-                                    children: [
-                                      SizedBox(height: 15),
-                                      UnitContainer(unit: 'cm'),
-                                    ],
-                                  ),
-                                  const Spacer(),
-                                  const Column(
-                                    children: [
-                                      // MessageBoxHeight(
-                                      //   height: ref.watch(userProfile).weight,
-                                      // ),
-                                      // LinearGaugeHeight(
-                                      //     height:
-                                      //         ref.watch(userProfile).weight),
-                                    ],
-                                  )
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+
+                  // const Padding(padding: EdgeInsets.only(top: 10)),
+                  // const Padding(padding: EdgeInsets.only(top: 10)),
                   Padding(
                       padding: EdgeInsets.only(
                           bottom: MediaQuery.of(context).size.height * 0.1)),

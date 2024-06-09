@@ -13,11 +13,11 @@ class MainLayout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final String username = '${(userProfile).name}';
+    //final String username = '${(userProfile).name}';
     //call mqtt subs
-    MQTTService mqttService = MQTTService();
-    mqttService.connect(username);
-    print("");
+    //  MQTTService mqttService = MQTTService();
+    //mqttService.connect(username);
+
     return Scaffold(
       body: child,
       bottomNavigationBar: Stack(
