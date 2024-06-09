@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
@@ -114,6 +116,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     datetime: now,
                   );
                   ref.read(userProfile.notifier).setUser(user);
+                  final userProfileJson = user.toJson();
+                  print(jsonEncode(userProfileJson));
                   if (selectedRole == Role.puskesmas) {
                     PageRouter.router.go('/admin');
                   } else {
