@@ -24,4 +24,19 @@ class UserProfile {
       required this.lingkarDada,
       required this.admin,
       required this.datetime});
+
+  Map<String, dynamic> toJson() {
+    return {
+      'name': name,
+      'password': password,
+      'age': age,
+      'height': height,
+      'weight': weight,
+      'lingkarKepala': lingkarKepala,
+      'lingkarDada': lingkarDada,
+      'admin': admin,
+      'bmi': bmi,
+      'datetime': datetime.toIso8601String(),
+    };
+  }
 }

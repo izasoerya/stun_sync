@@ -3,7 +3,7 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 
-import '../../utils/mqtt_pub.dart';
+import '../../utils/mqtt_subs.dart';
 
 final _selectedIndex = StateProvider<int>((ref) => 0);
 
