@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:stun_sync/components/template/main_layout.dart';
-import 'package:stun_sync/components/template/main_layout_admin.dart';
+import 'package:stun_sync/components/template/admin_page.dart';
 import 'package:stun_sync/screen/home.dart';
 import 'package:stun_sync/screen/home_admin.dart';
 import 'package:stun_sync/screen/information.dart';
@@ -23,6 +23,10 @@ class PageRouter {
         builder: (context, state) => const Scaffold(body: RegisterPage()),
       ),
       GoRoute(
+        path: '/admin',
+        builder: (context, state) => const Scaffold(body: AdminPage()),
+      ),
+      GoRoute(
         path: '/',
         builder: (context, state) => const MainLayout(child: HomePage()),
         routes: <RouteBase>[
@@ -31,7 +35,6 @@ class PageRouter {
             builder: (context, state) =>
                 const MainLayout(child: StatisticPage()),
           ),
-
           GoRoute(
               path: 'home',
               builder: (context, state) => const MainLayout(child: HomePage())),
@@ -40,23 +43,6 @@ class PageRouter {
               path: 'information',
               builder: (context, state) =>
                   const MainLayout(child: InformationPage())),
-
-          // other routes...
-        ],
-      ),
-      GoRoute(
-        path: '/',
-        builder: (context, state) => const MainLayoutAdmin(child: HomeAdmin()),
-        routes: <RouteBase>[
-          GoRoute(
-            path: 'settings',
-            builder: (context, state) =>
-                const MainLayoutAdmin(child: SettingsPage()),
-          ),
-          GoRoute(
-              path: 'homeadmin',
-              builder: (context, state) =>
-                  const MainLayoutAdmin(child: HomeAdmin())),
 
           // other routes...
         ],

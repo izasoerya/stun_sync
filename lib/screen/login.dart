@@ -110,12 +110,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     age: 10,
                     lingkarKepala: 10,
                     lingkarDada: 20,
-                    admin: false,
+                    admin: selectedRole == Role.puskesmas ? true : false,
                     datetime: now,
                   );
                   ref.read(userProfile.notifier).setUser(user);
                   if (selectedRole == Role.puskesmas) {
-                    PageRouter.router.go('/homeadmin');
+                    PageRouter.router.go('/admin');
                   } else {
                     PageRouter.router.go('/');
                   }
@@ -135,6 +135,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ..hideCurrentSnackBar()
                     ..showSnackBar(snackBar);
                 }
+                // widget.sqLiteDB.deleteDB();
+                widget.sqLiteDB.showTables(db);
               },
               label: 'Masuk'),
           const Padding(padding: EdgeInsets.only(top: 10)),

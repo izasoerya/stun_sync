@@ -36,8 +36,8 @@ class SQLiteDB {
           age INTEGER,
           lingkar_kepala INTEGER,
           lingkar_dada INTEGER,
-          admin TEXT
-          date_time TEXT
+          admin TEXT,
+          datetime TEXT
         )
       ''');
     });
@@ -46,11 +46,14 @@ class SQLiteDB {
 
   Future<void> showTables(Database db) async {
     List<Map<String, dynamic>> tables = await db.rawQuery(
-      'SELECT name FROM sqlite_master WHERE type = "table"',
+      'SELECT * FROM sqlite_master WHERE type = "table"',
     );
 
     tables.forEach((element) {
       print(element);
+      element.forEach((key, value) {
+        print('$key: $value');
+      });
     });
   }
 
@@ -69,7 +72,7 @@ class SQLiteDB {
       'lingkar_kepala': user.lingkarKepala,
       'lingkar_dada': user.lingkarDada,
       'admin': user.admin.toString(),
-      'datetime': DateTime.now().toIso8601String(),
+      'datetime': user.datetime.toString(),
     });
   }
 
@@ -109,6 +112,7 @@ class SQLiteDB {
   Future<void> deleteDB() async {
     String path = await getPathDB();
     await deleteDatabase(path);
+    print('deleted database at $path');
   }
 
   Future<void> updateUserHeight(
