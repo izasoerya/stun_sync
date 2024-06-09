@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 
@@ -17,6 +18,7 @@ class MainLayout extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mqttSubs = MQQTSubs();
     mqttSubs.connectAndSubscribe();
+    //call parse here
 
     return Scaffold(
       body: child,
