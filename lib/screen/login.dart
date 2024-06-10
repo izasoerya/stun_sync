@@ -116,11 +116,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     datetime: now,
                   );
                   ref.read(userProfile.notifier).setUser(user);
-                  final userProfileJson = user.toJson();
-                  print(jsonEncode(userProfileJson));
-                  if (selectedRole == Role.puskesmas) {
+                  if (user.admin == true) {
                     PageRouter.router.go('/admin');
-                  } else {
+                  } else if (user.admin == false) {
                     PageRouter.router.go('/');
                   }
                 } else {
@@ -140,7 +138,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ..showSnackBar(snackBar);
                 }
                 // widget.sqLiteDB.deleteDB();
-                widget.sqLiteDB.showTables(db);
+                widget.sqLiteDB.showUserProfileTable(db);
               },
               label: 'Masuk'),
           const Padding(padding: EdgeInsets.only(top: 10)),

@@ -9,12 +9,16 @@ class Downloaduser extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
+      style: ButtonStyle(
+        backgroundColor: MaterialStateProperty.all<Color>(Colors.white),
+        foregroundColor: MaterialStateProperty.all<Color>(Colors.black),
+      ),
       onPressed: () async {
         try {
-          File downloadedFile = await database.downloadDB();
+          await database.downloadDB();
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              content: Text('Database downloaded: ${downloadedFile.path}'),
+              content: Text('Database downloaded'),
             ),
           );
         } catch (e) {
