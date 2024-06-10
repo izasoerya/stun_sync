@@ -14,7 +14,7 @@ class MainLayout extends ConsumerWidget {
   Widget build(BuildContext context, WidgetRef ref) {
     final mqttSubs = MQQTSubs();
     mqttSubs.connectAndSubscribe();
-    //call parse here
+    // call new mqt here
 
     return Scaffold(
       body: child,

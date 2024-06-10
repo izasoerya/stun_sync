@@ -46,7 +46,7 @@ class HomePage extends ConsumerWidget {
                               ),
                             ),
                             Text(
-                              '${ref.watch(userProfile).age.toString()} Tahun',
+                              '${ref.watch(userProfile).age} Tahun',
                               style: TextStyle(
                                 fontSize: 16,
                               ),

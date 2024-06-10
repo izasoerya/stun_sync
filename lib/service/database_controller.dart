@@ -244,59 +244,47 @@ class SQLiteDB {
     }
   }
 
-  Future<String> encodeUserData(
-      Database db, String userName, double height, double weight) async {
-    // Get the current date as a string (e.g., '2024-06-10')
-    String currentDate = DateTime.now().toIso8601String().split('T').first;
-    print(currentDate);
+  Future<void> parseMQTTData(Map<String, dynamic> mqttData) async {
+    try {
+      Database db = await openDB();
+      String currentDate = DateTime.now()
+          .toString()
+          .substring(0, 10); // Get current date in yyyy-mm-dd format
+      currentDate = currentDate.replaceAll('-', '_'); // Replace '-' with '_'
+      bool tableExists = await isTableExists(db, 'user_profile_$currentDate');
 
-    // Query the user profile by name and date
-    List<Map<String, dynamic>> results = await db.query(
-      'user_profile',
-      columns: ['height', 'weight', 'datetime'],
-      where: 'name = ? AND datetime LIKE ?',
-      whereArgs: [userName, '$currentDate%'],
-    );
-
-    if (results.isEmpty) {
-      // If no entry for today, insert a new record
-      await db.insert('user_profile', {
-        'name': userName,
-        'height': height,
-        'weight': weight,
-        'datetime': currentDate,
-      });
-    } else {
-      // If an entry for today exists, update the height and weight
-      await db.update(
-        'user_profile',
-        {
-          'height': height,
-          'weight': weight,
-        },
-        where: 'name = ? AND datetime LIKE ?',
-        whereArgs: [userName, '$currentDate%'],
-      );
+      if (tableExists) {
+        // Table exists for current date, update height and weight
+        await db.rawUpdate(
+          'UPDATE user_profile_$currentDate SET height = ?, weight = ?',
+          [mqttData['height'], mqttData['weight']],
+        );
+        print('Updated height and weight for $currentDate');
+      } else {
+        // Table doesn't exist for current date, create new table and insert data
+        await db.execute('''
+        CREATE TABLE user_profile_$currentDate(
+          id INTEGER PRIMARY KEY,
+          name TEXT,
+          password TEXT,
+          height INTEGER,
+          weight INTEGER,
+          age INTEGER,
+          lingkar_kepala INTEGER,
+          lingkar_dada INTEGER,
+          admin TEXT,
+          datetime TEXT
+        )
+      ''');
+        await db.rawInsert(
+          'INSERT INTO user_profile_$currentDate (height, weight, datetime) VALUES (?, ?, ?)',
+          [mqttData['height'], mqttData['weight'], currentDate],
+        );
+        print('Created new table for $currentDate and inserted height, weight');
+      }
+      await db.close();
+    } catch (e) {
+      print('Error parsing MQTT data: $e');
     }
-
-    // Query again to get the updated data
-    results = await db.query(
-      'user_profile',
-      columns: ['height', 'weight', 'datetime'],
-      where: 'name = ? AND datetime LIKE ?',
-      whereArgs: [userName, '$currentDate%'],
-    );
-
-    // Assuming the entry now exists
-    Map<String, dynamic> userData = results.first;
-
-    // Encode the data as JSON
-    String jsonEncodedData = jsonEncode({
-      'height': userData['height'],
-      'weight': userData['weight'],
-      'datetime': userData['datetime'],
-    });
-
-    return jsonEncodedData;
   }
 }
