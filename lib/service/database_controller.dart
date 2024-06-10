@@ -4,6 +4,7 @@ import 'package:excel/excel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/utils/utils.dart';
 import 'package:stun_sync/models/user_profile.dart';
+import 'package:stun_sync/service/user_profile_controller.dart';
 
 class SQLiteDB {
   const SQLiteDB();
@@ -47,7 +48,6 @@ class SQLiteDB {
     List<Map<String, dynamic>> tables = await db.rawQuery(
       'SELECT * FROM sqlite_master WHERE type = "table"',
     );
-
     for (var element in tables) {
       print(element);
     }
@@ -109,6 +109,31 @@ class SQLiteDB {
     return maps.isNotEmpty;
   }
 
+  Future<List<UserProfile>> getUserByCredential(
+      Database db, String name, String password, bool admin) async {
+    var users = await db.query('user_profile',
+        where: 'name = ? AND password = ? AND admin = ?',
+        whereArgs: [name, password, admin.toString()]);
+
+    List<UserProfile> userProfiles = users.isNotEmpty
+        ? users
+            .map((user) => UserProfile(
+                  name: user['name'] as String,
+                  password: user['password'] as String,
+                  age: user['age'] as int,
+                  height: user['height'] as int,
+                  weight: user['weight'] as int,
+                  lingkarKepala: user['lingkar_kepala'] as int,
+                  lingkarDada: user['lingkar_dada'] as int,
+                  admin: (user['admin'] as String) ==
+                      'true', // Assuming 'admin' is stored as a String
+                  datetime: user['datetime'] as DateTime,
+                ))
+            .toList() // Convert the result of map to a List
+        : [];
+    return userProfiles;
+  }
+
   Future<void> updateUserHeight(
       Database db, String name, double newHeight) async {
     await db.update(
@@ -116,6 +141,25 @@ class SQLiteDB {
       {'height': newHeight},
       where: 'name = ?',
       whereArgs: [name],
+    );
+  }
+
+  Future<void> updateUserData(Database db, UserProfile user) async {
+    await db.update(
+      'user_profile',
+      {
+        'name': user.name,
+        'password': user.password,
+        'height': user.height,
+        'weight': user.weight,
+        'age': user.age,
+        'lingkar_kepala': user.lingkarKepala,
+        'lingkar_dada': user.lingkarDada,
+        'admin': user.admin.toString(),
+        'datetime': user.datetime.toString(),
+      },
+      where: 'name = ?',
+      whereArgs: [user.name],
     );
   }
 
