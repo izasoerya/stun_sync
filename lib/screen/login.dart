@@ -102,16 +102,30 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   selectedRole == Role.puskesmas ? true : false,
                 );
                 if (isUserExist) {
+                  List<UserProfile> users =
+                      await widget.sqLiteDB.getUserByCredential(
+                    db,
+                    usernameController.text,
+                    passwordController.text,
+                    selectedRole == Role.puskesmas ? true : false,
+                  );
+                  UserProfile? newestUser = await widget.sqLiteDB
+                      .getUserByNameAndPassword(
+                          db, usernameController.text, passwordController.text);
+
+                  // Use a null-aware operator (?.) to access `height`, providing a fallback value if `newestUser` is null.
                   final user = UserProfile(
                     name: usernameController.text,
                     password: passwordController.text,
-                    height: 190,
-                    weight: 85,
-                    age: 10,
-                    lingkarKepala: 10,
-                    lingkarDada: 20,
-                    admin: selectedRole == Role.puskesmas ? true : false,
-                    datetime: now,
+                    height: newestUser?.height ??
+                        0, // Fallback to 0 if newestUser is null
+                    weight: newestUser?.weight ??
+                        0, // Fallback to 0 if newestUser is null
+                    age: newestUser?.age ?? 0,
+                    lingkarKepala: newestUser?.lingkarKepala ?? 0,
+                    lingkarDada: newestUser?.lingkarDada ?? 0,
+                    admin: newestUser?.admin ?? false,
+                    datetime: newestUser?.datetime ?? DateTime.now(),
                   );
                   ref.read(userProfile.notifier).setUser(user);
                   if (user.admin == true) {

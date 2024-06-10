@@ -1,13 +1,18 @@
 import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:path/path.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/service/database_controller.dart';
+import 'package:stun_sync/service/user_profile_controller.dart';
 
 class MQQTSubs {
   final MqttServerClient client;
   final SQLiteDB database;
+  final WidgetRef ctx;
 
-  MQQTSubs()
+  MQQTSubs({required this.ctx})
       : client = MqttServerClient.withPort(
           'ied8e792.ala.asia-southeast1.emqxsl.com',
           'flutter_client',
@@ -26,7 +31,6 @@ class MQQTSubs {
   }
 
   Future<void> connectAndSubscribe() async {
-    // Connect to MQTT broker
     try {
       await client.connect();
     } catch (e) {
@@ -42,6 +46,15 @@ class MQQTSubs {
       client.subscribe(topicHeight, MqttQos.atMostOnce);
 
       final mydb = await database.openDB();
+      List<UserProfile> users = await database.getUserByCredential(
+          mydb,
+          ctx.watch(userProfile).name,
+          ctx.watch(userProfile).password,
+          ctx.watch(userProfile).admin);
+      // Assuming users is a List<UserProfile> and UserProfile has a DateTime property named dateTime
+      UserProfile newestUser = users.reduce((currentNewest, next) =>
+          next.datetime.isAfter(currentNewest.datetime) ? next : currentNewest);
+
       // Listen for MQTT messages
       client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
         final recMess = c![0].payload as MqttPublishMessage;
@@ -49,14 +62,23 @@ class MQQTSubs {
             MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
 
         print('Received message: $pt from topic: ${c[0].topic}');
-
-        // Parse MQTT data and save to SQLiteDB
         try {
           Map<String, dynamic> mqttData = jsonDecode(pt);
-          database.parseMQTTData(mqttData);
-          print("haha");
+          UserProfile user = UserProfile(
+            name: ctx.watch(userProfile).name,
+            password: ctx.watch(userProfile).password,
+            age: ctx.watch(userProfile).age,
+            height: int.tryParse(mqttData['height'].toString()) ?? 0,
+            weight: int.tryParse(mqttData['weight'].toString()) ?? 0,
+            lingkarKepala: ctx.watch(userProfile).lingkarKepala,
+            lingkarDada: ctx.watch(userProfile).lingkarDada,
+            admin: ctx.watch(userProfile).admin,
+            datetime: DateTime.parse(mqttData['datetime']),
+          );
+          print(mqttData);
+          database.insertUser(mydb, user);
 
-          // database.getUserByCredential(mydb, username, password, admin)
+          // database.parseMQTTData(mqttData);
         } catch (e) {
           print('Error parsing MQTT data: $e');
         }

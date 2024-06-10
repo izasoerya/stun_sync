@@ -117,20 +117,31 @@ class SQLiteDB {
         whereArgs: [name, password, admin.toString()]);
 
     List<UserProfile> userProfiles = users.isNotEmpty
-        ? users
-            .map((user) => UserProfile(
-                  name: user['name'] as String,
-                  password: user['password'] as String,
-                  age: user['age'] as int,
-                  height: user['height'] as int,
-                  weight: user['weight'] as int,
-                  lingkarKepala: user['lingkar_kepala'] as int,
-                  lingkarDada: user['lingkar_dada'] as int,
-                  admin: (user['admin'] as String) ==
-                      'true', // Assuming 'admin' is stored as a String
-                  datetime: user['datetime'] as DateTime,
-                ))
-            .toList() // Convert the result of map to a List
+        ? users.map((user) {
+            // Safely cast datetime to String and handle null or incorrect types
+            String? datetimeString = user['datetime'] as String?;
+            DateTime? datetime;
+            if (datetimeString != null) {
+              try {
+                datetime = DateTime.parse(datetimeString);
+              } catch (e) {
+                // Handle the case where the string is not a valid datetime format
+                // For example, log the error or set datetime to null
+              }
+            }
+
+            return UserProfile(
+              name: user['name'] as String,
+              password: user['password'] as String,
+              age: user['age'] as int,
+              height: user['height'] as int,
+              weight: user['weight'] as int,
+              lingkarKepala: user['lingkar_kepala'] as int,
+              lingkarDada: user['lingkar_dada'] as int,
+              admin: (user['admin'] as String?) == 'true',
+              datetime: datetime!, // Use the safely parsed DateTime or null
+            );
+          }).toList() // Convert the result of map to a List
         : [];
     return userProfiles;
   }
@@ -162,6 +173,32 @@ class SQLiteDB {
       where: 'name = ?',
       whereArgs: [user.name],
     );
+  }
+
+  Future<UserProfile?> getUserByNameAndPassword(
+      Database db, String name, String password) async {
+    const String sql = '''
+      SELECT * FROM user_profile 
+      WHERE name = ? AND password = ? 
+      ORDER BY id DESC
+      LIMIT 1;
+    ''';
+    final List<Map<String, dynamic>> result =
+        await db.rawQuery(sql, [name, password]);
+    if (result.isNotEmpty) {
+      return UserProfile(
+        name: result.first['name'],
+        password: result.first['password'],
+        age: result.first['age'],
+        height: result.first['height'],
+        weight: result.first['weight'],
+        lingkarKepala: result.first['lingkar_kepala'],
+        lingkarDada: result.first['lingkar_dada'],
+        admin: result.first['admin'] == 'true' ? true : false,
+        datetime: DateTime.parse(result.first['datetime']),
+      );
+    }
+    return null;
   }
 
   Future<void> closeDB(Database db) async {
@@ -251,7 +288,7 @@ class SQLiteDB {
           .toString()
           .substring(0, 10); // Get current date in yyyy-mm-dd format
       currentDate = currentDate.replaceAll('-', '_'); // Replace '-' with '_'
-      bool tableExists = await isTableExists(db, 'user_profile_$currentDate');
+      bool tableExists = await isTableExists(db, 'user_profile');
 
       if (tableExists) {
         // Table exists for current date, update height and weight

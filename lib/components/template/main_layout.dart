@@ -12,7 +12,7 @@ class MainLayout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    final mqttSubs = MQQTSubs();
+    final mqttSubs = MQQTSubs(ctx: ref);
     mqttSubs.connectAndSubscribe();
     // call new mqt here
 
