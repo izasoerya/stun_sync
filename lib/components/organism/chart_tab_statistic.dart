@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stun_sync/service/database_controller.dart';
+import 'package:stun_sync/service/user_profile_controller.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 
@@ -8,19 +11,14 @@ class ChartData {
   final double y;
 }
 
-List<ChartData> chartData = [
-  ChartData(2010, 35),
-  ChartData(2011, 28),
-  ChartData(2012, 34),
-  ChartData(2013, 32),
-  ChartData(2014, 40),
-];
+List<ChartData> chartData = [];
 
-class ChartTab extends StatelessWidget {
+class ChartTab extends ConsumerWidget {
   const ChartTab({super.key});
+  final SQLiteDB sqLiteDB = const SQLiteDB();
 
   @override
-  Widget build(BuildContext context) {
+  Widget build(BuildContext context, WidgetRef ref) {
     return ContentContainer(
       child: Column(
         children: [

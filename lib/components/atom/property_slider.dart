@@ -1,18 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/models/user_profile.dart';
 
-class PropertySlider extends StatefulWidget {
+final selectedRole = StateProvider<Property>((ref) => Property.height);
+
+class PropertySlider extends ConsumerWidget {
   const PropertySlider({super.key});
 
   @override
-  State<PropertySlider> createState() => _PropertySliderState();
-}
+  Widget build(BuildContext context, WidgetRef ref) {
+    final selectedRoled = ref.watch(selectedRole);
 
-class _PropertySliderState extends State<PropertySlider> {
-  Property selectedRole = Property.height;
-
-  @override
-  Widget build(BuildContext context) {
     return Container(
       width: 300,
       height: 50,
@@ -32,22 +30,20 @@ class _PropertySliderState extends State<PropertySlider> {
         segments: const <ButtonSegment<Property>>[
           ButtonSegment(
             value: Property.height,
-            label: Text('Student'),
+            label: Text('Tinggi'),
           ),
           ButtonSegment(
             value: Property.weight,
-            label: Text('Teacher'),
+            label: Text('Berat'),
           ),
           ButtonSegment(
             value: Property.bmi,
-            label: Text('Parent'),
+            label: Text('BMI'),
           ),
         ],
-        selected: <Property>{selectedRole},
+        selected: <Property>{selectedRoled},
         onSelectionChanged: (Set<Property> newRole) {
-          setState(() {
-            selectedRole = newRole.first;
-          });
+          ref.read(selectedRole.notifier).state = newRole.first;
         },
       ),
     );
