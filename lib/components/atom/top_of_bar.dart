@@ -1,16 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:riverpod/riverpod.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 
 class TopOfBar extends ConsumerWidget {
-  const TopOfBar({Key? key});
+  const TopOfBar({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Padding(
-      padding: EdgeInsets.only(
+      padding: const EdgeInsets.only(
         top: 20.0,
         left: 20.0,
         right: 20.0,
@@ -23,7 +22,7 @@ class TopOfBar extends ConsumerWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
+                const Text(
                   'Welcome',
                   style: TextStyle(
                     fontSize: 12,
@@ -34,7 +33,7 @@ class TopOfBar extends ConsumerWidget {
                 Flexible(
                   child: Text(
                     "Halo  ${ref.read(userProfile).name}'s Parents",
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,
                       color: Colors.white,
@@ -50,7 +49,7 @@ class TopOfBar extends ConsumerWidget {
             top: 0,
             right: 0,
             child: IconButton(
-              icon: Icon(Icons.settings),
+              icon: const Icon(Icons.settings),
               color: Colors.white,
               iconSize: 40,
               onPressed: () {

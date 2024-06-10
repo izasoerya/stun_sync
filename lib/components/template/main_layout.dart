@@ -1,10 +1,6 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/router/page_router.dart';
-import 'package:stun_sync/service/user_profile_controller.dart';
 
 import '../../utils/mqtt_subs.dart';
 
@@ -26,7 +22,7 @@ class MainLayout extends ConsumerWidget {
         children: [
           BottomNavigationBar(
             type: BottomNavigationBarType.fixed,
-            backgroundColor: Color.fromRGBO(34, 87, 122, 1),
+            backgroundColor: const Color.fromRGBO(34, 87, 122, 1),
             selectedItemColor: Colors.white,
             unselectedItemColor: Colors.white,
             items: const [

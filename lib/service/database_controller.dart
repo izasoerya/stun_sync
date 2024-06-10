@@ -1,10 +1,9 @@
+import 'dart:io';
 import 'package:path/path.dart';
+import 'package:excel/excel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/utils/utils.dart';
 import 'package:stun_sync/models/user_profile.dart';
-import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'dart:io';
-import 'package:path_provider/path_provider.dart';
 
 class SQLiteDB {
   const SQLiteDB();
@@ -49,12 +48,17 @@ class SQLiteDB {
       'SELECT * FROM sqlite_master WHERE type = "table"',
     );
 
-    tables.forEach((element) {
+    for (var element in tables) {
       print(element);
-      element.forEach((key, value) {
-        print('$key: $value');
-      });
-    });
+    }
+  }
+
+  Future<void> showUserProfileTable(Database db) async {
+    List<Map<String, dynamic>> userProfiles = await db.query('user_profile');
+
+    for (var userProfile in userProfiles) {
+      print(userProfile);
+    }
   }
 
   Future<List<Map<String, dynamic>>> showAllUsers(Database db) async {
@@ -105,16 +109,6 @@ class SQLiteDB {
     return maps.isNotEmpty;
   }
 
-  Future<void> closeDB(Database db) async {
-    await db.close();
-  }
-
-  Future<void> deleteDB() async {
-    String path = await getPathDB();
-    await deleteDatabase(path);
-    print('deleted database at $path');
-  }
-
   Future<void> updateUserHeight(
       Database db, String name, double newHeight) async {
     await db.update(
@@ -125,17 +119,81 @@ class SQLiteDB {
     );
   }
 
-  Future<File> downloadDB() async {
+  Future<void> closeDB(Database db) async {
+    await db.close();
+  }
+
+  Future<void> deleteDB() async {
+    String path = await getPathDB();
+    await deleteDatabase(path);
+    print('deleted database at $path');
+  }
+
+  Future<List<String>> getTables(Database db) async {
+    final List<Map<String, dynamic>> tables =
+        await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'");
+    return tables.map((row) => row['name'] as String).toList();
+  }
+
+  Future<void> convertDbToExcel(String dbPath, String excelFilePath) async {
+    var db = await openDatabase(dbPath);
+    var excel = Excel.createExcel(); // Create a new Excel document
+
+    // Get the list of tables
+    List<String> tables = await getTables(db);
+
+    for (String table in tables) {
+      // Create a new sheet for each table
+      Sheet sheet = excel[table];
+      // Query all rows in the current table
+      List<Map<String, dynamic>> rows = await db.query(table);
+      if (rows.isNotEmpty) {
+        // Write column headers
+        sheet.appendRow(
+            rows.first.keys.map((key) => TextCellValue(key)).toList());
+
+        // Write data rows
+        for (var row in rows) {
+          sheet.appendRow(row.values
+              .map((value) => TextCellValue(value.toString()))
+              .toList());
+        }
+      }
+    }
+
+    // Save the Excel file
+    var fileBytes = excel.save();
+    File(excelFilePath)
+      ..createSync(recursive: true)
+      ..writeAsBytesSync(fileBytes!);
+
+    // Close the database
+    await db.close();
+  }
+
+  Future<void> downloadDB() async {
     try {
-      // Mendapatkan direktori tempat penyimpanan eksternal (misalnya penyimpanan internal perangkat)
-      Directory appDocDir = await getApplicationDocumentsDirectory();
+      // Check if the source file exists
       String dbFilePath = await getPathDB();
 
-      // Mengkopi file database ke direktori tempat penyimpanan eksternal
-      File sourceFile = File(dbFilePath);
-      File newFile = await sourceFile.copy('${appDocDir.path}/stun_sync.db');
+      // Define the path to the Downloads directory, adding a new folder 'stun_sync'
+      String downloadPath = '/storage/emulated/0/Download/stun_sync';
 
-      return newFile;
+      // Create the new directory if it doesn't exist
+      Directory newDirectory = Directory(downloadPath);
+      if (!await newDirectory.exists()) {
+        await newDirectory.create(
+            recursive:
+                true); // Creates the directory and any non-existent parent directories
+      }
+
+      // Construct the path for the Excel file within the new folder
+      String excelFilePath = join(newDirectory.path, 'stun_sync_data.xlsx');
+
+      // Convert the database to an Excel file
+      await convertDbToExcel(dbFilePath, excelFilePath);
+    } on FileSystemException catch (e) {
+      throw Exception('File system error: $e');
     } catch (e) {
       throw Exception('Error downloading database: $e');
     }
