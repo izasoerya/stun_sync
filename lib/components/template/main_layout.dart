@@ -28,20 +28,20 @@ class MainLayout extends ConsumerWidget {
             items: const [
               BottomNavigationBarItem(
                 icon: Icon(Icons.home_outlined),
-                label: 'Home',
+                label: 'Beranda',
               ),
               BottomNavigationBarItem(
                 icon: Icon(Icons.table_chart_outlined),
-                label: 'Statistic',
+                label: 'Statistik',
               ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.info_outline),
-                label: 'Information',
-              ),
-              BottomNavigationBarItem(
-                icon: Icon(Icons.chat_outlined),
-                label: 'Chat',
-              ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.info_outline),
+              //   label: 'Information',
+              // ),
+              // BottomNavigationBarItem(
+              //   icon: Icon(Icons.chat_outlined),
+              //   label: 'Chat',
+              // ),
             ],
             currentIndex: ref.watch(_selectedIndex),
             onTap: (index) {
@@ -57,12 +57,12 @@ class MainLayout extends ConsumerWidget {
           ),
           Positioned(
             // Behold the magic number!
-            left: ((ref.watch(_selectedIndex) / 4) *
+            left: ((ref.watch(_selectedIndex) / 2.5) *
                     MediaQuery.of(context).size.width) +
                 (MediaQuery.of(context).size.width / 11) -
                 (MediaQuery.of(context).size.width / 32),
             child: Container(
-              width: MediaQuery.of(context).size.width / 8,
+              width: MediaQuery.of(context).size.width / 2.5,
               height: 4,
               color: Colors.white,
             ),
