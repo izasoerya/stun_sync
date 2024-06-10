@@ -9,7 +9,7 @@ class UserProfileData extends StateNotifier<UserProfile> {
   }
 }
 
-final userProfile = StateNotifierProvider<UserProfileData, UserProfile>(
+final userProfileProvider = StateNotifierProvider<UserProfileData, UserProfile>(
     (ref) => UserProfileData(UserProfile(
           name: 'Ihza Soerya',
           password: '123456',

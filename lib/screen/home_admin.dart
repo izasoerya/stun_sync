@@ -43,14 +43,14 @@ class HomeAdmin extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${ref.watch(userProfile).name}',
+                              '${ref.watch(userProfileProvider).name}',
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              '${ref.watch(userProfile).age.toString()} years old',
+                              '${ref.watch(userProfileProvider).age.toString()} years old',
                               style: TextStyle(
                                 fontSize: 20,
                               ),

@@ -127,7 +127,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     admin: newestUser?.admin ?? false,
                     datetime: newestUser?.datetime ?? DateTime.now(),
                   );
-                  ref.read(userProfile.notifier).setUser(user);
+                  ref.read(userProfileProvider.notifier).setUser(user);
                   if (user.admin == true) {
                     PageRouter.router.go('/admin');
                   } else if (user.admin == false) {

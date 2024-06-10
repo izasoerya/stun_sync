@@ -1,8 +1,8 @@
 import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:path/path.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
+import 'package:path/path.dart';
 import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
@@ -39,23 +39,21 @@ class MQQTSubs {
       return;
     }
 
-    // Subscribe to MQTT topics
     if (client.connectionStatus!.state == MqttConnectionState.connected) {
       print('MQTT client connected');
       const topicHeight = 'Height';
       client.subscribe(topicHeight, MqttQos.atMostOnce);
 
       final mydb = await database.openDB();
-      List<UserProfile> users = await database.getUserByCredential(
+      // Fetch user profile data before entering the async context
+      final UserProfile? currentUser = await database.getUserByNameAndPassword(
           mydb,
-          ctx.watch(userProfile).name,
-          ctx.watch(userProfile).password,
-          ctx.watch(userProfile).admin);
-      // Assuming users is a List<UserProfile> and UserProfile has a DateTime property named dateTime
-      UserProfile newestUser = users.reduce((currentNewest, next) =>
-          next.datetime.isAfter(currentNewest.datetime) ? next : currentNewest);
+          ctx.read(userProfileProvider).name,
+          ctx.read(userProfileProvider).password);
 
-      // Listen for MQTT messages
+      // Assuming userProfileProvider is how you access userProfile in your app
+      final userProfile = ctx.read(userProfileProvider);
+
       client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
         final recMess = c![0].payload as MqttPublishMessage;
         final pt =
@@ -64,29 +62,33 @@ class MQQTSubs {
         print('Received message: $pt from topic: ${c[0].topic}');
         try {
           Map<String, dynamic> mqttData = jsonDecode(pt);
+          // Use the previously fetched userProfile data
           UserProfile user = UserProfile(
-            name: ctx.watch(userProfile).name,
-            password: ctx.watch(userProfile).password,
-            age: ctx.watch(userProfile).age,
+            name: userProfile.name,
+            password: userProfile.password,
+            age: userProfile.age,
             height: int.tryParse(mqttData['height'].toString()) ?? 0,
             weight: int.tryParse(mqttData['weight'].toString()) ?? 0,
-            lingkarKepala: ctx.watch(userProfile).lingkarKepala,
-            lingkarDada: ctx.watch(userProfile).lingkarDada,
-            admin: ctx.watch(userProfile).admin,
+            lingkarKepala: userProfile.lingkarKepala,
+            lingkarDada: userProfile.lingkarDada,
+            admin: userProfile.admin,
             datetime: DateTime.parse(mqttData['datetime']),
           );
           print(mqttData);
-          //if data baru datetime lebih lama maka yang dipakai yang lama gimana fungsinya
 
-          database.insertUser(mydb, user);
-
-          // database.parseMQTTData(mqttData);
+          if (currentUser != null &&
+              currentUser.datetime.month == user.datetime.month &&
+              currentUser.datetime.day == user.datetime.day) {
+            print('User data already exists');
+            database.updateUserDataWithHighestId(mydb, user);
+          } else {
+            database.insertUser(mydb, user);
+          }
         } catch (e) {
           print('Error parsing MQTT data: $e');
         }
       });
 
-      // Keep the client running for 60 seconds for demo purposes
       await Future.delayed(Duration(seconds: 60));
       client.disconnect();
     } else {

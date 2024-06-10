@@ -40,14 +40,14 @@ class HomePage extends ConsumerWidget {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              '${ref.watch(userProfile).name}',
+                              '${ref.watch(userProfileProvider).name}',
                               style: const TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
                             Text(
-                              '${ref.watch(userProfile).age} Tahun',
+                              '${ref.watch(userProfileProvider).age} Tahun',
                               style: TextStyle(
                                 fontSize: 16,
                               ),
@@ -109,7 +109,7 @@ class HomePage extends ConsumerWidget {
                                 children: [
                                   ValueContainer(
                                       value:
-                                          '${ref.watch(userProfile).height}'),
+                                          '${ref.watch(userProfileProvider).height}'),
                                   Padding(padding: EdgeInsets.only(right: 5)),
                                   Column(
                                     children: [
@@ -146,7 +146,7 @@ class HomePage extends ConsumerWidget {
                                 children: [
                                   ValueContainer(
                                       value:
-                                          '${ref.watch(userProfile).weight}'),
+                                          '${ref.watch(userProfileProvider).weight}'),
                                   Padding(padding: EdgeInsets.only(right: 5)),
                                   const Column(
                                     children: [
@@ -190,7 +190,7 @@ class HomePage extends ConsumerWidget {
                                 children: [
                                   ValueContainer(
                                       value:
-                                          '${ref.watch(userProfile).bmi.toStringAsFixed(2)}'),
+                                          '${ref.watch(userProfileProvider).bmi.toStringAsFixed(2)}'),
                                   const Spacer(),
                                   const Column()
                                 ],
@@ -217,7 +217,7 @@ class HomePage extends ConsumerWidget {
                                 children: [
                                   ValueContainer(
                                       value:
-                                          '${ref.watch(userProfile).lingkarDada}'),
+                                          '${ref.watch(userProfileProvider).lingkarDada}'),
                                   Padding(padding: EdgeInsets.only(right: 5)),
                                   const Column(
                                     children: [
@@ -253,7 +253,7 @@ class HomePage extends ConsumerWidget {
                                 children: [
                                   ValueContainer(
                                       value:
-                                          '${ref.watch(userProfile).lingkarKepala}'),
+                                          '${ref.watch(userProfileProvider).lingkarKepala}'),
                                   Padding(padding: EdgeInsets.only(right: 5)),
                                   const Column(
                                     children: [
