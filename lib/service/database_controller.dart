@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:excel/excel.dart';
@@ -241,5 +242,61 @@ class SQLiteDB {
     } catch (e) {
       throw Exception('Error downloading database: $e');
     }
+  }
+
+  Future<String> encodeUserData(
+      Database db, String userName, double height, double weight) async {
+    // Get the current date as a string (e.g., '2024-06-10')
+    String currentDate = DateTime.now().toIso8601String().split('T').first;
+    print(currentDate);
+
+    // Query the user profile by name and date
+    List<Map<String, dynamic>> results = await db.query(
+      'user_profile',
+      columns: ['height', 'weight', 'datetime'],
+      where: 'name = ? AND datetime LIKE ?',
+      whereArgs: [userName, '$currentDate%'],
+    );
+
+    if (results.isEmpty) {
+      // If no entry for today, insert a new record
+      await db.insert('user_profile', {
+        'name': userName,
+        'height': height,
+        'weight': weight,
+        'datetime': currentDate,
+      });
+    } else {
+      // If an entry for today exists, update the height and weight
+      await db.update(
+        'user_profile',
+        {
+          'height': height,
+          'weight': weight,
+        },
+        where: 'name = ? AND datetime LIKE ?',
+        whereArgs: [userName, '$currentDate%'],
+      );
+    }
+
+    // Query again to get the updated data
+    results = await db.query(
+      'user_profile',
+      columns: ['height', 'weight', 'datetime'],
+      where: 'name = ? AND datetime LIKE ?',
+      whereArgs: [userName, '$currentDate%'],
+    );
+
+    // Assuming the entry now exists
+    Map<String, dynamic> userData = results.first;
+
+    // Encode the data as JSON
+    String jsonEncodedData = jsonEncode({
+      'height': userData['height'],
+      'weight': userData['weight'],
+      'datetime': userData['datetime'],
+    });
+
+    return jsonEncodedData;
   }
 }
