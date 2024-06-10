@@ -61,9 +61,15 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             },
           ),
           const Padding(padding: EdgeInsets.only(top: 15)),
-          TextFieldDesign(label: 'Username', controller: usernameController),
+          TextFieldDesign(
+              label: 'Nama Lengkap',
+              visible: true,
+              controller: usernameController),
           const Padding(padding: EdgeInsets.only(top: 15)),
-          TextFieldDesign(label: 'Password', controller: passwordController),
+          TextFieldDesign(
+              label: 'Kata Sandi',
+              visible: false,
+              controller: passwordController),
           const Padding(padding: EdgeInsets.only(top: 10)),
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -92,7 +98,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 isLoggedIn = true;
                 Database db = await widget.sqLiteDB.openDB();
                 widget.sqLiteDB.showAllUsers(db);
-                DateTime now = DateTime.now();
 
                 final isUserExist =
                     await widget.sqLiteDB.searchUserbyUsernamePassword(
@@ -102,13 +107,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   selectedRole == Role.puskesmas ? true : false,
                 );
                 if (isUserExist) {
-                  List<UserProfile> users =
-                      await widget.sqLiteDB.getUserByCredential(
-                    db,
-                    usernameController.text,
-                    passwordController.text,
-                    selectedRole == Role.puskesmas ? true : false,
-                  );
                   UserProfile? newestUser = await widget.sqLiteDB
                       .getUserByNameAndPassword(
                           db, usernameController.text, passwordController.text);

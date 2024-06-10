@@ -14,6 +14,14 @@ import 'package:stun_sync/components/atom/title_container.dart';
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
+  bool containsNonNumeric(String text) {
+    // Define the regular expression for non-numeric characters
+    final RegExp nonNumericRegExp = RegExp(r'[^0-9]');
+
+    // Check if the text contains non-numeric characters
+    return nonNumericRegExp.hasMatch(text);
+  }
+
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
@@ -47,7 +55,7 @@ class _RegisterPageState extends State<RegisterPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           const TitleContainer(
-            title: 'Sign Up',
+            title: 'Buat Akun',
             fontSize: 24,
             color: Colors.white,
           ),
@@ -59,14 +67,39 @@ class _RegisterPageState extends State<RegisterPage> {
             },
           ),
           const Padding(padding: EdgeInsets.only(top: 25)),
-          TextFieldDesign(label: 'Username', controller: usernameController),
+          TextFieldDesign(
+            label: 'Nama Lengkap',
+            visible: true,
+            controller: usernameController,
+          ),
           const Padding(padding: EdgeInsets.only(top: 10)),
-          TextFieldDesign(label: 'Password', controller: passwordController),
+          TextFieldDesign(
+            label: 'Kata Sandi',
+            visible: false,
+            controller: passwordController,
+          ),
           const Padding(padding: EdgeInsets.only(top: 10)),
-          TextFieldDesign(label: 'Age', controller: ageController),
+          TextFieldDesign(
+              label: 'Umur', visible: true, controller: ageController),
           const Padding(padding: EdgeInsets.only(top: 30)),
           ButtonAuth(
               onPressed: () async {
+                if (widget.containsNonNumeric(ageController.text)) {
+                  final snackBar = SnackBar(
+                    elevation: 0,
+                    behavior: SnackBarBehavior.floating,
+                    backgroundColor: Colors.transparent,
+                    content: AwesomeSnackbarContent(
+                      title: 'Tidak valid!',
+                      message: 'Umur harus berupa angka!',
+                      contentType: ContentType.warning,
+                    ),
+                  );
+                  ScaffoldMessenger.of(context)
+                    ..hideCurrentSnackBar()
+                    ..showSnackBar(snackBar);
+                  return;
+                }
                 pageIndex = PageIndex.loginPage;
                 Database db = await sqLiteDB.openDB();
                 DateTime now = DateTime.now();
@@ -97,7 +130,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   ..showSnackBar(snackBar);
                 PageRouter.router.go('/login');
               },
-              label: 'Sign Up'),
+              label: 'Buat Akun'),
           const Padding(padding: EdgeInsets.only(top: 15)),
           GestureDetector(
             onTap: () {
