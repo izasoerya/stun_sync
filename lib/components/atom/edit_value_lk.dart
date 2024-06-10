@@ -21,7 +21,7 @@ class EditValueLK extends ConsumerWidget {
 
   void _showEditDialog(BuildContext context, WidgetRef ref) {
     final TextEditingController controller = TextEditingController(
-      text: ref.watch(userProfile).height.toString(),
+      text: ref.watch(userProfileProvider).height.toString(),
     );
 
     showDialog(
@@ -55,7 +55,7 @@ class EditValueLK extends ConsumerWidget {
                 if (newLingkarKepala != null) {
                   try {
                     // Assuming you have access to the user's name (replace 'John Doe' with actual name)
-                    String userName = "${ref.watch(userProfile).name}";
+                    String userName = "${ref.watch(userProfileProvider).name}";
 
                     // Log the new value and user name for debugging
                     print(
