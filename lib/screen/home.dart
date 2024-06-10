@@ -77,22 +77,22 @@ class HomePage extends ConsumerWidget {
                       ],
                     ),
                   )),
-                  ContentContainer(
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      child: const Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          TitleContainer(
-                            title: "Recomendation",
-                          ),
-                          Text(
-                              'Ensure they receive a balanced diet rich in protein, calcium, vitamin D, and provide physical stimulation through exercise or activities that stimulate bone and muscle growth.'),
-                        ],
-                      ),
-                    ),
-                  ),
-                  const Padding(padding: EdgeInsets.only(top: 10)),
+                  // ContentContainer(
+                  //   child: Container(
+                  //     width: MediaQuery.of(context).size.width,
+                  //     child: const Column(
+                  //       crossAxisAlignment: CrossAxisAlignment.start,
+                  //       children: [
+                  //         TitleContainer(
+                  //           title: "Recomendation",
+                  //         ),
+                  //         Text(
+                  //             'Ensure they receive a balanced diet rich in protein, calcium, vitamin D, and provide physical stimulation through exercise or activities that stimulate bone and muscle growth.'),
+                  //       ],
+                  //     ),
+                  //   ),
+                  // ),
+                  // const Padding(padding: EdgeInsets.only(top: 10)),
                   ContentContainer(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,

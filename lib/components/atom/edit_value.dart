@@ -28,7 +28,7 @@ class EditValueLD extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Edit Height',
+          title: const Text('Edit Nilai Lingkar Dada',
               style: TextStyle(
                 color: Color(0xFF22577A),
               )),
@@ -36,7 +36,7 @@ class EditValueLD extends ConsumerWidget {
             controller: controller,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
-              hintText: 'Enter new value in cm',
+              hintText: 'Masukkan nilai lingkar dada dalam cm',
             ),
           ),
           actions: [
@@ -44,7 +44,7 @@ class EditValueLD extends ConsumerWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel',
+              child: const Text('Batal',
                   style: TextStyle(
                     color: Color(0xFF22577A),
                   )),
@@ -83,7 +83,7 @@ class EditValueLD extends ConsumerWidget {
                 }
               },
               child: const Text(
-                'Save',
+                'Simpan',
                 style: TextStyle(
                   color: Color(0xFF22577A),
                 ),

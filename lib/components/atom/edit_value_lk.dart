@@ -21,7 +21,7 @@ class EditValueLK extends ConsumerWidget {
 
   void _showEditDialog(BuildContext context, WidgetRef ref) {
     final TextEditingController controller = TextEditingController(
-      text: ref.watch(userProfileProvider).height.toString(),
+      text: ref.watch(userProfileProvider).lingkarKepala.toString(),
     );
 
     showDialog(
@@ -36,7 +36,7 @@ class EditValueLK extends ConsumerWidget {
             controller: controller,
             keyboardType: TextInputType.number,
             decoration: const InputDecoration(
-              hintText: 'Enter new value in cm',
+              hintText: 'Masukkan nilai lingkar kepala dalam satuan  cm',
             ),
           ),
           actions: [
@@ -44,7 +44,7 @@ class EditValueLK extends ConsumerWidget {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: const Text('Cancel',
+              child: const Text('Batalkan',
                   style: TextStyle(
                     color: Color(0xFF22577A),
                   )),
@@ -83,7 +83,7 @@ class EditValueLK extends ConsumerWidget {
                 }
               },
               child: const Text(
-                'Save',
+                'Simpan',
                 style: TextStyle(
                   color: Color(0xFF22577A),
                 ),

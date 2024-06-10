@@ -32,7 +32,7 @@ class TopOfBar extends ConsumerWidget {
                 ),
                 Flexible(
                   child: Text(
-                    "Halo  ${ref.read(userProfileProvider).name}'s Parents",
+                    "Halo Orangtua ${ref.read(userProfileProvider).name}",
                     style: const TextStyle(
                       fontSize: 24,
                       fontWeight: FontWeight.bold,

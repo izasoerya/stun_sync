@@ -342,11 +342,15 @@ class SQLiteDB {
   Future<void> updateUserLingkarDada(
       Database db, String name, int newLingkarDada) async {
     try {
+      String currentDate = DateTime.now()
+          .toIso8601String()
+          .substring(0, 10); // Get current date in yyyy-MM-dd format
+
       final count = await db.update(
         'user_profile',
         {'lingkar_dada': newLingkarDada},
-        where: 'name = ?',
-        whereArgs: [name],
+        where: 'name = ? AND datetime LIKE ?',
+        whereArgs: [name, '$currentDate%'],
       );
 
       // Log the number of rows affected
@@ -361,11 +365,15 @@ class SQLiteDB {
   Future<void> updateUserLingkarKepala(
       Database db, String name, int newLingkarKepala) async {
     try {
+      String currentDate = DateTime.now()
+          .toIso8601String()
+          .substring(0, 10); // Get current date in yyyy-MM-dd format
+
       final count = await db.update(
         'user_profile',
         {'lingkar_kepala': newLingkarKepala},
-        where: 'name = ?',
-        whereArgs: [name],
+        where: 'name = ? AND datetime LIKE ?',
+        whereArgs: [name, '$currentDate%'],
       );
 
       // Log the number of rows affected
