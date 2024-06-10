@@ -156,23 +156,37 @@ class SQLiteDB {
     );
   }
 
-  Future<void> updateUserData(Database db, UserProfile user) async {
-    await db.update(
+  Future<void> updateUserDataWithHighestId(
+      Database db, UserProfile user) async {
+    // First, find the highest ID for the user with the same name
+    var result = await db.query(
       'user_profile',
-      {
-        'name': user.name,
-        'password': user.password,
-        'height': user.height,
-        'weight': user.weight,
-        'age': user.age,
-        'lingkar_kepala': user.lingkarKepala,
-        'lingkar_dada': user.lingkarDada,
-        'admin': user.admin.toString(),
-        'datetime': user.datetime.toString(),
-      },
+      columns: ['MAX(id) as id'],
       where: 'name = ?',
       whereArgs: [user.name],
     );
+
+    int? highestId = Sqflite.firstIntValue(result);
+
+    if (highestId != null) {
+      // If a highest ID is found, update the user data for this ID
+      await db.update(
+        'user_profile',
+        {
+          'name': user.name,
+          'password': user.password,
+          'height': user.height,
+          'weight': user.weight,
+          'age': user.age,
+          'lingkar_kepala': user.lingkarKepala,
+          'lingkar_dada': user.lingkarDada,
+          'admin': user.admin.toString(),
+          'datetime': user.datetime.toString(),
+        },
+        where: 'id = ?',
+        whereArgs: [highestId],
+      );
+    }
   }
 
   Future<UserProfile?> getUserByNameAndPassword(

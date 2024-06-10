@@ -13,7 +13,7 @@ class HeadingStatistic extends ConsumerWidget {
       child: Column(
         children: [
           Text(
-            ref.read(userProfile).name,
+            ref.read(userProfileProvider).name,
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -21,7 +21,7 @@ class HeadingStatistic extends ConsumerWidget {
             ),
           ),
           Text(
-            '${ref.read(userProfile).age.toString()} years old',
+            '${ref.read(userProfileProvider).age.toString()} years old',
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,

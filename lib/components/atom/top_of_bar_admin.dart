@@ -31,7 +31,7 @@ class TopOfBarAdmin extends ConsumerWidget {
                   ),
                 ),
                 Text(
-                  '${ref.read(userProfile).name} ',
+                  '${ref.read(userProfileProvider).name} ',
                   style: const TextStyle(
                     fontSize: 24,
                     fontWeight: FontWeight.bold,
