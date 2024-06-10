@@ -76,6 +76,8 @@ class MQQTSubs {
             datetime: DateTime.parse(mqttData['datetime']),
           );
           print(mqttData);
+          //if data baru datetime lebih lama maka yang dipakai yang lama gimana fungsinya
+
           database.insertUser(mydb, user);
 
           // database.parseMQTTData(mqttData);

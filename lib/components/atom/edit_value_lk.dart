@@ -3,8 +3,8 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 
-class EditValueLD extends ConsumerWidget {
-  const EditValueLD({super.key});
+class EditValueLK extends ConsumerWidget {
+  const EditValueLK({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -28,7 +28,7 @@ class EditValueLD extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Edit Height',
+          title: const Text('Edit Lingkar Kepala',
               style: TextStyle(
                 color: Color(0xFF22577A),
               )),
@@ -51,20 +51,20 @@ class EditValueLD extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () async {
-                final int? newLingkarDada = int.tryParse(controller.text);
-                if (newLingkarDada != null) {
+                final int? newLingkarKepala = int.tryParse(controller.text);
+                if (newLingkarKepala != null) {
                   try {
                     // Assuming you have access to the user's name (replace 'John Doe' with actual name)
                     String userName = "${ref.watch(userProfile).name}";
 
                     // Log the new value and user name for debugging
                     print(
-                        'Updating lingkar_dada for user: $userName to $newLingkarDada');
+                        'Updating lingkar_kepala for user: $userName to $newLingkarKepala for user profile');
 
                     // Call the updateUserLingkarDada method to update the user's
                     final db = await SQLiteDB().openDB();
-                    await SQLiteDB()
-                        .updateUserLingkarDada(db, userName, newLingkarDada);
+                    await SQLiteDB().updateUserLingkarKepala(
+                        db, userName, newLingkarKepala);
 
                     // Log a success message
                     print('Update successful');

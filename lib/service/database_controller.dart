@@ -324,4 +324,42 @@ class SQLiteDB {
       print('Error parsing MQTT data: $e');
     }
   }
+
+  Future<void> updateUserLingkarDada(
+      Database db, String name, int newLingkarDada) async {
+    try {
+      final count = await db.update(
+        'user_profile',
+        {'lingkar_dada': newLingkarDada},
+        where: 'name = ?',
+        whereArgs: [name],
+      );
+
+      // Log the number of rows affected
+      print('Rows affected: $count');
+    } catch (e) {
+      // Handle any errors that occur during the update
+      print('Error during update: $e');
+      throw e; // Re-throw the exception to be handled by the caller
+    }
+  }
+
+  Future<void> updateUserLingkarKepala(
+      Database db, String name, int newLingkarKepala) async {
+    try {
+      final count = await db.update(
+        'user_profile',
+        {'lingkar_kepala': newLingkarKepala},
+        where: 'name = ?',
+        whereArgs: [name],
+      );
+
+      // Log the number of rows affected
+      print('Rows affected: $count');
+    } catch (e) {
+      // Handle any errors that occur during the update
+      print('Error during update: $e');
+      throw e; // Re-throw the exception to be handled by the caller
+    }
+  }
 }
