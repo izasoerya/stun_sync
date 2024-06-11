@@ -35,7 +35,7 @@ class _RoleSliderState extends State<RoleSlider> {
             label: Text('Orang Tua'),
           ),
           ButtonSegment(
-            value: Role.Posyandu,
+            value: Role.posyandu,
             label: Text('Posyandu'),
           ),
         ],

@@ -1,6 +1,4 @@
-import 'dart:ffi';
-
-enum Role { parent, Posyandu }
+enum Role { parent, posyandu }
 
 enum Property { height, weight, bmi }
 

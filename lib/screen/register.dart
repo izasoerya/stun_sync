@@ -111,7 +111,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   weight: 0,
                   lingkarKepala: 0,
                   lingkarDada: 0,
-                  admin: selectedRole == Role.Posyandu ? true : false,
+                  admin: selectedRole == Role.posyandu ? true : false,
                   datetime: now,
                 );
                 await sqLiteDB.insertUser(db, userProfile);

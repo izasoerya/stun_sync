@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/router/page_router.dart';
 
-import '../../utils/mqtt_subs.dart';
-
 final _selectedIndex = StateProvider<int>((ref) => 0);
 
 class MainLayout extends ConsumerWidget {

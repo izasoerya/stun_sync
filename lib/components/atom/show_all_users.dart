@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:stun_sync/service/database_controller.dart'; // Import the sqflite package
 
 class ShowAllUsers extends StatefulWidget {
   final SQLiteDB database;
 
-  const ShowAllUsers({Key? key, required this.database}) : super(key: key);
+  const ShowAllUsers({super.key, required this.database});
 
   @override
   _ShowAllUsersState createState() => _ShowAllUsersState();
@@ -30,13 +29,13 @@ class _ShowAllUsersState extends State<ShowAllUsers> {
               _fetchUsersFuture = _fetchUsers();
             });
           },
-          child: Text('Show Users'),
+          child: const Text('Show Users'),
         ),
         FutureBuilder<List<Map<String, dynamic>>>(
           future: _fetchUsersFuture,
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return CircularProgressIndicator();
+              return const CircularProgressIndicator();
             } else if (snapshot.hasError) {
               return Text('Error: ${snapshot.error}');
             } else if (snapshot.hasData) {

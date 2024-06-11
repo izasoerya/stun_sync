@@ -2,7 +2,6 @@ import 'dart:convert';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:mqtt_client/mqtt_client.dart';
 import 'package:mqtt_client/mqtt_server_client.dart';
-import 'package:path/path.dart';
 import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
@@ -18,7 +17,7 @@ class MQQTSubs {
           'flutter_client',
           8883,
         ),
-        database = SQLiteDB() {
+        database = const SQLiteDB() {
     // Initialize MQTT client
     client.connectionMessage = MqttConnectMessage()
         .authenticateAs('device_1', 'device_1_admin')
@@ -88,14 +87,12 @@ class MQQTSubs {
             database.insertUser(mydb, user);
           }
 
-          // database.parseMQTTData(mqttData);
-
           // Unsubscribe from the topic after receiving the data
           if (!dataReceived) {
             dataReceived = true;
             client.unsubscribe(topicHeight);
             // Disconnect after a delay (e.g., 5 seconds)
-            Future.delayed(Duration(seconds: 1), () {
+            Future.delayed(const Duration(seconds: 1), () {
               client.disconnect();
             });
           }

@@ -109,7 +109,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                           child: Column(
                             children: [
                               Row(
-                                children: [getdatafrommqtt()],
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [MqttDataFetcher()],
                               ),
                             ],
                           ),

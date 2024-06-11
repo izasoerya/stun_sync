@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/service/database_controller.dart';
-import 'package:stun_sync/service/user_profile_controller.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 
@@ -22,22 +21,22 @@ class ChartTab extends ConsumerWidget {
     return ContentContainer(
       child: Column(
         children: [
-          Text('Chart Tab'),
+          const Text('Chart Tab'),
           SfCartesianChart(
             plotAreaBorderColor: Colors.white,
-            margin: EdgeInsets.only(
+            margin: const EdgeInsets.only(
               left: 30,
               right: 30,
               top: 10,
               bottom: 10,
             ),
-            primaryXAxis: NumericAxis(
+            primaryXAxis: const NumericAxis(
               majorTickLines: MajorTickLines(width: 0),
               axisLine: AxisLine(width: 0),
               majorGridLines: MajorGridLines(
                   width: 0), // This will remove the X-axis grid lines
             ),
-            primaryYAxis: NumericAxis(
+            primaryYAxis: const NumericAxis(
               majorTickLines: MajorTickLines(width: 0),
               axisLine: AxisLine(width: 0),
               labelStyle: TextStyle(color: Colors.transparent),
@@ -48,10 +47,10 @@ class ChartTab extends ConsumerWidget {
               // Renders line chart
               LineSeries<ChartData, int>(
                 dataSource: chartData,
-                color: Color.fromRGBO(34, 87, 122, 1),
+                color: const Color.fromRGBO(34, 87, 122, 1),
                 xValueMapper: (ChartData data, _) => data.x,
                 yValueMapper: (ChartData data, _) => data.y,
-                markerSettings: MarkerSettings(
+                markerSettings: const MarkerSettings(
                     color: Color.fromRGBO(34, 87, 122, 1),
                     isVisible: true), // This will make the data points visible
               ),
