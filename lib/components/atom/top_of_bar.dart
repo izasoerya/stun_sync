@@ -4,7 +4,7 @@ import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 
 class TopOfBar extends ConsumerWidget {
-  const TopOfBar({super.key});
+  const TopOfBar({Key? key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -48,13 +48,27 @@ class TopOfBar extends ConsumerWidget {
           Positioned(
             top: 0,
             right: 0,
-            child: IconButton(
-              icon: const Icon(Icons.settings),
+            child: PopupMenuButton(
+              icon: const Icon(
+                Icons.settings,
+                color: Colors.white,
+                size: 40,
+              ),
               color: Colors.white,
-              iconSize: 40,
-              onPressed: () {
-                // Add your settings functionality here
-                PageRouter.router.go('/login');
+              offset: Offset(-30, 60), // Adjust the offset to position the menu
+              itemBuilder: (BuildContext context) {
+                return [
+                  PopupMenuItem(
+                    child: Text('Keluar'),
+                    value: 'logout',
+                  ),
+                ];
+              },
+              onSelected: (String value) {
+                if (value == 'logout') {
+                  // Perform logout action
+                  PageRouter.router.go('/login');
+                }
               },
             ),
           ),

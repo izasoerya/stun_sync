@@ -54,6 +54,9 @@ class MQQTSubs {
       // Assuming userProfileProvider is how you access userProfile in your app
       final userProfile = ctx.read(userProfileProvider);
 
+      // Define a variable to track if data has been received
+      bool dataReceived = false;
+
       client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
         final recMess = c![0].payload as MqttPublishMessage;
         final pt =
@@ -86,13 +89,20 @@ class MQQTSubs {
           }
 
           // database.parseMQTTData(mqttData);
+
+          // Unsubscribe from the topic after receiving the data
+          if (!dataReceived) {
+            dataReceived = true;
+            client.unsubscribe(topicHeight);
+            // Disconnect after a delay (e.g., 5 seconds)
+            Future.delayed(Duration(seconds: 1), () {
+              client.disconnect();
+            });
+          }
         } catch (e) {
           print('Error parsing MQTT data: $e');
         }
       });
-
-      await Future.delayed(Duration(seconds: 60));
-      client.disconnect();
     } else {
       print(
           'MQTT client connection failed - disconnecting, status is ${client.connectionStatus}');
