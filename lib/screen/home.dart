@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/components/atom/edit_value.dart';
 import 'package:stun_sync/components/atom/edit_value_lk.dart';
+import 'package:stun_sync/components/atom/get_data_frommqtt.dart';
 import 'package:stun_sync/components/atom/unit_container.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 import 'package:stun_sync/components/atom/Background_body.dart';
@@ -119,8 +120,10 @@ class HomePage extends ConsumerWidget {
                                   ),
                                   const Spacer(),
                                   const Column(
-                                      // children: [EditValue()],
-                                      )
+                                    children: [
+                                      getdatafrommqtt(),
+                                    ],
+                                  )
                                 ],
                               ),
                             ],
@@ -156,14 +159,7 @@ class HomePage extends ConsumerWidget {
                                   ),
                                   const Spacer(),
                                   const Column(
-                                    children: [
-                                      // MessageBoxHeight(
-                                      //   height: ref.watch(userProfile).weight,
-                                      // ),
-                                      // LinearGaugeHeight(
-                                      //     height:
-                                      //         ref.watch(userProfile).weight),
-                                    ],
+                                    children: [],
                                   )
                                 ],
                               ),

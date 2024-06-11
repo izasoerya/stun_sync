@@ -84,6 +84,8 @@ class MQQTSubs {
           } else {
             database.insertUser(mydb, user);
           }
+
+          // database.parseMQTTData(mqttData);
         } catch (e) {
           print('Error parsing MQTT data: $e');
         }
