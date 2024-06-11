@@ -10,9 +10,16 @@ class getdatafrommqtt extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ctx) {
+    // Get screen size
+    // final screenWidth = MediaQuery.of(context).size.width;
+    // final screenHeight = MediaQuery.of(context).size.height;
+
     return Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.all(10),
       color: Colors.white, // Set the background color to white
       child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
         children: [
           ElevatedButton(
             onPressed: () async {
@@ -24,19 +31,13 @@ class getdatafrommqtt extends ConsumerWidget {
             child: Text(
               'ambil data dari alat',
               style: TextStyle(
+                fontSize: 20,
                 color: Color.fromRGBO(34, 87, 122, 1),
               ),
             ),
-            style: ElevatedButton.styleFrom(
-              backgroundColor:
-                  Colors.white, // Set the button background color to white
-              elevation: 0, // Remove button elevation
-              shape: RoundedRectangleBorder(
-                borderRadius:
-                    BorderRadius.circular(8.0), // Add button border radius
-                side: BorderSide(
-                    color: Color.fromRGBO(
-                        34, 87, 122, 1)), // Add button border color
+            style: ButtonStyle(
+              backgroundColor: MaterialStateProperty.all(
+                Colors.grey,
               ),
             ),
           ),
