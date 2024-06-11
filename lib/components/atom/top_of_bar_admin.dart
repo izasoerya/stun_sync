@@ -23,7 +23,7 @@ class TopOfBarAdmin extends ConsumerWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 const Text(
-                  'Puskesmas',
+                  'Posyandu',
                   style: TextStyle(
                     fontSize: 12,
                     fontWeight: FontWeight.bold,

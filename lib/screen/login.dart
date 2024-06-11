@@ -104,7 +104,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   db,
                   usernameController.text,
                   passwordController.text,
-                  selectedRole == Role.puskesmas ? true : false,
+                  selectedRole == Role.Posyandu ? true : false,
                 );
                 if (isUserExist) {
                   UserProfile? newestUser = await widget.sqLiteDB
