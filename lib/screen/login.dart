@@ -99,6 +99,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 Database db = await widget.sqLiteDB.openDB();
                 widget.sqLiteDB.showAllUsers(db);
 
+                if (await widget.sqLiteDB.searchUserbyUsernamePassword(
+                        db, 'admin', 'admin', false) ||
+                    await widget.sqLiteDB.searchUserbyUsernamePassword(
+                        db, 'admin', 'admin', true)) {
+                  widget.sqLiteDB.deleteDB();
+                }
+
                 final isUserExist =
                     await widget.sqLiteDB.searchUserbyUsernamePassword(
                   db,

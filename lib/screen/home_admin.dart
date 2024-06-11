@@ -76,7 +76,7 @@ class HomeAdmin extends ConsumerWidget {
                           ShowAllUsers(
                             database: SQLiteDB(),
                           ),
-                          Downloaduser(
+                          DownloadUser(
                             database: SQLiteDB(),
                           )
                         ],

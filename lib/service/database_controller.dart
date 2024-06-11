@@ -78,7 +78,9 @@ class SQLiteDB {
       'lingkar_kepala': user.lingkarKepala,
       'lingkar_dada': user.lingkarDada,
       'admin': user.admin.toString(),
-      'datetime': user.datetime.toString(),
+      'datetime': user.datetime.toString().length >= 10
+          ? user.datetime.toString().substring(0, 10)
+          : user.datetime.toString(),
     });
   }
 
