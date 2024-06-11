@@ -92,9 +92,31 @@ class _HomePageState extends ConsumerState<HomePage> {
                           ],
                         ),
                         const Spacer(),
+                        const Spacer(),
                       ],
                     ),
                   )),
+                  ContentContainer(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        const TitleContainer(
+                          title: "Ambil Data",
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width,
+                          alignment: Alignment.center,
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [getdatafrommqtt()],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                   ContentContainer(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -122,7 +144,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   const Spacer(),
                                   const Column(
                                     children: [
-                                      getdatafrommqtt(),
+                                      // getdatafrommqtt(),
                                     ],
                                   )
                                 ],

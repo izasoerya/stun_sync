@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:ffi';
 import 'dart:io';
 import 'package:path/path.dart';
 import 'package:excel/excel.dart';
@@ -33,8 +34,8 @@ class SQLiteDB {
           id INTEGER PRIMARY KEY,
           name TEXT,
           password TEXT,
-          height INTEGER,
-          weight INTEGER,
+          height FLOAT, 
+          weight FLOAT,
           age INTEGER,
           lingkar_kepala INTEGER,
           lingkar_dada INTEGER,
@@ -137,8 +138,8 @@ class SQLiteDB {
               name: user['name'] as String,
               password: user['password'] as String,
               age: user['age'] as int,
-              height: user['height'] as int,
-              weight: user['weight'] as int,
+              height: user['height'] as double,
+              weight: user['weight'] as double,
               lingkarKepala: user['lingkar_kepala'] as int,
               lingkarDada: user['lingkar_dada'] as int,
               admin: (user['admin'] as String?) == 'true',

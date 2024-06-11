@@ -1,3 +1,5 @@
+import 'dart:ffi';
+
 enum Role { parent, Posyandu }
 
 enum Property { height, weight, bmi }
@@ -6,8 +8,8 @@ class UserProfile {
   final String name;
   final String password;
   final int age;
-  final int height;
-  final int weight;
+  final double height;
+  final double weight;
   final int lingkarKepala;
   final int lingkarDada;
   final bool admin;
