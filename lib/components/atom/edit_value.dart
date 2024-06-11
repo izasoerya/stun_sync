@@ -4,7 +4,8 @@ import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 
 class EditValueLD extends ConsumerWidget {
-  const EditValueLD({super.key});
+  const EditValueLD({super.key, required this.callBack});
+  final Function() callBack;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {

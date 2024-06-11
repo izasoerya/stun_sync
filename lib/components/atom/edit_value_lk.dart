@@ -4,7 +4,11 @@ import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 
 class EditValueLK extends ConsumerWidget {
-  const EditValueLK({super.key});
+  const EditValueLK({
+    super.key,
+    required this.callBack,
+  });
+  final Function() callBack;
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -81,6 +85,7 @@ class EditValueLK extends ConsumerWidget {
                   print('Invalid input: ${controller.text}');
                   // Optionally, display an error message to the user
                 }
+                callBack();
               },
               child: const Text(
                 'Simpan',

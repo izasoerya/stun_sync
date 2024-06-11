@@ -1,4 +1,4 @@
-enum Role { parent, puskesmas }
+enum Role { parent, Posyandu }
 
 enum Property { height, weight, bmi }
 

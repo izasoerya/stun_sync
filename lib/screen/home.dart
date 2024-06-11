@@ -1,9 +1,12 @@
+import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/components/atom/edit_value.dart';
 import 'package:stun_sync/components/atom/edit_value_lk.dart';
 import 'package:stun_sync/components/atom/get_data_frommqtt.dart';
 import 'package:stun_sync/components/atom/unit_container.dart';
+import 'package:stun_sync/models/user_profile.dart';
+import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
 import 'package:stun_sync/components/atom/Background_body.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
@@ -11,11 +14,44 @@ import 'package:stun_sync/components/atom/value_container.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
 
-class HomePage extends ConsumerWidget {
+class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
 
   @override
-  Widget build(BuildContext context, WidgetRef ref) {
+  _HomePageState createState() => _HomePageState();
+}
+
+class _HomePageState extends ConsumerState<HomePage> {
+  Timer? _timer;
+  void _updateState() {
+    setState(() {});
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    _timer = Timer.periodic(const Duration(seconds: 5), (timer) {
+      _updateDataUser(); // This will call _updateDataUser every 5 seconds
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel(); // Step 4
+    super.dispose();
+  }
+
+  void _updateDataUser() async {
+    final db = await SQLiteDB().openDB();
+    UserProfile? user = await SQLiteDB().getUserByNameAndPassword(
+        db,
+        ref.watch(userProfileProvider).name,
+        ref.watch(userProfileProvider).password);
+    ref.read(userProfileProvider.notifier).setUser(user!);
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Container(
       height: MediaQuery.of(context).size.height,
       color: const Color(0xFF22577A),
@@ -56,44 +92,9 @@ class HomePage extends ConsumerWidget {
                           ],
                         ),
                         const Spacer(),
-                        // const Column(
-                        //   crossAxisAlignment: CrossAxisAlignment.end,
-                        //   children: [
-                        //     Text(
-                        //       '7 days left',
-                        //       style: TextStyle(
-                        //         fontSize: 12,
-                        //         color: Colors.grey,
-                        //       ),
-                        //     ),
-                        //     Text(
-                        //       'until next check',
-                        //       style: TextStyle(
-                        //         fontSize: 12,
-                        //         color: Colors.grey,
-                        //       ),
-                        //     ),
-                        //   ],
-                        // ),
                       ],
                     ),
                   )),
-                  // ContentContainer(
-                  //   child: Container(
-                  //     width: MediaQuery.of(context).size.width,
-                  //     child: const Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.start,
-                  //       children: [
-                  //         TitleContainer(
-                  //           title: "Recomendation",
-                  //         ),
-                  //         Text(
-                  //             'Ensure they receive a balanced diet rich in protein, calcium, vitamin D, and provide physical stimulation through exercise or activities that stimulate bone and muscle growth.'),
-                  //       ],
-                  //     ),
-                  //   ),
-                  // ),
-                  // const Padding(padding: EdgeInsets.only(top: 10)),
                   ContentContainer(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -158,9 +159,6 @@ class HomePage extends ConsumerWidget {
                                     ],
                                   ),
                                   const Spacer(),
-                                  const Column(
-                                    children: [],
-                                  )
                                 ],
                               ),
                             ],
@@ -188,7 +186,6 @@ class HomePage extends ConsumerWidget {
                                       value:
                                           '${ref.watch(userProfileProvider).bmi.toStringAsFixed(2)}'),
                                   const Spacer(),
-                                  const Column()
                                 ],
                               ),
                             ],
@@ -222,8 +219,12 @@ class HomePage extends ConsumerWidget {
                                     ],
                                   ),
                                   const Spacer(),
-                                  const Column(
-                                    children: [EditValueLD()],
+                                  Column(
+                                    children: [
+                                      EditValueLD(
+                                        callBack: _updateDataUser,
+                                      )
+                                    ],
                                   )
                                 ],
                               ),
@@ -258,9 +259,11 @@ class HomePage extends ConsumerWidget {
                                     ],
                                   ),
                                   const Spacer(),
-                                  const Column(
+                                  Column(
                                     children: [
-                                      EditValueLK(),
+                                      EditValueLK(
+                                        callBack: _updateDataUser,
+                                      ),
                                     ],
                                   )
                                 ],
