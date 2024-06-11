@@ -37,8 +37,20 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     passwordController = TextEditingController();
   }
 
+  void _deteleBugAdmin() async {
+    Database db = await widget.sqLiteDB.openDB();
+    if (await widget.sqLiteDB
+            .searchUserbyUsernamePassword(db, 'admin', 'admin', false) ||
+        await widget.sqLiteDB
+            .searchUserbyUsernamePassword(db, 'admin', 'admin', true)) {
+      widget.sqLiteDB.deleteDB();
+    }
+    widget.sqLiteDB.closeDB(db);
+  }
+
   @override
   Widget build(BuildContext context) {
+    _deteleBugAdmin();
     return Container(
       alignment: Alignment.center,
       decoration: const BoxDecoration(
@@ -98,13 +110,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 isLoggedIn = true;
                 Database db = await widget.sqLiteDB.openDB();
                 widget.sqLiteDB.showAllUsers(db);
-
-                if (await widget.sqLiteDB.searchUserbyUsernamePassword(
-                        db, 'admin', 'admin', false) ||
-                    await widget.sqLiteDB.searchUserbyUsernamePassword(
-                        db, 'admin', 'admin', true)) {
-                  widget.sqLiteDB.deleteDB();
-                }
 
                 final isUserExist =
                     await widget.sqLiteDB.searchUserbyUsernamePassword(
