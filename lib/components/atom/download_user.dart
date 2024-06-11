@@ -10,7 +10,7 @@ class DownloadUser extends StatelessWidget {
       // Ensure the database path and excel file path are correct
       String dbPath = await database.getPathDB();
       String downloadPath = '/storage/emulated/0/Download/stun_sync';
-      String excelFilePath = '$downloadPath/excelfile.xlsx';
+      String excelFilePath = '$downloadPath/stun_sync_database.xlsx';
 
       // Convert the database to an Excel file
       await database.convertDbToExcel(dbPath, excelFilePath);
