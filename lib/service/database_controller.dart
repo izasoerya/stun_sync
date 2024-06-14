@@ -14,11 +14,13 @@ class SQLiteDB {
     return join(path, 'stun_sync.db');
   }
 
-  Future<bool> isTableExists(DatabaseExecutor db, String table) async {
+  Future<bool> isTableExists(String table) async {
+    final Database db = await openDB();
     var count = firstIntValue(await db.query('sqlite_master',
         columns: ['COUNT(*)'],
         where: 'type = ? AND name = ?',
         whereArgs: ['table', table]));
+    await db.close();
     return count! > 0;
   }
 
@@ -44,29 +46,36 @@ class SQLiteDB {
     return database;
   }
 
-  Future<void> showTables(Database db) async {
+  Future<void> showTables() async {
+    final Database db = await openDB();
     List<Map<String, dynamic>> tables = await db.rawQuery(
       'SELECT * FROM sqlite_master WHERE type = "table"',
     );
     for (var element in tables) {
       print(element);
     }
+    await db.close();
   }
 
-  Future<void> showUserProfileTable(Database db) async {
+  Future<void> showUserProfileTable() async {
+    final Database db = await openDB();
     List<Map<String, dynamic>> userProfiles = await db.query('user_profile');
 
     for (var userProfile in userProfiles) {
       print(userProfile);
     }
+    await db.close();
   }
 
-  Future<List<Map<String, dynamic>>> showAllUsers(Database db) async {
+  Future<List<Map<String, dynamic>>> showAllUsers() async {
+    final Database db = await openDB();
     List<Map<String, dynamic>> users = await db.query('user_profile');
+    await db.close();
     return users;
   }
 
-  Future<void> insertUser(Database db, UserProfile user) async {
+  Future<void> insertUser(UserProfile user) async {
+    final Database db = await openDB();
     await db.insert('user_profile', {
       'name': user.name,
       'password': user.password,
@@ -80,9 +89,11 @@ class SQLiteDB {
           ? user.datetime.toString().substring(0, 10)
           : user.datetime.toString(),
     });
+    await db.close();
   }
 
-  Future<void> deleteUser(Database db, {int? id, String? name}) async {
+  Future<void> deleteUser({int? id, String? name}) async {
+    final Database db = await openDB();
     if (id != null) {
       await db.delete(
         'user_profile',
@@ -98,37 +109,36 @@ class SQLiteDB {
     } else {
       throw ArgumentError('You must provide either id or name');
     }
+    await db.close();
   }
 
   Future<bool> searchUserbyUsernamePassword(
-      Database db, String name, String password, bool admin) async {
+      String name, String password, bool admin) async {
+    final Database db = await openDB();
     final List<Map<String, dynamic>> maps = await db.query(
       'user_profile',
       where: 'name = ? AND password = ? AND admin = ?',
       whereArgs: [name, password, admin.toString()],
     );
-
+    await db.close();
     return maps.isNotEmpty;
   }
 
   Future<List<UserProfile>> getUserByCredential(
-      Database db, String name, String password, bool admin) async {
+      String name, String password, bool admin) async {
+    final Database db = await openDB();
     var users = await db.query('user_profile',
         where: 'name = ? AND password = ? AND admin = ?',
         whereArgs: [name, password, admin.toString()]);
 
     List<UserProfile> userProfiles = users.isNotEmpty
         ? users.map((user) {
-            // Safely cast datetime to String and handle null or incorrect types
             String? datetimeString = user['datetime'] as String?;
             DateTime? datetime;
             if (datetimeString != null) {
               try {
                 datetime = DateTime.parse(datetimeString);
-              } catch (e) {
-                // Handle the case where the string is not a valid datetime format
-                // For example, log the error or set datetime to null
-              }
+              } catch (e) {}
             }
 
             return UserProfile(
@@ -140,26 +150,27 @@ class SQLiteDB {
               lingkarKepala: user['lingkar_kepala'] as int,
               lingkarDada: user['lingkar_dada'] as int,
               admin: (user['admin'] as String?) == 'true',
-              datetime: datetime!, // Use the safely parsed DateTime or null
+              datetime: datetime!,
             );
-          }).toList() // Convert the result of map to a List
+          }).toList()
         : [];
+    await db.close();
     return userProfiles;
   }
 
-  Future<void> updateUserHeight(
-      Database db, String name, double newHeight) async {
+  Future<void> updateUserHeight(String name, double newHeight) async {
+    final Database db = await openDB();
     await db.update(
       'user_profile',
       {'height': newHeight},
       where: 'name = ?',
       whereArgs: [name],
     );
+    await db.close();
   }
 
-  Future<void> updateUserDataWithHighestId(
-      Database db, UserProfile user) async {
-    // First, find the highest ID for the user with the same name
+  Future<void> updateUserDataWithHighestId(UserProfile user) async {
+    final Database db = await openDB();
     var result = await db.query(
       'user_profile',
       columns: ['MAX(id) as id'],
@@ -170,7 +181,6 @@ class SQLiteDB {
     int? highestId = Sqflite.firstIntValue(result);
 
     if (highestId != null) {
-      // If a highest ID is found, update the user data for this ID
       await db.update(
         'user_profile',
         {
@@ -188,23 +198,26 @@ class SQLiteDB {
         whereArgs: [highestId],
       );
     }
+    await db.close();
   }
 
-  Future<List<ChartData>> fetchChartData(Database db, String xColumnName,
-      String yColumnName, String nameQuery) async {
-    await openDB(); // Make sure the database is opened
+  Future<List<ChartData>> fetchChartData(
+      String xColumnName, String yColumnName, String nameQuery) async {
+    final Database db = await openDB();
     List<Map<String, dynamic>> queryResult = await db.query(
       'user_profile',
       where: 'name = ?',
       whereArgs: [nameQuery],
     );
+    await db.close();
     return queryResult
         .map((row) => ChartData(row[xColumnName], row[yColumnName]))
         .toList();
   }
 
   Future<UserProfile?> getUserByNameAndPassword(
-      Database db, String name, String password) async {
+      String name, String password) async {
+    final Database db = await openDB();
     const String sql = '''
       SELECT * FROM user_profile 
       WHERE name = ? AND password = ? 
@@ -213,6 +226,7 @@ class SQLiteDB {
     ''';
     final List<Map<String, dynamic>> result =
         await db.rawQuery(sql, [name, password]);
+    await db.close();
     if (result.isNotEmpty) {
       return UserProfile(
         name: result.first['name'],
@@ -229,40 +243,32 @@ class SQLiteDB {
     return null;
   }
 
-  Future<void> closeDB(Database db) async {
-    await db.close();
-  }
-
   Future<void> deleteDB() async {
     String path = await getPathDB();
     await deleteDatabase(path);
     print('deleted database at $path');
   }
 
-  Future<List<String>> getTables(Database db) async {
+  Future<List<String>> getTables() async {
+    final Database db = await openDB();
     final List<Map<String, dynamic>> tables =
         await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'");
+    await db.close();
     return tables.map((row) => row['name'] as String).toList();
   }
 
   Future<void> convertDbToExcel(String dbPath, String excelFilePath) async {
-    var db = await openDatabase(dbPath);
-    var excel = Excel.createExcel(); // Create a new Excel document
+    final Database db = await openDatabase(dbPath);
+    var excel = Excel.createExcel();
 
-    // Get the list of tables
-    List<String> tables = await getTables(db);
+    List<String> tables = await getTables();
 
     for (String table in tables) {
-      // Create a new sheet for each table
       Sheet sheet = excel[table];
-      // Query all rows in the current table
       List<Map<String, dynamic>> rows = await db.query(table);
       if (rows.isNotEmpty) {
-        // Write column headers
         sheet.appendRow(
             rows.first.keys.map((key) => TextCellValue(key)).toList());
-
-        // Write data rows
         for (var row in rows) {
           sheet.appendRow(row.values
               .map((value) => TextCellValue(value.toString()))
@@ -271,36 +277,23 @@ class SQLiteDB {
       }
     }
 
-    // Save the Excel file
     var fileBytes = excel.save();
     File(excelFilePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(fileBytes!);
 
-    // Close the database
     await db.close();
   }
 
   Future<void> downloadDB() async {
     try {
-      // Check if the source file exists
       String dbFilePath = await getPathDB();
-
-      // Define the path to the Downloads directory, adding a new folder 'stun_sync'
       String downloadPath = '/storage/emulated/0/Download/stun_sync';
-
-      // Create the new directory if it doesn't exist
       Directory newDirectory = Directory(downloadPath);
       if (!await newDirectory.exists()) {
-        await newDirectory.create(
-            recursive:
-                true); // Creates the directory and any non-existent parent directories
+        await newDirectory.create(recursive: true);
       }
-
-      // Construct the path for the Excel file within the new folder
       String excelFilePath = join(newDirectory.path, 'stun_sync_data.xlsx');
-
-      // Convert the database to an Excel file
       await convertDbToExcel(dbFilePath, excelFilePath);
     } on FileSystemException catch (e) {
       throw Exception('File system error: $e');
@@ -311,22 +304,18 @@ class SQLiteDB {
 
   Future<void> parseMQTTData(Map<String, dynamic> mqttData) async {
     try {
-      Database db = await openDB();
-      String currentDate = DateTime.now()
-          .toString()
-          .substring(0, 10); // Get current date in yyyy-mm-dd format
-      currentDate = currentDate.replaceAll('-', '_'); // Replace '-' with '_'
-      bool tableExists = await isTableExists(db, 'user_profile');
+      final Database db = await openDB();
+      String currentDate =
+          DateTime.now().toString().substring(0, 10).replaceAll('-', '_');
+      bool tableExists = await isTableExists('user_profile_$currentDate');
 
       if (tableExists) {
-        // Table exists for current date, update height and weight
         await db.rawUpdate(
           'UPDATE user_profile_$currentDate SET height = ?, weight = ?',
           [mqttData['height'], mqttData['weight']],
         );
         print('Updated height and weight for $currentDate');
       } else {
-        // Table doesn't exist for current date, create new table and insert data
         await db.execute('''
         CREATE TABLE user_profile_$currentDate(
           id INTEGER PRIMARY KEY,
@@ -353,12 +342,10 @@ class SQLiteDB {
     }
   }
 
-  Future<void> updateUserLingkarDada(
-      Database db, String name, int newLingkarDada) async {
+  Future<void> updateUserLingkarDada(String name, int newLingkarDada) async {
     try {
-      String currentDate = DateTime.now()
-          .toIso8601String()
-          .substring(0, 10); // Get current date in yyyy-MM-dd format
+      final Database db = await openDB();
+      String currentDate = DateTime.now().toIso8601String().substring(0, 10);
 
       final count = await db.update(
         'user_profile',
@@ -367,21 +354,19 @@ class SQLiteDB {
         whereArgs: [name, '$currentDate%'],
       );
 
-      // Log the number of rows affected
       print('Rows affected: $count');
+      await db.close();
     } catch (e) {
-      // Handle any errors that occur during the update
       print('Error during update: $e');
-      throw e; // Re-throw the exception to be handled by the caller
+      throw e;
     }
   }
 
   Future<void> updateUserLingkarKepala(
-      Database db, String name, int newLingkarKepala) async {
+      String name, int newLingkarKepala) async {
     try {
-      String currentDate = DateTime.now()
-          .toIso8601String()
-          .substring(0, 10); // Get current date in yyyy-MM-dd format
+      final Database db = await openDB();
+      String currentDate = DateTime.now().toIso8601String().substring(0, 10);
 
       final count = await db.update(
         'user_profile',
@@ -390,12 +375,11 @@ class SQLiteDB {
         whereArgs: [name, '$currentDate%'],
       );
 
-      // Log the number of rows affected
       print('Rows affected: $count');
+      await db.close();
     } catch (e) {
-      // Handle any errors that occur during the update
       print('Error during update: $e');
-      throw e; // Re-throw the exception to be handled by the caller
+      throw e;
     }
   }
 }

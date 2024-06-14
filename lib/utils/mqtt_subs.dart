@@ -43,10 +43,8 @@ class MQQTSubs {
       const topicHeight = 'Height';
       client.subscribe(topicHeight, MqttQos.atMostOnce);
 
-      final mydb = await database.openDB();
       // Fetch user profile data before entering the async context
       final UserProfile? currentUser = await database.getUserByNameAndPassword(
-          mydb,
           ctx.read(userProfileProvider).name,
           ctx.read(userProfileProvider).password);
 
@@ -82,9 +80,9 @@ class MQQTSubs {
               currentUser.datetime.month == user.datetime.month &&
               currentUser.datetime.day == user.datetime.day) {
             print('User data already exists');
-            database.updateUserDataWithHighestId(mydb, user);
+            database.updateUserDataWithHighestId(user);
           } else {
-            database.insertUser(mydb, user);
+            database.insertUser(user);
           }
 
           // Unsubscribe from the topic after receiving the data

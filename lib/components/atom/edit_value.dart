@@ -63,9 +63,8 @@ class EditValueLD extends ConsumerWidget {
                         'Updating lingkar_dada for user: $userName to $newLingkarDada');
 
                     // Call the updateUserLingkarDada method to update the user's
-                    final db = await SQLiteDB().openDB();
                     await SQLiteDB()
-                        .updateUserLingkarDada(db, userName, newLingkarDada);
+                        .updateUserLingkarDada(userName, newLingkarDada);
 
                     // Log a success message
                     print('Update successful');

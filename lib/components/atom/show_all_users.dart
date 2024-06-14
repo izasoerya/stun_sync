@@ -62,9 +62,7 @@ class _ShowAllUsersState extends State<ShowAllUsers> {
   }
 
   Future<List<Map<String, dynamic>>> _fetchUsers() async {
-    final db = await widget.database.openDB();
-    final users = await widget.database.showAllUsers(db);
-    await widget.database.closeDB(db);
+    final users = await widget.database.showAllUsers();
     return users;
   }
 }

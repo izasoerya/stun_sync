@@ -42,9 +42,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void _updateDataUser() async {
-    final db = await SQLiteDB().openDB();
     UserProfile? user = await SQLiteDB().getUserByNameAndPassword(
-        db,
         ref.watch(userProfileProvider).name,
         ref.watch(userProfileProvider).password);
     ref.read(userProfileProvider.notifier).setUser(user!);

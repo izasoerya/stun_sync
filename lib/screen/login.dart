@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:stun_sync/components/atom/button_auth.dart';
@@ -38,14 +37,12 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void _deteleBugAdmin() async {
-    Database db = await widget.sqLiteDB.openDB();
     if (await widget.sqLiteDB
-            .searchUserbyUsernamePassword(db, 'admin', 'admin', false) ||
+            .searchUserbyUsernamePassword('admin', 'admin', false) ||
         await widget.sqLiteDB
-            .searchUserbyUsernamePassword(db, 'admin', 'admin', true)) {
+            .searchUserbyUsernamePassword('admin', 'admin', true)) {
       widget.sqLiteDB.deleteDB();
     }
-    widget.sqLiteDB.closeDB(db);
   }
 
   @override
@@ -108,12 +105,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ButtonAuth(
               onPressed: () async {
                 isLoggedIn = true;
-                Database db = await widget.sqLiteDB.openDB();
-                widget.sqLiteDB.showAllUsers(db);
+                widget.sqLiteDB.showAllUsers();
 
                 final isUserExist =
                     await widget.sqLiteDB.searchUserbyUsernamePassword(
-                  db,
                   usernameController.text,
                   passwordController.text,
                   selectedRole == Role.posyandu ? true : false,
@@ -121,7 +116,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                 if (isUserExist) {
                   UserProfile? newestUser = await widget.sqLiteDB
                       .getUserByNameAndPassword(
-                          db, usernameController.text, passwordController.text);
+                          usernameController.text, passwordController.text);
 
                   // Use a null-aware operator (?.) to access `height`, providing a fallback value if `newestUser` is null.
                   final user = UserProfile(
@@ -160,7 +155,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     ..showSnackBar(snackBar);
                 }
                 // widget.sqLiteDB.deleteDB();
-                widget.sqLiteDB.showUserProfileTable(db);
+                widget.sqLiteDB.showUserProfileTable();
               },
               label: 'Masuk'),
           const Padding(padding: EdgeInsets.only(top: 10)),

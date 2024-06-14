@@ -27,7 +27,6 @@ class EditValueLK extends ConsumerWidget {
     final TextEditingController controller = TextEditingController(
       text: ref.watch(userProfileProvider).lingkarKepala.toString(),
     );
-
     showDialog(
       context: context,
       builder: (BuildContext context) {
@@ -58,32 +57,18 @@ class EditValueLK extends ConsumerWidget {
                 final int? newLingkarKepala = int.tryParse(controller.text);
                 if (newLingkarKepala != null) {
                   try {
-                    // Assuming you have access to the user's name (replace 'John Doe' with actual name)
                     String userName = "${ref.watch(userProfileProvider).name}";
-
-                    // Log the new value and user name for debugging
                     print(
                         'Updating lingkar_kepala for user: $userName to $newLingkarKepala for user profile');
-
-                    // Call the updateUserLingkarDada method to update the user's
-                    final db = await SQLiteDB().openDB();
-                    await SQLiteDB().updateUserLingkarKepala(
-                        db, userName, newLingkarKepala);
-
-                    // Log a success message
+                    await SQLiteDB()
+                        .updateUserLingkarKepala(userName, newLingkarKepala);
                     print('Update successful');
-
-                    // Close the current screen after updating the lingkar_dada
                     Navigator.of(context).pop();
                   } catch (e) {
-                    // Handle any errors that occur during the update
                     print('Error updating database: $e');
-                    // Optionally, display an error message to the user
                   }
                 } else {
-                  // Handle case where the entered value is not a valid number
                   print('Invalid input: ${controller.text}');
-                  // Optionally, display an error message to the user
                 }
                 callBack();
               },

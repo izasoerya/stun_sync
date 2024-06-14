@@ -1,6 +1,5 @@
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
-import 'package:sqflite/sqflite.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/utils/page_index_controller.dart';
 import 'package:stun_sync/service/database_controller.dart';
@@ -101,7 +100,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   return;
                 }
                 pageIndex = PageIndex.loginPage;
-                Database db = await sqLiteDB.openDB();
                 DateTime now = DateTime.now();
                 UserProfile userProfile = UserProfile(
                   name: usernameController.text,
@@ -114,7 +112,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   admin: selectedRole == Role.posyandu ? true : false,
                   datetime: now,
                 );
-                await sqLiteDB.insertUser(db, userProfile);
+                await sqLiteDB.insertUser(userProfile);
                 final snackBar = SnackBar(
                   elevation: 0,
                   behavior: SnackBarBehavior.floating,
