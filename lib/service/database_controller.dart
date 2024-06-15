@@ -3,7 +3,6 @@ import 'package:path/path.dart';
 import 'package:excel/excel.dart';
 import 'package:sqflite/sqflite.dart';
 import 'package:sqflite/utils/utils.dart';
-import 'package:stun_sync/components/organism/chart_tab_statistic.dart';
 import 'package:stun_sync/models/user_profile.dart';
 
 class SQLiteDB {
@@ -138,7 +137,9 @@ class SQLiteDB {
             if (datetimeString != null) {
               try {
                 datetime = DateTime.parse(datetimeString);
-              } catch (e) {}
+              } catch (e) {
+                print('Error parsing datetime: $e');
+              }
             }
 
             return UserProfile(
