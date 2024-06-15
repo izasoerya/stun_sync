@@ -37,10 +37,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
   }
 
   void _deteleBugAdmin() async {
-    if (await widget.sqLiteDB
-            .searchUserbyUsernamePassword('admin', 'admin', false) ||
-        await widget.sqLiteDB
-            .searchUserbyUsernamePassword('admin', 'admin', true)) {
+    if (await widget.sqLiteDB.userIsExist('admin', 'admin', false) ||
+        await widget.sqLiteDB.userIsExist('admin', 'admin', true)) {
       widget.sqLiteDB.deleteDB();
     }
   }
@@ -105,10 +103,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           ButtonAuth(
               onPressed: () async {
                 isLoggedIn = true;
-                widget.sqLiteDB.showAllUsers();
-
-                final isUserExist =
-                    await widget.sqLiteDB.searchUserbyUsernamePassword(
+                final isUserExist = await widget.sqLiteDB.userIsExist(
                   usernameController.text,
                   passwordController.text,
                   selectedRole == Role.posyandu ? true : false,
