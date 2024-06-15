@@ -169,6 +169,20 @@ class SQLiteDB {
     await db.close();
   }
 
+  UserProfile fromMqttData(UserProfile user, Map<String, dynamic> data) {
+    return UserProfile(
+      name: data['name'] ?? user.name,
+      password: data['password'] ?? user.password,
+      age: data['age'] ?? user.age,
+      height: data['height'] ?? user.height,
+      weight: data['weight'] ?? user.weight,
+      lingkarKepala: data['lingkarKepala'] ?? user.lingkarKepala,
+      lingkarDada: data['lingkarDada'] ?? user.lingkarDada,
+      admin: data['admin'] ?? user.admin,
+      datetime: DateTime.parse(data['datetime']),
+    );
+  }
+
   Future<void> updateUserDataWithHighestId(UserProfile user) async {
     final Database db = await openDB();
     var result = await db.query(
@@ -199,20 +213,6 @@ class SQLiteDB {
       );
     }
     await db.close();
-  }
-
-  Future<List<ChartData>> fetchChartData(
-      String xColumnName, String yColumnName, String nameQuery) async {
-    final Database db = await openDB();
-    List<Map<String, dynamic>> queryResult = await db.query(
-      'user_profile',
-      where: 'name = ?',
-      whereArgs: [nameQuery],
-    );
-    await db.close();
-    return queryResult
-        .map((row) => ChartData(row[xColumnName], row[yColumnName]))
-        .toList();
   }
 
   Future<UserProfile?> getUserByNameAndPassword(

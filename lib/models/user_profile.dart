@@ -25,18 +25,9 @@ class UserProfile {
       required this.admin,
       required this.datetime});
 
-  Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'password': password,
-      'age': age,
-      'height': height,
-      'weight': weight,
-      'lingkarKepala': lingkarKepala,
-      'lingkarDada': lingkarDada,
-      'admin': admin,
-      'bmi': bmi,
-      'datetime': datetime,
-    };
+  bool isSameDay(UserProfile currentUser, UserProfile mqttUser) {
+    return currentUser.datetime.year == mqttUser.datetime.year &&
+        currentUser.datetime.month == mqttUser.datetime.month &&
+        currentUser.datetime.day == mqttUser.datetime.day;
   }
 }
