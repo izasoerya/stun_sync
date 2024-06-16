@@ -116,7 +116,7 @@ class _RegisterPageState extends State<RegisterPage> {
               UserProfile userProfile = UserProfile(
                 name: usernameController.text,
                 password: passwordController.text,
-                age: months, // Now age is in months
+                age: months,
                 height: 0,
                 weight: 0,
                 lingkarKepala: 0,
