@@ -17,10 +17,8 @@ class MqttDataFetcher extends ConsumerWidget {
         children: [
           ElevatedButton(
             onPressed: () async {
-              final mqttSubs =
-                  MQQTSubs(ctx: ref); // Create an instance of MQQTSubs
-              var x = await mqttSubs
-                  .connectAndSubscribe(); // Call the method to connect and subscribe to MQTT
+              final mqttSubs = MQQTSubs(ref: ref);
+              var x = await mqttSubs.processMessages();
               print(x);
             },
             style: ButtonStyle(

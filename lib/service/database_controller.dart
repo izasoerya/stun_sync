@@ -2,7 +2,6 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:excel/excel.dart';
 import 'package:sqflite/sqflite.dart';
-import 'package:sqflite/utils/utils.dart';
 import 'package:stun_sync/models/user_profile.dart';
 
 class SQLiteDB {
