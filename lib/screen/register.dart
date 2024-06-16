@@ -1,7 +1,8 @@
 // ignore_for_file: use_build_context_synchronously
 
-import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
+import 'package:stun_sync/components/atom/date_picker.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/models/user_profile.dart';
@@ -19,6 +20,10 @@ class RegisterPage extends StatefulWidget {
     return nonNumericRegExp.hasMatch(text);
   }
 
+  DateTime fetchDate(DateTime time) {
+    return time;
+  }
+
   @override
   State<RegisterPage> createState() => _RegisterPageState();
 }
@@ -27,8 +32,7 @@ class _RegisterPageState extends State<RegisterPage> {
   final SQLiteDB sqLiteDB = const SQLiteDB();
   late final TextEditingController usernameController;
   late final TextEditingController passwordController;
-  late final TextEditingController ageController;
-
+  DateTime age = DateTime.now();
   late Role selectedRole;
 
   @override
@@ -36,8 +40,6 @@ class _RegisterPageState extends State<RegisterPage> {
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
-    ageController = TextEditingController();
-
     selectedRole = Role.parent;
   }
 
@@ -64,46 +66,71 @@ class _RegisterPageState extends State<RegisterPage> {
             },
           ),
           const Padding(padding: EdgeInsets.only(top: 25)),
+          const TitleContainer(
+            title: 'Nama Lengkap',
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+            fontSize: 12,
+          ),
+          const Padding(padding: EdgeInsets.only(top: 5)),
           TextFieldDesign(
             label: 'Nama Lengkap',
             visible: true,
             controller: usernameController,
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
+          const TitleContainer(
+            title: 'Kata Sandi',
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+            fontSize: 12,
+          ),
+          const Padding(padding: EdgeInsets.only(top: 5)),
           TextFieldDesign(
             label: 'Kata Sandi',
             visible: false,
             controller: passwordController,
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
-          TextFieldDesign(
-              label: 'Umur', visible: true, controller: ageController),
+          const TitleContainer(
+            title: 'Tanggal Lahir',
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+            fontSize: 12,
+          ),
+          const Padding(padding: EdgeInsets.only(top: 5)),
+          DatePicker(
+            callBackDate: (DateTime date) {
+              age = widget.fetchDate(date);
+            },
+          ),
           const Padding(padding: EdgeInsets.only(top: 30)),
           ButtonAuth(
-              onPressed: () async {
-                if (widget.containsNonNumeric(ageController.text)) {
-                  const Utils().customSnackBar(context, 'Tidak Valid',
-                      'Umur harus berupa angka!', ContentType.warning);
-                  return;
-                }
-                DateTime now = DateTime.now();
-                UserProfile userProfile = UserProfile(
-                  name: usernameController.text,
-                  password: passwordController.text,
-                  age: int.parse(ageController.text),
-                  height: 0,
-                  weight: 0,
-                  lingkarKepala: 0,
-                  lingkarDada: 0,
-                  admin: selectedRole == Role.posyandu ? true : false,
-                  datetime: now,
-                );
-                await sqLiteDB.insertUser(userProfile);
-                const Utils().customSnackBar(context, 'Buat akun berhasil',
-                    'Masuk untuk melanjutkan!', ContentType.success);
-                PageRouter.router.go('/login');
-              },
-              label: 'Buat Akun'),
+            onPressed: () async {
+              DateTime now = DateTime.now();
+              int months = (now.year - age.year) * 12 +
+                  now.month -
+                  age.month -
+                  (now.day < age.day ? 1 : 0);
+
+              UserProfile userProfile = UserProfile(
+                name: usernameController.text,
+                password: passwordController.text,
+                age: months, // Now age is in months
+                height: 0,
+                weight: 0,
+                lingkarKepala: 0,
+                lingkarDada: 0,
+                admin: selectedRole == Role.posyandu ? true : false,
+                datetime: now,
+              );
+              await sqLiteDB.insertUser(userProfile);
+              const Utils().customSnackBar(context, 'Buat akun berhasil',
+                  'Masuk untuk melanjutkan!', ContentType.success);
+              PageRouter.router.go('/login');
+            },
+            label: 'Buat Akun',
+          ),
           const Padding(padding: EdgeInsets.only(top: 15)),
           GestureDetector(
             onTap: () {
