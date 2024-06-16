@@ -66,7 +66,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           RoleSlider(
             callBackRole: (role) {
               selectedRole = widget.callBackRole(role);
-              return role;
             },
           ),
           const Padding(padding: EdgeInsets.only(top: 15)),

@@ -62,7 +62,6 @@ class _RegisterPageState extends State<RegisterPage> {
           RoleSlider(
             callBackRole: (role) {
               selectedRole = role;
-              return role;
             },
           ),
           const Padding(padding: EdgeInsets.only(top: 25)),
