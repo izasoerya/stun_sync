@@ -32,7 +32,14 @@ class MqttDataFetcher extends ConsumerWidget {
                     ContentType.failure,
                   );
                   break;
-                //TODO: Add more cases here
+                case 401:
+                  const Utils().customSnackBar(
+                    context,
+                    'Gagal',
+                    'Data tidak sesuai format!',
+                    ContentType.failure,
+                  );
+                  break;
                 default:
                   const Utils().customSnackBar(
                     context,
