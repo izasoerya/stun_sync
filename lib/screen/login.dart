@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
@@ -7,16 +9,18 @@ import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/components/atom/role_slider.dart';
 import 'package:stun_sync/components/atom/text_field_design.dart';
-import 'package:stun_sync/service/auth_controller.dart';
 import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
+import 'package:stun_sync/utils/custom_snackbar.dart';
 
 bool isLoggedIn = false;
 
 class LoginPage extends ConsumerStatefulWidget {
   const LoginPage({super.key});
   final SQLiteDB sqLiteDB = const SQLiteDB();
-  final AuthAPI authAPI = const AuthAPI();
+  Role callBackRole(Role selectedRole) {
+    return selectedRole;
+  }
 
   @override
   _LoginPageState createState() => _LoginPageState();
@@ -61,7 +65,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
           const Padding(padding: EdgeInsets.only(top: 15)),
           RoleSlider(
             callBackRole: (role) {
-              selectedRole = const AuthAPI().callBackRole(role);
+              selectedRole = widget.callBackRole(role);
               return role;
             },
           ),
@@ -114,10 +118,8 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   final user = UserProfile(
                     name: usernameController.text,
                     password: passwordController.text,
-                    height: newestUser?.height ??
-                        0, // Fallback to 0 if newestUser is null
-                    weight: newestUser?.weight ??
-                        0, // Fallback to 0 if newestUser is null
+                    height: newestUser?.height ?? 0,
+                    weight: newestUser?.weight ?? 0,
                     age: newestUser?.age ?? 0,
                     lingkarKepala: newestUser?.lingkarKepala ?? 0,
                     lingkarDada: newestUser?.lingkarDada ?? 0,
@@ -131,22 +133,13 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     PageRouter.router.go('/');
                   }
                 } else {
-                  final snackBar = SnackBar(
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Login Gagal',
-                      message: 'Preiksa kembali username dan password anda.',
-                      contentType: ContentType.failure,
-                    ),
+                  const Utils().customSnackBar(
+                    context,
+                    'Gagal',
+                    'Nama pengguna atau kata sandi salah!',
+                    ContentType.failure,
                   );
-
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
                 }
-                // widget.sqLiteDB.deleteDB();
                 widget.sqLiteDB.showUserProfileTable();
               },
               label: 'Masuk'),
