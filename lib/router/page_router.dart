@@ -22,7 +22,7 @@ class PageRouter {
       ),
       GoRoute(
         path: '/admin',
-        builder: (context, state) => const Scaffold(body: AdminPage()),
+        builder: (context, state) => const AdminPage(),
       ),
       GoRoute(
         path: '/',

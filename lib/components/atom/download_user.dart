@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:stun_sync/service/database_controller.dart';
 
 class DownloadUser extends StatelessWidget {
@@ -15,9 +16,7 @@ class DownloadUser extends StatelessWidget {
       // Convert the database to an Excel file
       await database.convertDbToExcel(dbPath, excelFilePath);
 
-      // Notify the user that the download is complete
-      print(
-          'Database successfully converted to Excel file and saved to $excelFilePath');
+      print('successfully converted to Excel file and saved to $excelFilePath');
     } catch (e) {
       print('Error downloading database: $e');
     }
@@ -27,7 +26,19 @@ class DownloadUser extends StatelessWidget {
   Widget build(BuildContext context) {
     return ElevatedButton(
       onPressed: _downloadAndStoreExcel,
-      child: Text('Download User Data'),
+      style: ElevatedButton.styleFrom(
+        backgroundColor: Colors.white,
+        foregroundColor: Colors.black,
+        textStyle: TextStyle(
+          fontSize: 16,
+          fontWeight: FontWeight.w400,
+          fontFamily: GoogleFonts.poppins().fontFamily,
+        ),
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: const Text('Download User Data'),
     );
   }
 }
