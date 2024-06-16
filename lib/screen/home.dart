@@ -13,6 +13,8 @@ import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
+import 'package:stun_sync/utils/print_bb_gizi.dart';
+import 'package:stun_sync/utils/print_tb_gizi.dart';
 
 class HomePage extends ConsumerStatefulWidget {
   const HomePage({super.key});
@@ -142,9 +144,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   ),
                                   const Spacer(),
                                   const Column(
-                                    children: [
-                                      // getdatafrommqtt(),
-                                    ],
+                                    children: [Tbbulan()],
                                   )
                                 ],
                               ),
@@ -180,6 +180,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     ],
                                   ),
                                   const Spacer(),
+                                  Bbbulan(),
                                 ],
                               ),
                             ],
