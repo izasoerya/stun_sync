@@ -12,12 +12,9 @@ class MqttDataFetcher extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return Container(
-      alignment: Alignment.center,
       padding: const EdgeInsets.all(10),
-      color: Colors.white, // Set the background color to white
+      color: Colors.white,
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           ElevatedButton(
             onPressed: () async {
