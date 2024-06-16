@@ -3,7 +3,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:stun_sync/components/atom/button_auth.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
-import 'package:stun_sync/models/page_index.dart';
 import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/components/atom/role_slider.dart';
@@ -11,7 +10,6 @@ import 'package:stun_sync/components/atom/text_field_design.dart';
 import 'package:stun_sync/service/auth_controller.dart';
 import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/service/user_profile_controller.dart';
-import 'package:stun_sync/utils/page_index_controller.dart';
 
 bool isLoggedIn = false;
 
@@ -88,7 +86,6 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   color: Colors.white),
               GestureDetector(
                 onTap: () {
-                  pageIndex = PageIndex.registerPage;
                   PageRouter.router.go('/register');
                 },
                 child: const TitleContainer(

@@ -1,23 +1,21 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:stun_sync/router/page_router.dart';
-import 'package:stun_sync/utils/page_index_controller.dart';
 import 'package:stun_sync/service/database_controller.dart';
-import 'package:stun_sync/models/page_index.dart';
 import 'package:stun_sync/models/user_profile.dart';
 import 'package:stun_sync/components/atom/button_auth.dart';
 import 'package:stun_sync/components/atom/role_slider.dart';
 import 'package:stun_sync/components/atom/text_field_design.dart';
 import 'package:stun_sync/components/atom/title_container.dart';
+import 'package:stun_sync/utils/custom_snackbar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
 
   bool containsNonNumeric(String text) {
-    // Define the regular expression for non-numeric characters
     final RegExp nonNumericRegExp = RegExp(r'[^0-9]');
-
-    // Check if the text contains non-numeric characters
     return nonNumericRegExp.hasMatch(text);
   }
 
@@ -84,22 +82,10 @@ class _RegisterPageState extends State<RegisterPage> {
           ButtonAuth(
               onPressed: () async {
                 if (widget.containsNonNumeric(ageController.text)) {
-                  final snackBar = SnackBar(
-                    elevation: 0,
-                    behavior: SnackBarBehavior.floating,
-                    backgroundColor: Colors.transparent,
-                    content: AwesomeSnackbarContent(
-                      title: 'Tidak valid!',
-                      message: 'Umur harus berupa angka!',
-                      contentType: ContentType.warning,
-                    ),
-                  );
-                  ScaffoldMessenger.of(context)
-                    ..hideCurrentSnackBar()
-                    ..showSnackBar(snackBar);
+                  const Utils().customSnackBar(context, 'Tidak Valid',
+                      'Umur harus berupa angka!', ContentType.warning);
                   return;
                 }
-                pageIndex = PageIndex.loginPage;
                 DateTime now = DateTime.now();
                 UserProfile userProfile = UserProfile(
                   name: usernameController.text,
@@ -113,19 +99,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   datetime: now,
                 );
                 await sqLiteDB.insertUser(userProfile);
-                final snackBar = SnackBar(
-                  elevation: 0,
-                  behavior: SnackBarBehavior.floating,
-                  backgroundColor: Colors.transparent,
-                  content: AwesomeSnackbarContent(
-                    title: 'Buat akun berhasil!',
-                    message: 'Login untuk melanjutkan ke aplikasi',
-                    contentType: ContentType.success,
-                  ),
-                );
-                ScaffoldMessenger.of(context)
-                  ..hideCurrentSnackBar()
-                  ..showSnackBar(snackBar);
+                const Utils().customSnackBar(context, 'Buat akun berhasil',
+                    'Masuk untuk melanjutkan!', ContentType.success);
                 PageRouter.router.go('/login');
               },
               label: 'Buat Akun'),

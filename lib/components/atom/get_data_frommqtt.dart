@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
+import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:stun_sync/utils/custom_snackbar.dart';
 import 'package:stun_sync/utils/mqtt_subs.dart'; // Import your MQQTSubs class
 
 class MqttDataFetcher extends ConsumerWidget {
@@ -18,8 +22,25 @@ class MqttDataFetcher extends ConsumerWidget {
           ElevatedButton(
             onPressed: () async {
               final mqttSubs = MQQTSubs(ref: ref);
-              var x = await mqttSubs.processMessages();
-              print(x);
+              int status = await mqttSubs.processMessages();
+              switch (status) {
+                case 400:
+                  const Utils().customSnackBar(
+                    context,
+                    'Gagal',
+                    'Pastikan anda memiliki sambungan Internet!',
+                    ContentType.failure,
+                  );
+                  break;
+                //TODO: Add more cases here
+                default:
+                  const Utils().customSnackBar(
+                    context,
+                    'Berhasil',
+                    'Data berhasil diambil dari alat!',
+                    ContentType.success,
+                  );
+              }
             },
             style: ButtonStyle(
               backgroundColor: MaterialStateProperty.all(

@@ -10,16 +10,12 @@ class MQQTSubs {
   final MqttServerClient client;
   final SQLiteDB database;
   final WidgetRef ref;
-  bool _shouldProcessMessages = false; // Flag to control message processing
+  final String mqttTopic = 'Height';
 
   MQQTSubs({required this.ref})
       : client = MqttServerClient.withPort(
             'ied8e792.ala.asia-southeast1.emqxsl.com', 'flutter_client', 8883),
         database = const SQLiteDB() {
-    _configureMQTTClient();
-  }
-
-  void _configureMQTTClient() {
     client
       ..connectionMessage = MqttConnectMessage()
           .authenticateAs('device_1', 'device_1_admin')
@@ -30,26 +26,24 @@ class MQQTSubs {
       ..onBadCertificate = (dynamic a) => true;
   }
 
-  // Call this method to start processing messages
-  Future<void> startProcessingMessages() async {
-    _shouldProcessMessages = true;
+  Future<bool> startProcessingMessages() async {
     try {
       await client.connect();
     } catch (e) {
       print('Error: $e');
       client.disconnect();
+      return false;
     }
     if (client.connectionStatus!.state == MqttConnectionState.connected) {
       print('Connected to the broker!');
-      client.subscribe('Height', MqttQos.atMostOnce);
+      client.subscribe(mqttTopic, MqttQos.atMostOnce);
     }
+    return true;
   }
 
-  // Call this method to stop processing messages
   void stopProcessingMessages() {
-    _shouldProcessMessages = false;
-    client.unsubscribe('Height'); // Unsubscribe from the topic
-    client.disconnect(); // Disconnect the client
+    client.unsubscribe(mqttTopic);
+    client.disconnect();
   }
 
   Future<int> processMessages() async {
@@ -58,21 +52,17 @@ class MQQTSubs {
         userProfile.name, userProfile.password);
     int success = 200;
 
-    await startProcessingMessages();
-
-    // Define a Completer that completes when the first message is received
     final Completer<void> receivedFirstMessage = Completer<void>();
-
+    if (!await startProcessingMessages()) {
+      return 400; // Failed to connect to the broker
+    }
     client.updates!.listen((List<MqttReceivedMessage<MqttMessage?>>? c) {
-      if (!_shouldProcessMessages) return; // Check if processing is enabled
       if (!receivedFirstMessage.isCompleted) {
-        receivedFirstMessage
-            .complete(); // Complete the completer on the first message
+        receivedFirstMessage.complete();
       }
 
-      final recMess = c![0].payload as MqttPublishMessage;
-      final pt =
-          MqttPublishPayload.bytesToStringAsString(recMess.payload.message);
+      final mqtt = c![0].payload as MqttPublishMessage;
+      final pt = MqttPublishPayload.bytesToStringAsString(mqtt.payload.message);
       print('Received message: $pt');
       try {
         final mqttData = jsonDecode(pt);
@@ -83,14 +73,11 @@ class MQQTSubs {
           database.insertUser(user);
         }
       } catch (e) {
-        success = 400;
+        success = 401;
       }
     });
-
-    // Wait for the first message to be received
     await receivedFirstMessage.future;
 
-    print('Disconnecting...');
     stopProcessingMessages();
     return success;
   }
