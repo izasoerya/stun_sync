@@ -3,7 +3,7 @@ import 'package:stun_sync/models/user_profile.dart';
 
 class RoleSlider extends StatefulWidget {
   const RoleSlider({super.key, required this.callBackRole});
-  final Role Function(Role) callBackRole;
+  final void Function(Role) callBackRole;
 
   @override
   State<RoleSlider> createState() => _RoleSliderState();
