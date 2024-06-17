@@ -37,6 +37,15 @@ class _TextFieldDesignState extends State<TextFieldDesign> {
         decoration: InputDecoration(
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(15), // Set the border radius
+            borderSide: const BorderSide(
+              color: Color.fromRGBO(128, 237, 153, 1),
+            ), // Default border color
+          ),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(15),
+            borderSide: const BorderSide(
+              color: Color.fromRGBO(128, 237, 153, 1),
+            ),
           ),
           hintText: widget.label,
           fillColor: Colors.white,
