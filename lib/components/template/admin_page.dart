@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:permission_handler/permission_handler.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/components/atom/download_user.dart';
@@ -14,54 +13,6 @@ class AdminPage extends StatefulWidget {
 
 class _AdminPageState extends State<AdminPage> {
   final SQLiteDB sqLiteDB = const SQLiteDB();
-  bool _isRequestingPermission = false;
-
-  @override
-  void initState() {
-    super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((_) => _requestPermission());
-  }
-
-  Future<void> _requestPermission() async {
-    if (_isRequestingPermission) {
-      return;
-    }
-    _isRequestingPermission = true;
-
-    var storageStatus = await Permission.storage.status;
-    var manageExternalStorageStatus =
-        await Permission.manageExternalStorage.status;
-
-    if (!storageStatus.isGranted || !manageExternalStorageStatus.isGranted) {
-      Map<Permission, PermissionStatus> statuses = await [
-        Permission.storage,
-        Permission.manageExternalStorage
-      ].request();
-
-      if (statuses.values.every((status) => status.isGranted)) {
-        print('All permissions granted');
-      } else {
-        showDialog(
-          context: context,
-          builder: (BuildContext context) => AlertDialog(
-            title: Text('Permissions required'),
-            content: Text(
-                'This app requires storage permissions to function properly. Please enable them in the app settings.'),
-            actions: <Widget>[
-              TextButton(
-                child: Text('OK'),
-                onPressed: () =>
-                    Navigator.of(context).pop(), // Close the dialog
-              ),
-            ],
-          ),
-        );
-      }
-    } else {
-      print('All permissions already granted');
-    }
-    _isRequestingPermission = false; // Reset flag after request completes
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -102,6 +53,31 @@ class _AdminPageState extends State<AdminPage> {
               width: MediaQuery.of(context).size.width * 0.6,
               child: ElevatedButton(
                 onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        title: const Text('Apakah anda yakin?'),
+                        content: const Text(
+                            'Aksi ini akan menghapus semua data. Data yang telah dihapus tidak dapat dipulihkan.'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              sqLiteDB.deleteDB();
+                            },
+                            child: const Text('Delete'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
                   sqLiteDB.deleteDB();
                 },
                 style: ElevatedButton.styleFrom(
