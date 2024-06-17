@@ -13,6 +13,7 @@ import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
+import 'package:stun_sync/utils/bmi.dart';
 import 'package:stun_sync/utils/print_bb_gizi.dart';
 import 'package:stun_sync/utils/print_tb_gizi.dart';
 
@@ -84,7 +85,13 @@ class _HomePageState extends ConsumerState<HomePage> {
                               ),
                             ),
                             Text(
-                              '${ref.watch(userProfileProvider).age} Tahun',
+                              '${ref.watch(userProfileProvider).age} bulan',
+                              style: TextStyle(
+                                fontSize: 16,
+                              ),
+                            ),
+                            Text(
+                              '${(ref.watch(userProfileProvider).age / 12).toInt()} tahun ${ref.watch(userProfileProvider).age % 12} bulan',
                               style: TextStyle(
                                 fontSize: 16,
                               ),
@@ -123,7 +130,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TitleContainer(
-                          title: "Tinggi Badan",
+                          title: "Tinggi Badan/Umur",
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
@@ -160,7 +167,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TitleContainer(
-                          title: "Berat Badan",
+                          title: "Berat Badan/Umur",
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
@@ -195,7 +202,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TitleContainer(
-                          title: "BMI",
+                          title: "Indeks Massa Tubuh",
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
@@ -208,6 +215,11 @@ class _HomePageState extends ConsumerState<HomePage> {
                                       value:
                                           '${ref.watch(userProfileProvider).bmi.toStringAsFixed(2)}'),
                                   const Spacer(),
+                                  Column(
+                                    children: [
+                                      BMIutil(),
+                                    ],
+                                  )
                                 ],
                               ),
                             ],
