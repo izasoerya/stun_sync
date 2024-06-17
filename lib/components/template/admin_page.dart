@@ -78,7 +78,6 @@ class _AdminPageState extends State<AdminPage> {
                       );
                     },
                   );
-                  sqLiteDB.deleteDB();
                 },
                 style: ElevatedButton.styleFrom(
                   backgroundColor: Colors.red,
