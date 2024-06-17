@@ -130,7 +130,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TitleContainer(
-                          title: "Tinggi Badan",
+                          title: "Tinggi Badan/Umur",
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
@@ -167,7 +167,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TitleContainer(
-                          title: "Berat Badan",
+                          title: "Berat Badan/Umur",
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
@@ -202,7 +202,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TitleContainer(
-                          title: "BMI",
+                          title: "Indeks Massa Tubuh",
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,
