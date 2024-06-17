@@ -117,6 +117,28 @@ class SQLiteDB {
     await db.close();
   }
 
+  Future<List<UserProfile>> getUserProfilesByUsername(String username) async {
+    final db = await openDB();
+    final List<Map<String, dynamic>> maps = await db.query(
+      'user_profile',
+      where: 'name = ?',
+      whereArgs: [username],
+    );
+    return List.generate(maps.length, (i) {
+      return UserProfile(
+        name: maps[i]['name'],
+        password: maps[i]['password'],
+        height: maps[i]['height'],
+        weight: maps[i]['weight'],
+        age: maps[i]['age'],
+        lingkarKepala: maps[i]['lingkar_kepala'],
+        lingkarDada: maps[i]['lingkar_dada'],
+        admin: maps[i]['admin'] == 'true',
+        datetime: DateTime.parse(maps[i]['datetime']),
+      );
+    });
+  }
+
   Future<UserProfile?> getUserByNameAndPassword(
       String name, String password) async {
     final Database db = await openDB();

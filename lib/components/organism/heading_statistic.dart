@@ -21,7 +21,7 @@ class HeadingStatistic extends ConsumerWidget {
             ),
           ),
           Text(
-            '${ref.read(userProfileProvider).age.toString()} years old',
+            '${ref.read(userProfileProvider).age.toString()} bulan',
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
