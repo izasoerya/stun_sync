@@ -155,12 +155,11 @@ class SQLiteDB {
     final Database db = await openDB();
     final List<Map<String, dynamic>> tables =
         await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'");
-    await db.close();
     return tables.map((row) => row['name'] as String).toList();
   }
 
   Future<void> convertDbToExcel(String dbPath, String excelFilePath) async {
-    final Database db = await openDatabase(dbPath);
+    final Database db = await openDB();
     var excel = Excel.createExcel();
 
     List<String> tables = await getTables();
@@ -185,23 +184,6 @@ class SQLiteDB {
       ..writeAsBytesSync(fileBytes!);
 
     await db.close();
-  }
-
-  Future<void> downloadDB() async {
-    try {
-      String dbFilePath = await getPathDB();
-      String downloadPath = '/storage/emulated/0/Download/stun_sync';
-      Directory newDirectory = Directory(downloadPath);
-      if (!await newDirectory.exists()) {
-        await newDirectory.create(recursive: true);
-      }
-      String excelFilePath = join(newDirectory.path, 'stun_sync_data.xlsx');
-      await convertDbToExcel(dbFilePath, excelFilePath);
-    } on FileSystemException catch (e) {
-      throw Exception('File system error: $e');
-    } catch (e) {
-      throw Exception('Error downloading database: $e');
-    }
   }
 
   Future<void> updateUserLingkarDada(String name, int newLingkarDada) async {

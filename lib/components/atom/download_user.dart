@@ -6,7 +6,7 @@ class DownloadUser extends StatelessWidget {
   final SQLiteDB database;
   const DownloadUser({super.key, required this.database});
 
-  Future<void> _downloadAndStoreExcel() async {
+  Future<bool> _downloadAndStoreExcel() async {
     try {
       // Ensure the database path and excel file path are correct
       String dbPath = await database.getPathDB();
@@ -15,20 +15,41 @@ class DownloadUser extends StatelessWidget {
 
       // Convert the database to an Excel file
       await database.convertDbToExcel(dbPath, excelFilePath);
-
-      print('successfully converted to Excel file and saved to $excelFilePath');
+      print('Successfully converted to Excel file and saved to $excelFilePath');
     } catch (e) {
       print('Error downloading database: $e');
+      return false;
     }
+    return true;
   }
 
   @override
   Widget build(BuildContext context) {
     return ElevatedButton(
-      onPressed: _downloadAndStoreExcel,
+      onPressed: () async {
+        if (await _downloadAndStoreExcel()) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(
+                'Successfully downloaded the database',
+                style: TextStyle(color: Color.fromRGBO(0, 71, 118, 1)),
+              ),
+              backgroundColor: Color.fromRGBO(128, 237, 153, 1),
+            ),
+          );
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text('Failed to download the database',
+                  style: TextStyle(color: Color.fromRGBO(0, 71, 118, 1))),
+              backgroundColor: Color.fromRGBO(255, 0, 0, 1),
+            ),
+          );
+        }
+      },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Colors.white,
-        foregroundColor: Colors.black,
+        backgroundColor: Color.fromRGBO(128, 237, 153, 1),
+        foregroundColor: Color.fromRGBO(0, 71, 118, 1),
         textStyle: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
@@ -37,8 +58,15 @@ class DownloadUser extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(10),
         ),
+        elevation: 5,
       ),
-      child: const Text('Download User Data'),
+      child: Row(
+        children: [
+          Icon(Icons.download),
+          Padding(padding: EdgeInsets.only(right: 20)),
+          Text('Download Excel'),
+        ],
+      ),
     );
   }
 }

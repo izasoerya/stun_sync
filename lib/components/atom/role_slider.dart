@@ -23,7 +23,7 @@ class _RoleSliderState extends State<RoleSlider> {
         style: SegmentedButton.styleFrom(
           backgroundColor: const Color.fromRGBO(217, 217, 217, 1),
           selectedBackgroundColor: const Color.fromRGBO(128, 237, 153, 1),
-          selectedForegroundColor: Color.fromRGBO(34, 87, 122, 1),
+          selectedForegroundColor: const Color.fromRGBO(34, 87, 122, 1),
           side: const BorderSide(color: Colors.transparent),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8),
