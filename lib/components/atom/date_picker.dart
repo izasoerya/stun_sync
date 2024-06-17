@@ -56,7 +56,6 @@ class _DatePickerState extends State<DatePicker> {
               ),
             ),
           ),
-          const Padding(padding: EdgeInsets.only(top: 10)),
         ],
       ),
     );

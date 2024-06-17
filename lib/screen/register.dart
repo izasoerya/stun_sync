@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:stun_sync/components/atom/date_picker.dart';
+import 'package:stun_sync/components/atom/gender_selection.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/service/database_controller.dart';
 import 'package:stun_sync/models/user_profile.dart';
@@ -92,16 +93,26 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           const Padding(padding: EdgeInsets.only(top: 10)),
           const TitleContainer(
-            title: 'Tanggal Lahir',
+            title: 'Tanggal Lahir & Jenis Kelamin',
             color: Colors.white,
             fontWeight: FontWeight.normal,
             fontSize: 12,
           ),
           const Padding(padding: EdgeInsets.only(top: 5)),
-          DatePicker(
-            callBackDate: (DateTime date) {
-              age = widget.fetchDate(date);
-            },
+          SizedBox(
+            width: 255,
+            height: 40,
+            child: Row(
+              children: [
+                DatePicker(
+                  callBackDate: (DateTime date) {
+                    age = widget.fetchDate(date);
+                  },
+                ),
+                const Spacer(),
+                GenderSelection(),
+              ],
+            ),
           ),
           const Padding(padding: EdgeInsets.only(top: 30)),
           ButtonAuth(
@@ -111,7 +122,6 @@ class _RegisterPageState extends State<RegisterPage> {
                   now.month -
                   age.month -
                   (now.day < age.day ? 1 : 0);
-
               UserProfile userProfile = UserProfile(
                 name: usernameController.text,
                 password: passwordController.text,

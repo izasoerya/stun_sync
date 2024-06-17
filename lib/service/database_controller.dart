@@ -27,7 +27,9 @@ class SQLiteDB {
           lingkar_kepala INTEGER,
           lingkar_dada INTEGER,
           admin TEXT,
-          datetime TEXT
+          datetime TEXT,
+          dob TEXT,
+          gender_male TEXT
         )
       ''');
     });
@@ -175,8 +177,8 @@ class SQLiteDB {
 
   Future<List<String>> getTables() async {
     final Database db = await openDB();
-    final List<Map<String, dynamic>> tables =
-        await db.rawQuery("SELECT name FROM sqlite_master WHERE type='table'");
+    final List<Map<String, dynamic>> tables = await db
+        .rawQuery("SELECT name FROM sqlite_master WHERE name='user_profile'");
     return tables.map((row) => row['name'] as String).toList();
   }
 
@@ -199,12 +201,10 @@ class SQLiteDB {
         }
       }
     }
-
     var fileBytes = excel.save();
     File(excelFilePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(fileBytes!);
-
     await db.close();
   }
 

@@ -29,7 +29,7 @@ class DownloadUser extends StatelessWidget {
       onPressed: () async {
         if (await _downloadAndStoreExcel()) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text(
                 'Successfully downloaded the database',
                 style: TextStyle(color: Color.fromRGBO(0, 71, 118, 1)),
@@ -39,7 +39,7 @@ class DownloadUser extends StatelessWidget {
           );
         } else {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
+            const SnackBar(
               content: Text('Failed to download the database',
                   style: TextStyle(color: Color.fromRGBO(0, 71, 118, 1))),
               backgroundColor: Color.fromRGBO(255, 0, 0, 1),
@@ -48,8 +48,8 @@ class DownloadUser extends StatelessWidget {
         }
       },
       style: ElevatedButton.styleFrom(
-        backgroundColor: Color.fromRGBO(128, 237, 153, 1),
-        foregroundColor: Color.fromRGBO(0, 71, 118, 1),
+        backgroundColor: const Color.fromRGBO(128, 237, 153, 1),
+        foregroundColor: const Color.fromRGBO(0, 71, 118, 1),
         textStyle: TextStyle(
           fontSize: 16,
           fontWeight: FontWeight.w400,
@@ -60,7 +60,7 @@ class DownloadUser extends StatelessWidget {
         ),
         elevation: 5,
       ),
-      child: Row(
+      child: const Row(
         children: [
           Icon(Icons.download),
           Padding(padding: EdgeInsets.only(right: 20)),
