@@ -15,14 +15,14 @@ import 'package:stun_sync/utils/custom_snackbar.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
-
-  bool containsNonNumeric(String text) {
-    final RegExp nonNumericRegExp = RegExp(r'[^0-9]');
-    return nonNumericRegExp.hasMatch(text);
-  }
+  final SQLiteDB sqLiteDB = const SQLiteDB();
 
   DateTime fetchDate(DateTime time) {
     return time;
+  }
+
+  bool fetchGender(bool isMale) {
+    return isMale;
   }
 
   @override
@@ -30,18 +30,17 @@ class RegisterPage extends StatefulWidget {
 }
 
 class _RegisterPageState extends State<RegisterPage> {
-  final SQLiteDB sqLiteDB = const SQLiteDB();
   late final TextEditingController usernameController;
   late final TextEditingController passwordController;
+  bool isMale = true;
+  Role selectedRole = Role.parent;
   DateTime age = DateTime.now();
-  late Role selectedRole;
 
   @override
   void initState() {
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
-    selectedRole = Role.parent;
   }
 
   @override
@@ -110,7 +109,11 @@ class _RegisterPageState extends State<RegisterPage> {
                   },
                 ),
                 const Spacer(),
-                GenderSelection(),
+                GenderSelection(
+                  isMale: (bool gender) {
+                    isMale = widget.fetchGender(gender);
+                  },
+                ),
               ],
             ),
           ),
@@ -133,7 +136,8 @@ class _RegisterPageState extends State<RegisterPage> {
                 admin: selectedRole == Role.posyandu ? true : false,
                 datetime: now,
               );
-              await sqLiteDB.insertUser(userProfile);
+              print(isMale);
+              await widget.sqLiteDB.insertUser(userProfile);
               const Utils().customSnackBar(context, 'Buat akun berhasil',
                   'Masuk untuk melanjutkan!', ContentType.success);
               PageRouter.router.go('/login');

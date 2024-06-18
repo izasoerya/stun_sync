@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 
 class GenderSelection extends StatefulWidget {
+  const GenderSelection({super.key, required this.isMale});
+  final void Function(bool gender) isMale;
+
   @override
   _GenderSelectionState createState() => _GenderSelectionState();
 }
@@ -23,6 +26,8 @@ class _GenderSelectionState extends State<GenderSelection> {
         onChanged: (String? newValue) {
           setState(() {
             selectedGender = newValue ?? selectedGender;
+            bool genderIsMale = newValue == 'Laki-laki';
+            widget.isMale(genderIsMale);
           });
         },
         items: <String>['Laki-laki', 'Perempuan']
