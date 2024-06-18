@@ -69,11 +69,25 @@ class _LoginPageState extends ConsumerState<LoginPage> {
             },
           ),
           const Padding(padding: EdgeInsets.only(top: 15)),
+          const TitleContainer(
+            title: 'Nama Lengkap',
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+            fontSize: 12,
+          ),
+          const Padding(padding: EdgeInsets.only(top: 5)),
           TextFieldDesign(
               label: 'Nama Lengkap',
               visible: true,
               controller: usernameController),
           const Padding(padding: EdgeInsets.only(top: 15)),
+          const TitleContainer(
+            title: 'Kata Sandi',
+            color: Colors.white,
+            fontWeight: FontWeight.normal,
+            fontSize: 12,
+          ),
+          const Padding(padding: EdgeInsets.only(top: 5)),
           TextFieldDesign(
               label: 'Kata Sandi',
               visible: false,
