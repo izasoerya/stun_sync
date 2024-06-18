@@ -8,7 +8,7 @@ import 'package:stun_sync/models/user_profile.dart';
 // Provider for chart data
 final chartDataProvider =
     FutureProvider.family<List<UserProfile>, String>((ref, username) async {
-  final sqLiteDB = SQLiteDB();
+  const sqLiteDB = SQLiteDB();
   final data = await sqLiteDB.getUserProfilesByUsername(username);
   return data;
 });

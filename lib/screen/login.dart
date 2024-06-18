@@ -36,6 +36,9 @@ class _LoginPageState extends ConsumerState<LoginPage> {
     super.initState();
     usernameController = TextEditingController();
     passwordController = TextEditingController();
+    widget.sqLiteDB.showUserProfileTable();
+
+    _deteleBugAdmin();
   }
 
   void _deteleBugAdmin() async {

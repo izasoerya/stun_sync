@@ -52,6 +52,10 @@ class SQLiteDB {
     for (var userProfile in userProfiles) {
       print(userProfile);
     }
+    List<Map<String, dynamic>> adminProfiles = await db.query('admin_profile');
+    for (var adminProfile in adminProfiles) {
+      print(adminProfile);
+    }
     await db.close();
   }
 
