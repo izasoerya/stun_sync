@@ -82,6 +82,7 @@ class _RegisterPageState extends State<RegisterPage> {
               fontWeight: FontWeight.normal,
               fontSize: 12,
             ),
+            const Padding(padding: EdgeInsets.only(top: 5)),
             PosyanduSelection(callback: (String name) {
               posyanduName = widget.fetchPosyandu(name);
             }),

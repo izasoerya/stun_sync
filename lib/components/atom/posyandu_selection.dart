@@ -53,7 +53,6 @@ class _PosyanduSelectionState extends State<PosyanduSelection> {
             height: 50,
             width: 310,
             decoration: BoxDecoration(
-              border: Border.all(color: Colors.black),
               borderRadius: BorderRadius.circular(10),
               color: Colors.white,
             ),
