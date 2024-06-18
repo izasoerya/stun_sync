@@ -22,7 +22,7 @@ class BMIutil extends ConsumerWidget {
           children: [
             Container(
               width: screenWidth *
-                  0.42, // Adjusting the width to 80% of screen width
+                  0.4, // Adjusting the width to 80% of screen width
               padding: EdgeInsets.all(16.0),
 
               child: Column(
