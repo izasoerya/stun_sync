@@ -110,10 +110,18 @@ class SQLiteDB {
   }
 
   UserProfile fromMqttData(UserProfile user, Map<String, dynamic> data) {
+    DateTime now = DateTime.now();
+    int calculatedAge = now.year - user.dateOfBirth.year;
+    if (now.month < user.dateOfBirth.month ||
+        (now.month == user.dateOfBirth.month &&
+            now.day < user.dateOfBirth.day)) {
+      calculatedAge--;
+    }
+
     return UserProfile(
       name: data['name'] ?? user.name,
       password: data['password'] ?? user.password,
-      age: data['age'] ?? user.age,
+      age: calculatedAge,
       height: data['height'] ?? user.height,
       weight: data['weight'] ?? user.weight,
       lingkarKepala: data['lingkarKepala'] ?? user.lingkarKepala,
@@ -171,7 +179,7 @@ class SQLiteDB {
         datetime: DateTime.parse(maps[i]['datetime']),
         dateOfBirth: DateTime.parse(maps[i]['dob']),
         posyandu: maps[i]['posyandu'],
-        isMale: maps[i]['gender_male'],
+        isMale: maps[i]['gender_male'] == 'true',
       );
     });
   }
