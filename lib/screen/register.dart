@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:awesome_snackbar_content/awesome_snackbar_content.dart';
 import 'package:stun_sync/components/atom/date_picker.dart';
 import 'package:stun_sync/components/atom/gender_selection.dart';
+import 'package:stun_sync/components/atom/posyandu_selection.dart';
 import 'package:stun_sync/models/admin_profile.dart';
 import 'package:stun_sync/router/page_router.dart';
 import 'package:stun_sync/service/database_controller.dart';
@@ -29,6 +30,7 @@ class RegisterPage extends StatefulWidget {
 
   DateTime fetchDate(DateTime time) => time;
   bool fetchGender(bool isMale) => isMale;
+  String fetchPosyandu(String name) => name;
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -39,6 +41,7 @@ class _RegisterPageState extends State<RegisterPage> {
   late final TextEditingController passwordController;
   bool isMale = true;
   Role selectedRole = Role.parent;
+  String posyanduName = '';
   DateTime age = DateTime.now();
 
   @override
@@ -73,6 +76,16 @@ class _RegisterPageState extends State<RegisterPage> {
           ),
           if (selectedRole == Role.parent) ...[
             const Padding(padding: EdgeInsets.only(top: 25)),
+            const TitleContainer(
+              title: 'Asal Posyandu',
+              color: Colors.white,
+              fontWeight: FontWeight.normal,
+              fontSize: 12,
+            ),
+            PosyanduSelection(callback: (String name) {
+              posyanduName = widget.fetchPosyandu(name);
+            }),
+            const Padding(padding: EdgeInsets.only(top: 10)),
             const TitleContainer(
               title: 'Nama Lengkap',
               color: Colors.white,
@@ -141,6 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
                   datetime: now,
                   dateOfBirth: age,
                   isMale: isMale,
+                  posyandu: posyanduName,
                 );
                 await widget.sqLiteDB.insertUser(userProfile);
                 PageRouter.router.go('/login');

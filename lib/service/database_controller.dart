@@ -30,6 +30,7 @@ class SQLiteDB {
           admin TEXT,
           datetime TEXT,
           dob TEXT,
+          posyandu TEXT,
           gender_male TEXT
         )
       ''');
@@ -71,6 +72,7 @@ class SQLiteDB {
       'dob': user.dateOfBirth.toString().length >= 10
           ? user.dateOfBirth.toString().substring(0, 10)
           : user.dateOfBirth.toString(),
+      'posyandu': user.posyandu,
       'gender_male': user.isMale.toString(),
     });
     await db.close();
@@ -120,6 +122,7 @@ class SQLiteDB {
       datetime: DateTime.parse(data['datetime']),
       dateOfBirth: user.dateOfBirth,
       isMale: user.isMale,
+      posyandu: user.posyandu,
     );
   }
 
@@ -137,14 +140,8 @@ class SQLiteDB {
       await db.update(
         'user_profile',
         {
-          'name': user.name,
-          'password': user.password,
           'height': user.height,
           'weight': user.weight,
-          'age': user.age,
-          'lingkar_kepala': user.lingkarKepala,
-          'lingkar_dada': user.lingkarDada,
-          'admin': user.admin.toString(),
           'datetime': user.datetime.toString(),
         },
         where: 'id = ?',
@@ -173,6 +170,7 @@ class SQLiteDB {
         admin: maps[i]['admin'] == 'true',
         datetime: DateTime.parse(maps[i]['datetime']),
         dateOfBirth: DateTime.parse(maps[i]['dob']),
+        posyandu: maps[i]['posyandu'],
         isMale: maps[i]['gender_male'],
       );
     });
@@ -202,10 +200,22 @@ class SQLiteDB {
         admin: result.first['admin'] == 'true' ? true : false,
         datetime: DateTime.parse(result.first['datetime']),
         dateOfBirth: DateTime.parse(result.first['dob']),
-        isMale: result.first['gender_male'],
+        posyandu: result.first['posyandu'],
+        isMale: result.first['gender_male'] == 'true' ? true : false,
       );
     }
     return null;
+  }
+
+  Future<List<String>> getPosyanduNames() async {
+    final Database db = await openDB();
+    final List<Map<String, dynamic>> posyanduNames = await db.rawQuery(
+      '''
+      SELECT DISTINCT name FROM admin_profile
+      ORDER BY name ASC
+      ''',
+    );
+    return posyanduNames.map((row) => row['name'] as String).toList();
   }
 
   Future<void> deleteDB() async {

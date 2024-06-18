@@ -9,6 +9,7 @@ class UserProfileData extends StateNotifier<UserProfile> {
   }
 }
 
+// Init value, will be changed after login
 final userProfileProvider = StateNotifierProvider<UserProfileData, UserProfile>(
     (ref) => UserProfileData(UserProfile(
           name: '',
@@ -21,5 +22,6 @@ final userProfileProvider = StateNotifierProvider<UserProfileData, UserProfile>(
           admin: false,
           datetime: DateTime.now(),
           dateOfBirth: DateTime.now(),
+          posyandu: '',
           isMale: true,
         )));

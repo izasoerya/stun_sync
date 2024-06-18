@@ -123,6 +123,7 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     admin: newestUser?.admin ?? false,
                     datetime: newestUser?.datetime ?? DateTime.now(),
                     dateOfBirth: newestUser?.dateOfBirth ?? DateTime.now(),
+                    posyandu: newestUser?.posyandu ?? '',
                     isMale: newestUser?.isMale ?? true,
                   );
                   ref.read(userProfileProvider.notifier).setUser(user);
