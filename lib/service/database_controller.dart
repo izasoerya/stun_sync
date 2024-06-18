@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:path/path.dart';
 import 'package:excel/excel.dart';
 import 'package:sqflite/sqflite.dart';
+import 'package:stun_sync/models/admin_profile.dart';
 import 'package:stun_sync/models/user_profile.dart';
 
 class SQLiteDB {
@@ -30,6 +31,14 @@ class SQLiteDB {
           datetime TEXT,
           dob TEXT,
           gender_male TEXT
+        )
+      ''');
+      db.execute('''
+        CREATE TABLE admin_profile(
+          id INTEGER PRIMARY KEY,
+          name TEXT,
+          password TEXT,
+          admin TEXT
         )
       ''');
     });
@@ -63,15 +72,35 @@ class SQLiteDB {
     await db.close();
   }
 
+  Future<void> insertAdmin(AdminProfile admin) async {
+    final Database db = await openDB();
+    await db.insert('admin_profile', {
+      'name': admin.name,
+      'password': admin.password,
+      'admin': admin.admin.toString(),
+    });
+    await db.close();
+  }
+
   Future<bool> userIsExist(String name, String password, bool admin) async {
     final Database db = await openDB();
-    final List<Map<String, dynamic>> maps = await db.query(
+    final List<Map<String, dynamic>> mapsUser = await db.query(
       'user_profile',
       where: 'name = ? AND password = ? AND admin = ?',
       whereArgs: [name, password, admin.toString()],
     );
-    await db.close();
-    return maps.isNotEmpty;
+    final List<Map<String, dynamic>> mapsAdmin = await db.query(
+      'admin_profile',
+      where: 'name = ? AND password = ? AND admin = ?',
+      whereArgs: [name, password, admin.toString()],
+    );
+    if (mapsUser.isNotEmpty || mapsAdmin.isNotEmpty) {
+      await db.close();
+      return true;
+    } else {
+      await db.close();
+      return false;
+    }
   }
 
   UserProfile fromMqttData(UserProfile user, Map<String, dynamic> data) {

@@ -108,12 +108,10 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                   passwordController.text,
                   selectedRole == Role.posyandu ? true : false,
                 );
-                if (isUserExist) {
+                if (isUserExist && selectedRole == Role.parent) {
                   UserProfile? newestUser = await widget.sqLiteDB
                       .getUserByNameAndPassword(
                           usernameController.text, passwordController.text);
-
-                  // Use a null-aware operator (?.) to access `height`, providing a fallback value if `newestUser` is null.
                   final user = UserProfile(
                     name: usernameController.text,
                     password: passwordController.text,
@@ -126,11 +124,21 @@ class _LoginPageState extends ConsumerState<LoginPage> {
                     datetime: newestUser?.datetime ?? DateTime.now(),
                   );
                   ref.read(userProfileProvider.notifier).setUser(user);
-                  if (user.admin == true) {
-                    PageRouter.router.go('/admin');
-                  } else if (user.admin == false) {
-                    PageRouter.router.go('/');
-                  }
+                  PageRouter.router.go('/');
+                  const Utils().customSnackBar(
+                    context,
+                    'Berhasil',
+                    'Anda berhasil masuk!',
+                    ContentType.success,
+                  );
+                } else if (isUserExist && selectedRole == Role.posyandu) {
+                  PageRouter.router.go('/admin');
+                  const Utils().customSnackBar(
+                    context,
+                    'Berhasil',
+                    'Anda berhasil masuk!',
+                    ContentType.success,
+                  );
                 } else {
                   const Utils().customSnackBar(
                     context,
