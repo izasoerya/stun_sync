@@ -45,7 +45,7 @@ class _HomePageState extends ConsumerState<HomePage> {
   }
 
   void _updateDataUser() async {
-    UserProfile? user = await SQLiteDB().getUserByNameAndPassword(
+    UserProfile? user = await const SQLiteDB().getUserByNameAndPassword(
         ref.watch(userProfileProvider).name,
         ref.watch(userProfileProvider).password);
     ref.read(userProfileProvider.notifier).setUser(user!);
@@ -53,55 +53,81 @@ class _HomePageState extends ConsumerState<HomePage> {
 
   @override
   Widget build(BuildContext context) {
+    DateTime now = DateTime.now();
+    DateTime dateOfBirth = ref.watch(userProfileProvider).dateOfBirth;
+
+    int years = now.year - dateOfBirth.year;
+    int months = 0;
+    int days = 0;
+
+    if (now.month < dateOfBirth.month ||
+        (now.month == dateOfBirth.month && now.day < dateOfBirth.day)) {
+      years--;
+      months = (12 - dateOfBirth.month) + now.month;
+    } else {
+      months = now.month - dateOfBirth.month;
+    }
+
+    if (now.day < dateOfBirth.day) {
+      DateTime tempDate = DateTime(now.year, now.month, 0);
+      days = tempDate.day + now.day - dateOfBirth.day;
+      if (months == 0) {
+        months = 11;
+        years--;
+      } else {
+        months--;
+      }
+    } else {
+      days = now.day - dateOfBirth.day;
+    }
+
     return Container(
       height: MediaQuery.of(context).size.height,
       color: const Color(0xFF22577A),
       child: SingleChildScrollView(
         child: Column(
           children: [
-            Padding(padding: EdgeInsets.only(top: 15)),
+            const Padding(padding: EdgeInsets.only(top: 15)),
             const TopOfBar(),
             Background_body(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Padding(padding: EdgeInsets.only(top: 10)),
+                  const Padding(padding: EdgeInsets.only(top: 10)),
                   ContentContainer(
-                      child: Container(
-                    child: Row(
-                      children: [
-                        const CircleAvatar(
-                          radius: 30,
-                        ),
-                        SizedBox(width: 20),
-                        Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              '${ref.watch(userProfileProvider).name}',
-                              style: const TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
+                      child: Row(
+                    children: [
+                      const CircleAvatar(
+                        radius: 30,
+                      ),
+                      const SizedBox(width: 20),
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            ref.watch(userProfileProvider).name,
+                            style: const TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.bold,
                             ),
-                            Text(
-                              '${ref.watch(userProfileProvider).age} bulan',
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
+                          ),
+                          Text(
+                            '${ref.watch(userProfileProvider).age ~/ 12} tahun ${ref.watch(userProfileProvider).age % 12} bulan',
+                            style: const TextStyle(
+                              fontSize: 16,
                             ),
-                            Text(
-                              '${(ref.watch(userProfileProvider).age / 12).toInt()} tahun ${ref.watch(userProfileProvider).age % 12} bulan',
-                              style: TextStyle(
-                                fontSize: 16,
-                              ),
+                          ),
+                          Text(
+                            '$days hari',
+                            style: const TextStyle(
+                              fontSize: 16,
                             ),
-                          ],
-                        ),
-                        const Spacer(),
-                        const Spacer(),
-                      ],
-                    ),
+                          ),
+                        ],
+                      ),
+                      const Spacer(),
+                      const Spacer(),
+                    ],
                   )),
                   ContentContainer(
                     child: Column(
@@ -113,7 +139,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                         Container(
                           width: MediaQuery.of(context).size.width,
                           alignment: Alignment.center,
-                          child: Column(
+                          child: const Column(
                             children: [
                               Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
@@ -142,8 +168,9 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   ValueContainer(
                                       value:
                                           '${ref.watch(userProfileProvider).height}'),
-                                  Padding(padding: EdgeInsets.only(right: 5)),
-                                  Column(
+                                  const Padding(
+                                      padding: EdgeInsets.only(right: 5)),
+                                  const Column(
                                     children: [
                                       SizedBox(height: 15),
                                       UnitContainer(unit: 'cm'),
@@ -179,7 +206,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   ValueContainer(
                                       value:
                                           '${ref.watch(userProfileProvider).weight}'),
-                                  Padding(padding: EdgeInsets.only(right: 5)),
+                                  const Padding(
+                                      padding: EdgeInsets.only(right: 5)),
                                   const Column(
                                     children: [
                                       SizedBox(height: 15),
@@ -187,7 +215,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                     ],
                                   ),
                                   const Spacer(),
-                                  Bbbulan(),
+                                  const Bbbulan(),
                                 ],
                               ),
                             ],
@@ -212,10 +240,12 @@ class _HomePageState extends ConsumerState<HomePage> {
                               Row(
                                 children: [
                                   ValueContainer(
-                                      value:
-                                          '${ref.watch(userProfileProvider).bmi.toStringAsFixed(2)}'),
+                                      value: ref
+                                          .watch(userProfileProvider)
+                                          .bmi
+                                          .toStringAsFixed(2)),
                                   const Spacer(),
-                                  Column(
+                                  const Column(
                                     children: [
                                       BMIutil(),
                                     ],
@@ -245,7 +275,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   ValueContainer(
                                       value:
                                           '${ref.watch(userProfileProvider).lingkarDada}'),
-                                  Padding(padding: EdgeInsets.only(right: 5)),
+                                  const Padding(
+                                      padding: EdgeInsets.only(right: 5)),
                                   const Column(
                                     children: [
                                       SizedBox(height: 15),
@@ -285,7 +316,8 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   ValueContainer(
                                       value:
                                           '${ref.watch(userProfileProvider).lingkarKepala}'),
-                                  Padding(padding: EdgeInsets.only(right: 5)),
+                                  const Padding(
+                                      padding: EdgeInsets.only(right: 5)),
                                   const Column(
                                     children: [
                                       SizedBox(height: 15),
