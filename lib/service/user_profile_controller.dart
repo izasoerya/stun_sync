@@ -11,13 +11,15 @@ class UserProfileData extends StateNotifier<UserProfile> {
 
 final userProfileProvider = StateNotifierProvider<UserProfileData, UserProfile>(
     (ref) => UserProfileData(UserProfile(
-          name: 'Ihza Soerya',
-          password: '123456',
-          height: 180,
-          weight: 80,
-          age: 30,
-          lingkarKepala: 10,
-          lingkarDada: 20,
+          name: '',
+          password: '',
+          height: 0.0,
+          weight: 0.0,
+          age: 0,
+          lingkarKepala: 0,
+          lingkarDada: 0,
           admin: false,
           datetime: DateTime.now(),
+          dateOfBirth: DateTime.now(),
+          isMale: true,
         )));

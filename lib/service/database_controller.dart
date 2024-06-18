@@ -68,6 +68,10 @@ class SQLiteDB {
       'datetime': user.datetime.toString().length >= 10
           ? user.datetime.toString().substring(0, 10)
           : user.datetime.toString(),
+      'dob': user.dateOfBirth.toString().length >= 10
+          ? user.dateOfBirth.toString().substring(0, 10)
+          : user.dateOfBirth.toString(),
+      'gender_male': user.isMale.toString(),
     });
     await db.close();
   }
@@ -114,6 +118,8 @@ class SQLiteDB {
       lingkarDada: data['lingkarDada'] ?? user.lingkarDada,
       admin: data['admin'] ?? user.admin,
       datetime: DateTime.parse(data['datetime']),
+      dateOfBirth: user.dateOfBirth,
+      isMale: user.isMale,
     );
   }
 
@@ -166,6 +172,8 @@ class SQLiteDB {
         lingkarDada: maps[i]['lingkar_dada'],
         admin: maps[i]['admin'] == 'true',
         datetime: DateTime.parse(maps[i]['datetime']),
+        dateOfBirth: DateTime.parse(maps[i]['dob']),
+        isMale: maps[i]['gender_male'],
       );
     });
   }
@@ -193,6 +201,8 @@ class SQLiteDB {
         lingkarDada: result.first['lingkar_dada'],
         admin: result.first['admin'] == 'true' ? true : false,
         datetime: DateTime.parse(result.first['datetime']),
+        dateOfBirth: DateTime.parse(result.first['dob']),
+        isMale: result.first['gender_male'],
       );
     }
     return null;

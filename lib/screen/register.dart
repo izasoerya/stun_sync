@@ -27,13 +27,8 @@ class RegisterPage extends StatefulWidget {
     return months;
   }
 
-  DateTime fetchDate(DateTime time) {
-    return time;
-  }
-
-  bool fetchGender(bool isMale) {
-    return isMale;
-  }
+  DateTime fetchDate(DateTime time) => time;
+  bool fetchGender(bool isMale) => isMale;
 
   @override
   State<RegisterPage> createState() => _RegisterPageState();
@@ -144,6 +139,8 @@ class _RegisterPageState extends State<RegisterPage> {
                   lingkarDada: 0,
                   admin: selectedRole == Role.posyandu ? true : false,
                   datetime: now,
+                  dateOfBirth: age,
+                  isMale: isMale,
                 );
                 await widget.sqLiteDB.insertUser(userProfile);
                 PageRouter.router.go('/login');

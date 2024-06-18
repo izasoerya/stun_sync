@@ -13,6 +13,8 @@ class UserProfile {
   final bool admin;
   double get bmi => weight / (height * height / 10000);
   final DateTime datetime;
+  final DateTime dateOfBirth;
+  final bool isMale;
 
   const UserProfile(
       {required this.name,
@@ -23,7 +25,9 @@ class UserProfile {
       required this.lingkarKepala,
       required this.lingkarDada,
       required this.admin,
-      required this.datetime});
+      required this.datetime,
+      required this.dateOfBirth,
+      required this.isMale});
 
   bool isSameDay(UserProfile currentUser, UserProfile mqttUser) {
     return currentUser.datetime.year == mqttUser.datetime.year &&
