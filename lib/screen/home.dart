@@ -13,7 +13,6 @@ import 'package:stun_sync/components/atom/title_container.dart';
 import 'package:stun_sync/components/atom/value_container.dart';
 import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
-import 'package:stun_sync/utils/bmi.dart';
 import 'package:stun_sync/utils/print_bb_gizi.dart';
 import 'package:stun_sync/utils/print_bmi_gizi.dart';
 import 'package:stun_sync/utils/print_tb_gizi.dart';
@@ -27,9 +26,6 @@ class HomePage extends ConsumerStatefulWidget {
 
 class _HomePageState extends ConsumerState<HomePage> {
   Timer? _timer;
-  void _updateState() {
-    setState(() {});
-  }
 
   @override
   void initState() {
@@ -98,8 +94,17 @@ class _HomePageState extends ConsumerState<HomePage> {
                   ContentContainer(
                       child: Row(
                     children: [
-                      const CircleAvatar(
+                      CircleAvatar(
+                        const backgroundColor: Color.fromRGBO(55, 140, 196, 1),
                         radius: 30,
+                        child: ClipOval(
+                          child: Image.asset(
+                            'assets/avatar_image.png',
+                            width: 40,
+                            height: 40,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
                       ),
                       const SizedBox(width: 20),
                       Column(

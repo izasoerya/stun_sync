@@ -40,6 +40,7 @@ flutter:
     - assets/exercise_logo.png
     - assets/food_logo.png
     - assets/ic_launcher.png
+    - assets/avatar_image.png
 
 flutter_icons:
   android: true
