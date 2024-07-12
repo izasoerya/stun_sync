@@ -95,7 +95,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       child: Row(
                     children: [
                       CircleAvatar(
-                        const backgroundColor: Color.fromRGBO(55, 140, 196, 1),
+                        backgroundColor: const Color.fromRGBO(55, 140, 196, 1),
                         radius: 30,
                         child: ClipOval(
                           child: Image.asset(
