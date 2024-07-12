@@ -13,7 +13,7 @@ class PropertySlider extends ConsumerWidget {
 
     return Container(
       width: 300,
-      height: 50,
+      height: 60,
       alignment: Alignment.center,
       padding: const EdgeInsets.only(bottom: 10),
       child: SegmentedButton<Property>(

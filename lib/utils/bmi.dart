@@ -13,7 +13,7 @@ class BMIutil extends ConsumerWidget {
 
     // Memanggil fungsi getKategoriGizi
     final double bmi = ref.watch(userProfileProvider).bmi;
-    final String kategori = getKategoriBMI(bmi);
+    final String kategori = 'Berat badan kurang';
     final Color color = getKategoriColor(kategori);
     return Container(
       child: Center(

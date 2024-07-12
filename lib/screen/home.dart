@@ -15,6 +15,7 @@ import 'package:stun_sync/components/atom/content_container.dart';
 import 'package:stun_sync/components/atom/top_of_bar.dart';
 import 'package:stun_sync/utils/bmi.dart';
 import 'package:stun_sync/utils/print_bb_gizi.dart';
+import 'package:stun_sync/utils/print_bmi_gizi.dart';
 import 'package:stun_sync/utils/print_tb_gizi.dart';
 
 class HomePage extends ConsumerStatefulWidget {
@@ -247,7 +248,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                                   const Spacer(),
                                   const Column(
                                     children: [
-                                      BMIutil(),
+                                      BMIBulan(),
                                     ],
                                   )
                                 ],

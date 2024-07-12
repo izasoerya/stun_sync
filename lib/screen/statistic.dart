@@ -11,18 +11,20 @@ class StatisticPage extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    return Container(
-      height: MediaQuery.of(context).size.height,
-      color: const Color.fromRGBO(238, 238, 238, 1),
-      child: SingleChildScrollView(
-        child: Column(
-          children: [
-            Padding(padding: EdgeInsets.only(top: 30)),
-            HeadingStatistic(),
-            PropertySlider(),
-            ChartTab(username: ref.watch(userProfileProvider).name),
-            HeightTab(),
-          ],
+    return SafeArea(
+      child: Container(
+        height: MediaQuery.of(context).size.height,
+        color: const Color.fromRGBO(238, 238, 238, 1),
+        child: SingleChildScrollView(
+          child: Column(
+            children: [
+              Padding(padding: EdgeInsets.only(top: 30)),
+              HeadingStatistic(),
+              PropertySlider(),
+              ChartTab(username: ref.watch(userProfileProvider).name),
+              HeightTab(),
+            ],
+          ),
         ),
       ),
     );

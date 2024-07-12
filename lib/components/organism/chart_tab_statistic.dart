@@ -15,7 +15,7 @@ final chartDataProvider =
 
 class ChartData {
   ChartData(this.x, this.y, this.datetime);
-  final int x;
+  final DateTime x;
   final double y;
   final DateTime datetime;
 }
@@ -62,14 +62,28 @@ class _ChartTabState extends ConsumerState<ChartTab> {
               List<ChartData> chartData = [];
               switch (selectedChartType) {
                 case 'Height':
-                  chartData = userProfiles
-                      .map((profile) => ChartData(profile.age.toInt(),
-                          profile.height.toDouble(), profile.datetime))
-                      .toList();
+                  // chartData = userProfiles
+                  //     .map((profile) => ChartData(profile.datetime,
+                  //         profile.height.toDouble(), profile.datetime))
+                  //     .toList();
+                  // break;
+                  // Use dummy data for height
+                  List<Map<String, dynamic>> dummyData = [
+                    {'date': '2023-01-01', 'height': 78.0},
+                    {'date': '2023-02-01', 'height': 78.5},
+                    {'date': '2023-03-01', 'height': 79.0},
+                    {'date': '2023-04-01', 'height': 80.0},
+                    {'date': '2023-05-01', 'height': 80.4},
+                  ];
+
+                  chartData = dummyData.map((data) {
+                    DateTime date = DateTime.parse(data['date']);
+                    return ChartData(date, data['height'], date);
+                  }).toList();
                   break;
                 case 'Weight':
                   chartData = userProfiles
-                      .map((profile) => ChartData(profile.age.toInt(),
+                      .map((profile) => ChartData(profile.datetime,
                           profile.weight.toDouble(), profile.datetime))
                       .toList();
                   break;
@@ -77,8 +91,7 @@ class _ChartTabState extends ConsumerState<ChartTab> {
                   chartData = userProfiles.map((profile) {
                     double bmi = profile.weight /
                         ((profile.height / 100) * (profile.height / 100));
-                    return ChartData(
-                        profile.age.toInt(), bmi, profile.datetime);
+                    return ChartData(profile.datetime, bmi, profile.datetime);
                   }).toList();
                   break;
               }
@@ -101,14 +114,13 @@ class _ChartTabState extends ConsumerState<ChartTab> {
                     primaryYAxis: const NumericAxis(
                       majorTickLines: MajorTickLines(width: 0),
                       axisLine: AxisLine(width: 0),
-                      labelStyle: TextStyle(color: Colors.transparent),
                       majorGridLines: MajorGridLines(width: 0),
                     ),
                     series: <CartesianSeries>[
                       LineSeries<ChartData, int>(
-                        dataSource: chartData,
+                        dataSource: chartData.toList(),
                         color: const Color.fromRGBO(34, 87, 122, 1),
-                        xValueMapper: (ChartData data, _) => data.x,
+                        xValueMapper: (ChartData data, _) => data.x.month,
                         yValueMapper: (ChartData data, _) => data.y,
                         markerSettings: const MarkerSettings(
                             color: Color.fromRGBO(34, 87, 122, 1),

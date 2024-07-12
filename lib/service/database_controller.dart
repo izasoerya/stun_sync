@@ -115,7 +115,7 @@ class SQLiteDB {
 
   UserProfile fromMqttData(UserProfile user, Map<String, dynamic> data) {
     DateTime now = DateTime.now();
-    int calculatedAge = now.year - user.dateOfBirth.year;
+    int calculatedAge = (now.year - user.dateOfBirth.year) * 12;
     if (now.month < user.dateOfBirth.month ||
         (now.month == user.dateOfBirth.month &&
             now.day < user.dateOfBirth.day)) {
