@@ -56,7 +56,8 @@ class SQLiteDB {
     for (var adminProfile in adminProfiles) {
       print(adminProfile);
     }
-    await db.close();
+    print(DateTime.now());
+    // await db.close();
   }
 
   Future<void> insertUser(UserProfile user) async {
@@ -79,7 +80,7 @@ class SQLiteDB {
       'posyandu': user.posyandu,
       'gender_male': user.isMale.toString(),
     });
-    await db.close();
+    // await db.close();
   }
 
   Future<void> insertAdmin(AdminProfile admin) async {
@@ -89,7 +90,7 @@ class SQLiteDB {
       'password': admin.password,
       'admin': admin.admin.toString(),
     });
-    await db.close();
+    // await db.close();
   }
 
   Future<bool> userIsExist(String name, String password, bool admin) async {
@@ -105,10 +106,10 @@ class SQLiteDB {
       whereArgs: [name, password, admin.toString()],
     );
     if (mapsUser.isNotEmpty || mapsAdmin.isNotEmpty) {
-      await db.close();
+      // await db.close();
       return true;
     } else {
-      await db.close();
+      // await db.close();
       return false;
     }
   }
@@ -160,7 +161,7 @@ class SQLiteDB {
         whereArgs: [highestId],
       );
     }
-    await db.close();
+    // await db.close();
   }
 
   Future<List<UserProfile>> getUserProfilesByUsername(String username) async {
@@ -199,7 +200,7 @@ class SQLiteDB {
     ''';
     final List<Map<String, dynamic>> result =
         await db.rawQuery(sql, [name, password]);
-    await db.close();
+    // await db.close();
     if (result.isNotEmpty) {
       return UserProfile(
         name: result.first['name'],
@@ -266,7 +267,7 @@ class SQLiteDB {
     File(excelFilePath)
       ..createSync(recursive: true)
       ..writeAsBytesSync(fileBytes!);
-    await db.close();
+    // await db.close();
   }
 
   Future<void> updateUserLingkarDada(String name, int newLingkarDada) async {
@@ -282,7 +283,7 @@ class SQLiteDB {
       );
 
       print('Rows affected: $count');
-      await db.close();
+      // await db.close();
     } catch (e) {
       print('Error during update: $e');
       throw e;
@@ -303,7 +304,7 @@ class SQLiteDB {
       );
 
       print('Rows affected: $count');
-      await db.close();
+      // await db.close();
     } catch (e) {
       print('Error during update: $e');
       throw e;

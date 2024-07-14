@@ -269,7 +269,7 @@ class _HomePageState extends ConsumerState<HomePage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         const TitleContainer(
-                          title: "Lingkar Dada",
+                          title: "Lingkar lengan atas",
                         ),
                         Container(
                           width: MediaQuery.of(context).size.width,

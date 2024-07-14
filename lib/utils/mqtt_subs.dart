@@ -14,7 +14,7 @@ class MQQTSubs {
 
   MQQTSubs({required this.ref})
       : client = MqttServerClient.withPort(
-            'ied8e792.ala.asia-southeast1.emqxsl.com', 'flutter_client', 8883),
+            'k91ed63b.ala.us-east-1.emqxsl.com', 'flutter_client', 8883),
         database = const SQLiteDB() {
     client
       ..connectionMessage = MqttConnectMessage()

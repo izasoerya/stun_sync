@@ -53,10 +53,10 @@ class Bbbulan extends ConsumerWidget {
         return Colors.red;
       case 'Berat badan kurang':
         return Colors.orange;
-      case 'Berat badan normal ':
+      case 'Berat badan normal':
         return Colors.green;
       case 'Risiko Berat badan lebih':
-        return Colors.blue;
+        return Colors.orange;
       case 'Berat badan Obesitas Berat':
         return Colors.purple;
       default:
@@ -116,7 +116,7 @@ class Bbbulan extends ConsumerWidget {
       [11.1, 12.6, 14.3, 16.2, 18.4, 20.9, 23.9], // 47 bulan
       [11.2, 12.7, 14.4, 16.3, 18.6, 21.2, 24.2], // 48 bulan
       [11.3, 12.8, 14.5, 16.5, 18.8, 21.4, 24.5], // 49 bulan
-      [11.4, 12.9, 14.7, 16.7, 19.0, 21.7, 24.8], // 50 bulan
+      [11.1, 12.6, 14.3, 16.4, 19.0, 22.1, 25.9], // 50 bulan
       [11.5, 13.1, 14.8, 16.8, 19.2, 21.9, 25.1], // 51 bulan
       [11.6, 13.2, 15.0, 17.0, 19.4, 22.2, 25.4], // 52 bulan
       [11.7, 13.3, 15.1, 17.2, 19.6, 22.4, 25.7], // 53 bulan
@@ -216,11 +216,11 @@ class Bbbulan extends ConsumerWidget {
     } else if (beratBadan < beratBadanData[1]) {
       return 'Berat badan kurang';
     } else if (beratBadan < beratBadanData[2]) {
-      return 'Berat badan normal ';
-    } else if (beratBadan < beratBadanData[3]) {
-      return 'Berat badan normal ';
-    } else if (beratBadan < beratBadanData[4]) {
       return 'Berat badan normal';
+    } else if (beratBadan < beratBadanData[3]) {
+      return 'Berat badan normal';
+    } else if (beratBadan < beratBadanData[4]) {
+      return 'Risiko Berat badan lebih';
     } else if (beratBadan < beratBadanData[5]) {
       return 'Risiko Berat badan lebih';
     } else if (beratBadan < beratBadanData[6]) {
