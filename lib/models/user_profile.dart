@@ -8,8 +8,8 @@ class UserProfile {
   final int age;
   final double height;
   final double weight;
-  final int lingkarKepala;
-  final int lingkarDada;
+  final double lingkarKepala;
+  final double lingkarDada;
   final bool admin;
   double get bmi => weight / (height * height / 10000);
   final DateTime datetime;

@@ -5,7 +5,10 @@ import 'package:stun_sync/models/user_profile.dart';
 final selectedRole = StateProvider<Property>((ref) => Property.height);
 
 class PropertySlider extends ConsumerWidget {
-  const PropertySlider({super.key});
+  // final void Function() refresh;
+  const PropertySlider({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
@@ -43,7 +46,8 @@ class PropertySlider extends ConsumerWidget {
         ],
         selected: <Property>{selectedRoled},
         onSelectionChanged: (Set<Property> newRole) {
-          ref.read(selectedRole.notifier).state = newRole.first;
+          // refresh();
+          ref.watch(selectedRole.notifier).state = newRole.first;
         },
       ),
     );

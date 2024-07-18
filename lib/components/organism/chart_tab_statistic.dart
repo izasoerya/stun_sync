@@ -30,9 +30,8 @@ class _ChartTabState extends ConsumerState<ChartTab> {
       FutureProvider.family<List<UserProfile>, String>((ref, username) async {
     const sqLiteDB = SQLiteDB();
     final data = await sqLiteDB.getUserProfilesByUsername(username);
-    print(data);
-
-    return data;
+    final filteredData = data.skip(1).toList();
+    return filteredData;
   });
 
   @override
