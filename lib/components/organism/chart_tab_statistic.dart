@@ -7,12 +7,6 @@ import 'package:stun_sync/models/user_profile.dart';
 import 'package:intl/intl.dart'; // Add this line to import DateFormat
 
 // Provider for chart data
-final chartDataProvider =
-    FutureProvider.family<List<UserProfile>, String>((ref, username) async {
-  const sqLiteDB = SQLiteDB();
-  final data = await sqLiteDB.getUserProfilesByUsername(username);
-  return data;
-});
 
 class ChartData {
   ChartData(this.x, this.y, this.datetime);
@@ -32,6 +26,14 @@ class ChartTab extends ConsumerStatefulWidget {
 class _ChartTabState extends ConsumerState<ChartTab> {
   String selectedChartType = 'Height';
   String? clickedPointData;
+  final chartDataProvider =
+      FutureProvider.family<List<UserProfile>, String>((ref, username) async {
+    const sqLiteDB = SQLiteDB();
+    final data = await sqLiteDB.getUserProfilesByUsername(username);
+    print(data);
+
+    return data;
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -63,75 +65,66 @@ class _ChartTabState extends ConsumerState<ChartTab> {
               List<ChartData> chartData = [];
               switch (selectedChartType) {
                 case 'Height':
-                  // chartData = userProfiles
-                  //     .map((profile) => ChartData(profile.datetime,
-                  //         profile.height.toDouble(), profile.datetime))
-                  //     .toList();
-                  // break;
+                  chartData = userProfiles
+                      .map((profile) => ChartData(profile.datetime,
+                          profile.height.toDouble(), profile.datetime))
+                      .toList();
                   // Use dummy data for height
-                  List<Map<String, dynamic>> dummyHeightData = [
-                    {'date': '2023-10-14', 'height': 63.5},
-                    {'date': '2023-11-11', 'height': 63.5},
-                    {'date': '2023-12-10', 'height': 63.5},
-                    {'date': '2024-01-17', 'height': 66.0},
-                    {'date': '2024-02-15', 'height': 72.0},
-                    {'date': '2024-03-09', 'height': 72.0},
-                    {'date': '2024-04-19', 'height': 72.0},
-                    {'date': '2024-05-14', 'height': 72.5},
-                    {'date': '2024-06-13', 'height': 81.5},
-                  ];
-
-                  chartData = dummyHeightData.map((data) {
-                    DateTime date = DateTime.parse(data['date']);
-                    return ChartData(date, data['height'], date);
-                  }).toList();
+                  // List<Map<String, dynamic>> dummyHeightData = [
+                  //   {'date': '2023-12-16', 'height': 100.0},
+                  //   {'date': '2024-01-13', 'height': 98.0},
+                  //   {'date': '2024-02-15', 'height': 98.0},
+                  //   {'date': '2024-03-09', 'height': 98.0},
+                  //   {'date': '2024-04-19', 'height': 98.0},
+                  //   {'date': '2024-05-14', 'height': 99.0},
+                  //   {'date': '2024-06-21', 'height': 102.0},
+                  // ];
+                  // chartData = chartData.map((data) {
+                  //   DateTime date = DateTime.parse(profile);
+                  //   return ChartData(date, data['height'], date);
+                  // }).toList();
                   break;
                 case 'Weight':
-                  // chartData = userProfiles
-                  //     .map((profile) => ChartData(profile.datetime,
-                  //         profile.weight.toDouble(), profile.datetime))
-                  //     .toList();
-                  // break;
-                  List<Map<String, dynamic>> dummyWeightData = [
-                    {'date': '2023-10-14', 'weight': 6.45},
-                    {'date': '2023-11-11', 'weight': 6.35},
-                    {'date': '2023-12-10', 'weight': 6.10},
-                    {'date': '2024-01-17', 'weight': 6.70},
-                    {'date': '2024-02-15', 'weight': 6.90},
-                    {'date': '2024-03-09', 'weight': 7.10},
-                    {'date': '2024-04-19', 'weight': 6.80},
-                    {'date': '2024-05-14', 'weight': 7.00},
-                    {'date': '2024-06-13', 'weight': 7.70},
-                  ];
+                  chartData = userProfiles
+                      .map((profile) => ChartData(profile.datetime,
+                          profile.weight.toDouble(), profile.datetime))
+                      .toList();
+                  // List<Map<String, dynamic>> dummyWeightData = [
+                  //   {'date': '2023-12-16', 'weight': 17.6},
+                  //   {'date': '2024-01-13', 'weight': 17.5},
+                  //   {'date': '2024-02-15', 'weight': 17.5},
+                  //   {'date': '2024-03-09', 'weight': 17.6},
+                  //   {'date': '2024-04-19', 'weight': 17.8},
+                  //   {'date': '2024-05-14', 'weight': 18.2},
+                  //   {'date': '2024-06-21', 'weight': 18.95},
+                  // ];
 
-                  chartData = dummyWeightData.map((data) {
-                    DateTime date = DateTime.parse(data['date']);
-                    return ChartData(date, data['weight'], date);
-                  }).toList();
+                  // chartData = dummyWeightData.map((data) {
+                  //   DateTime date = DateTime.parse(data['date']);
+                  //   return ChartData(date, data['weight'], date);
+                  // }).toList();
                   break;
                 case 'BMI':
-                  // chartData = userProfiles.map((profile) {
-                  //   double bmi = profile.weight /
-                  //       ((profile.height / 100) * (profile.height / 100));
-                  //   return ChartData(profile.datetime, bmi, profile.datetime);
-                  // }).toList();
-                  // break;
-                  List<Map<String, dynamic>> dummyBMIData = [
-                    {'date': '2023-10-14', 'bmi': 16.01},
-                    {'date': '2023-11-11', 'bmi': 15.76},
-                    {'date': '2023-12-10', 'bmi': 15.10},
-                    {'date': '2024-01-17', 'bmi': 15.36},
-                    {'date': '2024-02-15', 'bmi': 13.31},
-                    {'date': '2024-03-09', 'bmi': 13.69},
-                    {'date': '2024-04-19', 'bmi': 13.11},
-                    {'date': '2024-05-14', 'bmi': 13.30},
-                    {'date': '2024-06-13', 'bmi': 11.61},
-                  ];
-
-                  chartData = dummyBMIData.map((data) {
-                    DateTime date = DateTime.parse(data['date']);
-                    return ChartData(date, data['bmi'], date);
+                  chartData = userProfiles.map((profile) {
+                    double bmi = profile.weight /
+                        ((profile.height / 100) * (profile.height / 100));
+                    return ChartData(profile.datetime, bmi, profile.datetime);
                   }).toList();
+                  // List<Map<String, dynamic>> dummyBMIData = [
+                  //   {'date': '2023-12-16', 'bmi': 51.0},
+                  //   {'date': '2024-01-13', 'bmi': 50.5},
+                  //   {'date': '2024-02-15', 'bmi': 51.0},
+                  //   {'date': '2024-03-09', 'bmi': 51.0},
+                  //   {'date': '2024-04-19', 'bmi': 51.0},
+                  //   {'date': '2024-05-14', 'bmi': 51.0},
+                  //   {'date': '2024-06-21', 'bmi': 51.5},
+                  // ];
+
+                  // chartData = dummyBMIData.map((data) {
+                  //   DateTime date = DateTime.parse(data['date']);
+                  //   return ChartData(date, data['bmi'], date);
+                  // }).toList();
+                  break;
               }
 
               return Column(
@@ -148,6 +141,7 @@ class _ChartTabState extends ConsumerState<ChartTab> {
                       majorTickLines: const MajorTickLines(width: 0),
                       axisLine: const AxisLine(width: 0),
                       majorGridLines: const MajorGridLines(width: 0),
+                      minimum: DateTime(2024, 7, 1),
                       dateFormat: DateFormat.yMMM(), // Display year and month
                       labelStyle: const TextStyle(
                         fontSize:

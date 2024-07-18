@@ -29,7 +29,7 @@ class EditValueLD extends ConsumerWidget {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: const Text('Edit Nilai Lingkar Dada',
+          title: const Text('Edit Nilai Lingkar Lengan Atas',
               style: TextStyle(
                 color: Color(0xFF22577A),
               )),
@@ -52,7 +52,7 @@ class EditValueLD extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () async {
-                final int? newLingkarDada = int.tryParse(controller.text);
+                final double? newLingkarDada = double.tryParse(controller.text);
                 if (newLingkarDada != null) {
                   try {
                     // Assuming you have access to the user's name (replace 'John Doe' with actual name)

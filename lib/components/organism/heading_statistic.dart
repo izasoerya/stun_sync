@@ -7,13 +7,15 @@ class HeadingStatistic extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final userProfile = ref.watch(userProfileProvider);
+
     return SizedBox(
       width: MediaQuery.of(context).size.width,
       height: MediaQuery.of(context).size.height * 0.1,
       child: Column(
         children: [
           Text(
-            ref.read(userProfileProvider).name,
+            userProfile.name,
             style: const TextStyle(
               fontSize: 24,
               fontWeight: FontWeight.bold,
@@ -21,7 +23,7 @@ class HeadingStatistic extends ConsumerWidget {
             ),
           ),
           Text(
-            '${ref.read(userProfileProvider).age.toString()} bulan',
+            '${userProfile.age.toString()} bulan',
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,

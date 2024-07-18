@@ -25,8 +25,8 @@ class SQLiteDB {
           height FLOAT, 
           weight FLOAT,
           age INTEGER,
-          lingkar_kepala INTEGER,
-          lingkar_dada INTEGER,
+          lingkar_kepala FLOAT,
+          lingkar_dada FLOAT,
           admin TEXT,
           datetime TEXT,
           dob TEXT,
@@ -270,7 +270,7 @@ class SQLiteDB {
     // await db.close();
   }
 
-  Future<void> updateUserLingkarDada(String name, int newLingkarDada) async {
+  Future<void> updateUserLingkarDada(String name, double newLingkarDada) async {
     try {
       final Database db = await openDB();
       String currentDate = DateTime.now().toIso8601String().substring(0, 10);
@@ -291,7 +291,7 @@ class SQLiteDB {
   }
 
   Future<void> updateUserLingkarKepala(
-      String name, int newLingkarKepala) async {
+      String name, double newLingkarKepala) async {
     try {
       final Database db = await openDB();
       String currentDate = DateTime.now().toIso8601String().substring(0, 10);

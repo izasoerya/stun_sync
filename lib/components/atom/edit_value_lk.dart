@@ -54,7 +54,8 @@ class EditValueLK extends ConsumerWidget {
             ),
             TextButton(
               onPressed: () async {
-                final int? newLingkarKepala = int.tryParse(controller.text);
+                final double? newLingkarKepala =
+                    double.tryParse(controller.text);
                 if (newLingkarKepala != null) {
                   try {
                     String userName = "${ref.watch(userProfileProvider).name}";

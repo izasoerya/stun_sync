@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
-import 'package:stun_sync/components/atom/edit_value.dart';
+import 'package:stun_sync/components/atom/edit_value_lla.dart';
 import 'package:stun_sync/components/atom/edit_value_lk.dart';
 import 'package:stun_sync/components/atom/get_data_frommqtt.dart';
 import 'package:stun_sync/components/atom/unit_container.dart';
