@@ -10,10 +10,6 @@ class MainLayout extends ConsumerWidget {
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // final mqttSubs = MQQTSubs(ctx: ref);
-    // mqttSubs.connectAndSubscribe();
-    // call new mqt here
-
     return Scaffold(
       body: child,
       bottomNavigationBar: Stack(
@@ -54,14 +50,14 @@ class MainLayout extends ConsumerWidget {
             },
           ),
           Positioned(
-            // Behold the magic number!
-            left: ((ref.watch(_selectedIndex) / 2.5) *
-                    MediaQuery.of(context).size.width) +
-                (MediaQuery.of(context).size.width / 11) -
-                (MediaQuery.of(context).size.width / 32),
+            left: (ref.watch(_selectedIndex) *
+                    (MediaQuery.of(context).size.width / 2)) +
+                (MediaQuery.of(context).size.width / 4 -
+                    50), // Adjusted for new width
+            bottom: kBottomNavigationBarHeight, // Adjust this value as needed
             child: Container(
-              width: MediaQuery.of(context).size.width / 2.5,
-              height: 4,
+              width: 100, // Increased width
+              height: 6, // Increased height
               color: Colors.white,
             ),
           ),

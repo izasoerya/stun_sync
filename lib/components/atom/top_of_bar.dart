@@ -19,33 +19,29 @@ class TopOfBar extends ConsumerWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.end,
               children: [
-                Positioned(
-                  top: 0,
-                  right: 0,
-                  child: PopupMenuButton(
-                    icon: const Icon(
-                      Icons.settings,
-                      color: Colors.white,
-                      size: 40,
-                    ),
+                PopupMenuButton(
+                  icon: const Icon(
+                    Icons.settings,
                     color: Colors.white,
-                    offset: Offset(
-                        -30, 60), // Adjust the offset to position the menu
-                    itemBuilder: (BuildContext context) {
-                      return [
-                        PopupMenuItem(
-                          child: Text('Keluar'),
-                          value: 'logout',
-                        ),
-                      ];
-                    },
-                    onSelected: (String value) {
-                      if (value == 'logout') {
-                        // Perform logout action
-                        PageRouter.router.go('/login');
-                      }
-                    },
+                    size: 40,
                   ),
+                  color: Colors.white,
+                  offset:
+                      Offset(-30, 60), // Adjust the offset to position the menu
+                  itemBuilder: (BuildContext context) {
+                    return [
+                      PopupMenuItem(
+                        child: Text('Keluar'),
+                        value: 'logout',
+                      ),
+                    ];
+                  },
+                  onSelected: (String value) {
+                    if (value == 'logout') {
+                      // Perform logout action
+                      PageRouter.router.go('/login');
+                    }
+                  },
                 ),
               ],
             ),

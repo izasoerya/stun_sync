@@ -31,7 +31,7 @@ class _ChartTabState extends ConsumerState<ChartTab> {
     const sqLiteDB = SQLiteDB();
     final data = await sqLiteDB.getUserProfilesByUsername(username);
     final filteredData = data.skip(1).toList();
-    return filteredData;
+    return data;
   });
 
   @override
