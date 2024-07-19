@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:stun_sync/service/database_controller.dart';
@@ -10,14 +12,11 @@ class EditValueLD extends ConsumerWidget {
   @override
   Widget build(BuildContext context, WidgetRef ref) {
     return IconButton(
-      icon: const Icon(
-        Icons.edit,
-        color: Color(0xFF22577A),
-      ),
-      onPressed: () {
-        _showEditDialog(context, ref);
-      },
-    );
+        icon: const Icon(
+          Icons.edit,
+          color: Color(0xFF22577A),
+        ),
+        onPressed: () => _showEditDialog(context, ref));
   }
 
   void _showEditDialog(BuildContext context, WidgetRef ref) {
@@ -42,9 +41,7 @@ class EditValueLD extends ConsumerWidget {
           ),
           actions: [
             TextButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
               child: const Text('Batal',
                   style: TextStyle(
                     color: Color(0xFF22577A),
@@ -55,31 +52,20 @@ class EditValueLD extends ConsumerWidget {
                 final double? newLingkarDada = double.tryParse(controller.text);
                 if (newLingkarDada != null) {
                   try {
-                    // Assuming you have access to the user's name (replace 'John Doe' with actual name)
-                    String userName = "${ref.watch(userProfileProvider).name}";
-
-                    // Log the new value and user name for debugging
+                    String userName = ref.watch(userProfileProvider).name;
                     print(
                         'Updating lingkar_dada for user: $userName to $newLingkarDada');
-
-                    // Call the updateUserLingkarDada method to update the user's
                     await SQLiteDB()
                         .updateUserLingkarDada(userName, newLingkarDada);
 
-                    // Log a success message
                     print('Update successful');
 
-                    // Close the current screen after updating the lingkar_dada
                     Navigator.of(context).pop();
                   } catch (e) {
-                    // Handle any errors that occur during the update
                     print('Error updating database: $e');
-                    // Optionally, display an error message to the user
                   }
                 } else {
-                  // Handle case where the entered value is not a valid number
                   print('Invalid input: ${controller.text}');
-                  // Optionally, display an error message to the user
                 }
               },
               child: const Text(

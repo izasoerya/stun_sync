@@ -30,8 +30,13 @@ class _ChartTabState extends ConsumerState<ChartTab> {
       FutureProvider.family<List<UserProfile>, String>((ref, username) async {
     const sqLiteDB = SQLiteDB();
     final data = await sqLiteDB.getUserProfilesByUsername(username);
-    final filteredData = data.skip(1).toList();
-    return data;
+
+    // Filter out any data where height or weight is 0
+    final filteredData = data
+        .where((profile) => profile.height != 0 && profile.weight != 0)
+        .toList();
+    filteredData.sort((a, b) => a.datetime.compareTo(b.datetime));
+    return filteredData;
   });
 
   @override
@@ -140,7 +145,9 @@ class _ChartTabState extends ConsumerState<ChartTab> {
                       majorTickLines: const MajorTickLines(width: 0),
                       axisLine: const AxisLine(width: 0),
                       majorGridLines: const MajorGridLines(width: 0),
-                      minimum: DateTime(2024, 7, 1),
+                      minimum: chartData.isNotEmpty
+                          ? chartData.first.datetime
+                          : DateTime(2024, 01, 01),
                       dateFormat: DateFormat.yMMM(), // Display year and month
                       labelStyle: const TextStyle(
                         fontSize:
